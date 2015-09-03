@@ -75,7 +75,6 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
 
-
         Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
         Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
         rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
@@ -145,8 +144,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        //Vector3 extraGravityForce = (Physics.gravity * gravityForce) - Physics.gravity;
-        //rigidbody.AddForce(extraGravityForce);
+        Vector3 extraGravityForce = (Physics.gravity * gravityForce) - Physics.gravity;
+        myRigidBody.AddForce(extraGravityForce);
 
         float clampedY = Mathf.Clamp(0, 0, 0);
         float clampedZ = Mathf.Clamp(0, 0, 0);
