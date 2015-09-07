@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MovePlatform : MonoBehaviour {
+// Created: Marcus
+public class MovePlatform : MonoBehaviour
+{
 
     public float speed;
 
@@ -9,25 +11,49 @@ public class MovePlatform : MonoBehaviour {
 
     public float changeDis;
 
-   // Vector3 
 
-	// Use this for initialization
-	void Start () 
+    Vector3 gameOBJPos;
+
+    bool started = true;
+
+    // Use this for initialization
+    void Start()
     {
-	
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () 
+        gameOBJPos = this.gameObject.transform.localPosition;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
     {
+        //changes objects direction
         if (isLeft == true)
         {
-            transform.Translate(-speed, 0, 0);
+            transform.Translate(Vector3.left * Time.deltaTime * speed);
         }
         else
         {
-            transform.Translate(speed, 0, 0);
+            transform.Translate(Vector3.right * Time.deltaTime * speed);
         }
-	
-	}
+
+        //Move direction
+        if (this.gameObject.transform.localPosition.x >= changeDis)
+        {
+           // print("CHANGE");
+
+            isLeft = !isLeft;
+
+            started = false;  //The object has moved from its start position
+        }
+
+        if (started == false)
+        {
+            if (this.gameObject.transform.localPosition.x <= gameOBJPos.x)
+            {
+                //print("Start Pos");
+
+                isLeft = !isLeft;
+            }
+        }
+
+    }
 }
