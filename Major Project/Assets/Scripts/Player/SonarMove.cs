@@ -10,11 +10,19 @@ public class SonarMove : MonoBehaviour
 
     float timer;
 
+    public bool colourChanged;
+
+    public float colourChangeTime;
+
+    float colourTimer;
+
     public AudioClip sonarSFX;
 
     public AudioSource AS;
 
     Rigidbody rig;
+
+    Renderer objRend;
 
     // Use this for initialization
     void Start()
@@ -45,11 +53,41 @@ public class SonarMove : MonoBehaviour
             timer = 0;
         }
 
+        if (colourChanged == true)
+        {
+            colourTimer += Time.deltaTime;
+
+            if (colourTimer >= colourChangeTime)
+            {
+                print("Change!");
+
+                colourChanged = false;
+
+                colourTimer = 0;
+
+            }
+        }
+
     }
 
     void OnCollisionEnter(Collision col)
     {
-        col.gameObject.GetComponent<Renderer>().material.color = Color.red;
+        print("Col");
+
+        colourChanged = true;
+
+        objRend = col.gameObject.GetComponent<Renderer>();
+
+        if (colourChanged == true)
+        {
+            col.gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
+        else
+        {
+            print("Colour Change!");
+
+            col.gameObject.GetComponent<Renderer>().material = objRend.material; 
+        }
 
       //  print("Hit");
 

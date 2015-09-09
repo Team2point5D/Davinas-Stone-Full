@@ -34,6 +34,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("Sonar")]
     public GameObject sonarBull;
+    public float sonarDisFromPlayer;
 
     private Rigidbody myRigidBody;
 
@@ -63,6 +64,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float fClampedX = 0;
 
 
+    Vector3 playerPos;
 
 
     void Start()
@@ -70,6 +72,7 @@ public class PlayerBehaviour : MonoBehaviour
         myRigidBody = this.gameObject.GetComponent<Rigidbody>();
         shotParent = GameObject.Find("Magic Shots");
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
+        
     }
 
     void Update()
@@ -144,6 +147,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+        playerPos = gameObject.transform.localPosition;
+
         Vector3 extraGravityForce = (Physics.gravity * gravityForce) - Physics.gravity;
         myRigidBody.AddForce(extraGravityForce);
 
@@ -258,15 +263,7 @@ public class PlayerBehaviour : MonoBehaviour
         //Sonar
         if (Input.GetKeyDown("3"))
         {
-            //Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-            Vector2 myPos = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z - 4);
-            // shotSpot.transform.position.x,shotSpot.transform.position.y
-            //Vector2 direction = target - myPos;
-            //direction.Normalize();
-            //Quaternion rotation = Quaternion.Euler( 0, 0, Mathf.Atan2 ( direction.y, direction.x ) * Mathf.Rad2Deg + 90 );
-
-
-            GameObject sonarShoot = (GameObject)Instantiate(sonarBull, myPos, Quaternion.identity);
+            GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer,playerPos.y + 1,playerPos.z), Quaternion.identity);
         }
 
         // Flip Gravity

@@ -32,6 +32,8 @@ public class CameraMove : MonoBehaviour {
     {
         //mainCam.transform.Translate(Vector3.Lerp(gameObject.transform.localPosition,new Vector3(gameObject.transform.localPosition.x,gameObject.transform.localPosition.y,gameObject.transform.localPosition.z + distance),1));
 
+       
+
         mainCam.transform.parent = null;
 
        // mainCam.transform.localPosition = cameraLocations[0].transform.localPosition;
