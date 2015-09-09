@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraMove : MonoBehaviour {
+public class CameraMove : MonoBehaviour
+{
 
     public float distance;
 
@@ -11,8 +12,10 @@ public class CameraMove : MonoBehaviour {
 
     public Transform[] cameraLocations;
 
-	// Use this for initialization
-	void Start () 
+    PlayerBehaviour playerB;
+
+    // Use this for initialization
+    void Start()
     {
         mainCam = Camera.main;
 
@@ -24,23 +27,25 @@ public class CameraMove : MonoBehaviour {
 
             mainCam.transform.position = cameraLocations[0].transform.position;
         }
-	
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () 
+
+        playerB = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
     {
-        //mainCam.transform.Translate(Vector3.Lerp(gameObject.transform.localPosition,new Vector3(gameObject.transform.localPosition.x,gameObject.transform.localPosition.y,gameObject.transform.localPosition.z + distance),1));
+        if (playerB.doorCollided == true)
+        {
+            mainCam.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
 
-       
+            //mainCam.transform.Translate(Vector3.Lerp(gameObject.transform.localPosition,new Vector3(gameObject.transform.localPosition.x,gameObject.transform.localPosition.y,gameObject.transform.localPosition.z + distance),1));
+        }
+        else
+        {
+            mainCam.transform.parent = null;
+        }
 
-        mainCam.transform.parent = null;
 
-       // mainCam.transform.localPosition = cameraLocations[0].transform.localPosition;
-
-
-
-        
-        
-	}
+    }
 }

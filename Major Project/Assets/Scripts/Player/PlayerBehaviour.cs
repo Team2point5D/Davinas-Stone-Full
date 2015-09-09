@@ -64,6 +64,9 @@ public class PlayerBehaviour : MonoBehaviour
     public float fClampedX = 0;
 
 
+    [Header("Checks")]
+    public bool doorCollided;
+
     Vector3 playerPos;
 
 
@@ -308,6 +311,14 @@ public class PlayerBehaviour : MonoBehaviour
 
         // Push/pull
 
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Door")
+        {
+            doorCollided = !doorCollided;
+        }
     }
 
     // Collision
