@@ -4,13 +4,17 @@ using System.Collections;
 // Created: Marcus
 public class MovePlatform : MonoBehaviour
 {
-
+    [Header("Variables")]
     public float speed;
-
     public float changeDis;
 
+    [Header("Left Right")]
+    public bool leftRight;
     public bool isLeft;
 
+    [Header("Up Down")]
+    public bool upDown;
+    public bool isUp;
 
     Vector3 gameOBJPos;
 
@@ -25,17 +29,32 @@ public class MovePlatform : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //changes objects direction
-        if (isLeft == true)
+        //changes objects direction Left Right
+        if (leftRight == true)
         {
-            transform.Translate(Vector3.left * Time.deltaTime * speed);
+            if (isLeft == true)
+            {
+                transform.Translate(Vector3.left * Time.deltaTime * speed);
+            }
+            else
+            {
+                transform.Translate(Vector3.right * Time.deltaTime * speed);
+            }
         }
-        else
+        else if (upDown == true)
         {
-            transform.Translate(Vector3.right * Time.deltaTime * speed);
+            if (isUp == true)
+            {
+                transform.Translate(Vector3.up * Time.deltaTime * speed);
+            }
+            else
+            {
+                transform.Translate(Vector3.down * Time.deltaTime * speed);
+            }
         }
+        
 
-        //Move direction
+        //Move direction  Left Right
         if (this.gameObject.transform.localPosition.x >= changeDis)
         {
            // print("CHANGE");
@@ -53,6 +72,23 @@ public class MovePlatform : MonoBehaviour
 
                 isLeft = !isLeft;
             }
+        }
+
+        //Up Down
+        if (this.gameObject.transform.localPosition.y >= changeDis)
+        {
+            isUp = !isUp;
+
+            started = false;
+        }
+
+        if (started == false)
+        {
+            if (this.gameObject.transform.localPosition.y <= gameOBJPos.y)
+            {
+                isUp = !isUp;
+            }
+
         }
 
     }
