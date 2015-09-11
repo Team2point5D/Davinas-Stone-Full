@@ -65,7 +65,8 @@ public class PlayerBehaviour : MonoBehaviour
 
 
     [Header("Checks")]
-    public bool doorCollided;
+    public bool doorExited;
+    public bool doorEntered;
 
     Vector3 playerPos;
 
@@ -314,9 +315,17 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "Door")
+        if (col.gameObject.tag == "Door Exit")
         {
-            doorCollided = !doorCollided;
+            doorExited = !doorExited;
+
+            doorEntered = !doorEntered;
+        }
+        else if (col.gameObject.tag == "Door Enter")
+        {
+            doorEntered = !doorEntered;
+
+            doorExited = !doorExited;
         }
     }
 

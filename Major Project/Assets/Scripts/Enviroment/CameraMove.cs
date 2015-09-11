@@ -27,16 +27,17 @@ public class CameraMove : MonoBehaviour
     {
         mainCam = Camera.main;
 
+        playerB = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+
         //camLocation = mainCam.transform.localPosition;
+
+        mainCam.transform.parent = null;
 
         for (int i = 0; i < cameraLocations.Length; i++)
         {
-            //print(cameraLocations[i].ToString());
-
             mainCam.transform.position = cameraLocations[0].transform.position;
         }
 
-        playerB = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
 
     }
 
@@ -45,24 +46,49 @@ public class CameraMove : MonoBehaviour
     {
         camLocation = mainCam.transform.position;
 
+
         playerPos = GameObject.FindGameObjectWithTag("Player").transform.localPosition;
 
         playerPos = new Vector3(playerPos.x + distanceX, playerPos.y + distanceY, -distanceZ);
 
-
-
-
-        if (playerB.doorCollided == true)
+        
+        if (playerB.doorExited == true)
         {
             mainCam.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
 
             mainCam.transform.position = Vector3.Lerp(camLocation, playerPos, speed * Time.fixedDeltaTime);
         }
-        else
+        else if (playerB.doorEntered == true)
         {
             mainCam.transform.parent = null;
+
+            int camNum = +1;
+
+            switch (camNum)
+            {
+                case 1:
+                    for (int i = 0; i < cameraLocations.Length; i++)
+                    {
+                        mainCam.transform.position = cameraLocations[1].transform.position;
+                    }
+                    break;
+                case 2:
+                    for (int i = 0; i < cameraLocations.Length; i++)
+                    {
+                        mainCam.transform.position = cameraLocations[2].transform.position;
+                    }
+                    break;
+                case 3:
+                    for (int i = 0; i < cameraLocations.Length; i++)
+                    {
+                        mainCam.transform.position = cameraLocations[3].transform.position;
+                    }
+                    break;
+                default:
+                    print("Error");
+                    break;
+            }
+
         }
-
-
     }
 }
