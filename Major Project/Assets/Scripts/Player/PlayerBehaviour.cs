@@ -226,13 +226,14 @@ public class PlayerBehaviour : MonoBehaviour
         {
             GetComponent<Rigidbody>().velocity = Vector3.right * moveSpeed * Time.deltaTime;
         }
+
         // TO DO: add xbox controller support
         transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * moveSpeed * Time.deltaTime);
 
         //If the player is on the ground or the ceilling
         if (bIsGravityReversed == false)
         {
-            if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("A")) && bIsGrounded == true)
+            if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")) && bIsGrounded == true)
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(0f, jumpForce, 0f);
                 jumpIncreaseTime = 0.5f;
@@ -240,7 +241,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (jumpIncreaseTime > 0f)
             {
                 jumpIncreaseTime -= Time.deltaTime;
-                if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("A")))
+                if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")))
                 {
                     GetComponent<Rigidbody>().velocity += new Vector3(0f, jumpIncrease, 0f);
                 }
@@ -279,16 +280,14 @@ public class PlayerBehaviour : MonoBehaviour
                     bIsGravityReversed = true;
                     teSelectedGravity.text = "Up";
                     Physics.gravity = new Vector3(0, 9.81f, 0);
-                    //					LeanTween.rotateX (gameObject, 180, 1f);
-                    //					LeanTween.rotateLocal (gameObject, new Vector3 (180, 0, 0), 1f);
+                  
                 }
                 else if (bIsGravityReversed == true)
                 {
                     bIsGravityReversed = false;
                     teSelectedGravity.text = "Down";
                     Physics.gravity = new Vector3(0, -9.81f, 0);
-                    //					LeanTween.rotateX (gameObject, 0, 1f);
-                    //					LeanTween.rotateLocal (gameObject, new Vector3 (0, 0, 0), 1f);
+                  
                 }
             }
         }

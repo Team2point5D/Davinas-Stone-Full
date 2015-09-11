@@ -7,9 +7,9 @@ public class MovePlatform : MonoBehaviour
 
     public float speed;
 
-    public bool isLeft;
-
     public float changeDis;
+
+    public bool isLeft;
 
 
     Vector3 gameOBJPos;
