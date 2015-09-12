@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SonarMove : MonoBehaviour
 {
-
+    [Header("Values")]
     public float speed;
 
     public float lifeTime;
@@ -16,13 +16,20 @@ public class SonarMove : MonoBehaviour
 
     float colourTimer;
 
+    [Header("Audio")]
     public AudioClip sonarSFX;
 
     public AudioSource AS;
 
+    [Header("Light")]
+    public float lightRange;
+    public float lightIntensity;
+    //public Light sonarLight;
+
     Rigidbody rig;
 
     Renderer objRend;
+
 
     // Use this for initialization
     void Start()
@@ -81,10 +88,24 @@ public class SonarMove : MonoBehaviour
         if (colourChanged == true)
         {
             col.gameObject.GetComponent<Renderer>().material.color = Color.red;
+
+            Light sonarLight = col.gameObject.AddComponent<Light>();
+
+            sonarLight.type = LightType.Point;
+
+            sonarLight.range = lightRange;
+
+            sonarLight.intensity = lightIntensity;
+
+            sonarLight.color = Color.red;
+
+            
+
+
         }
         else
         {
-            print("Colour Change!");
+           // print("Colour Change!");
 
             col.gameObject.GetComponent<Renderer>().material = objRend.material; 
         }

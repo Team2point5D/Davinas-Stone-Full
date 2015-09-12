@@ -315,7 +315,7 @@ public class PlayerBehaviour : MonoBehaviour
         //Sonar
         if (Input.GetKeyDown("3"))
         {
-            GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer,playerPos.y + 1,playerPos.z), Quaternion.identity);
+            GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer,playerPos.y + 2,playerPos.z), Quaternion.identity);
         }
 
         // Flip Gravity
