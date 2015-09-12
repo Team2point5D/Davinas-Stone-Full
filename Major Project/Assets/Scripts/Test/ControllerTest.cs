@@ -30,6 +30,11 @@ public class ControllerTest : MonoBehaviour {
         {
             print("RT");
         }
+
+        if (Input.GetAxis("Joystick LT") <= -1)
+        {
+            print("LT");
+        }
 	
 	}
 }
