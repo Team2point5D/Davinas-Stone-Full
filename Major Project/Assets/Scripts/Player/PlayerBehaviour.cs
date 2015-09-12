@@ -65,8 +65,12 @@ public class PlayerBehaviour : MonoBehaviour
 
 
     [Header("Checks")]
+    public bool isMass;
+    public bool isSonar;
+    public bool isScale;
     public bool doorExited;
     public bool doorEntered;
+
 
     Vector3 playerPos;
 
@@ -81,6 +85,44 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            print("Press");
+
+
+            if (isMass == true)
+            {
+                isMass = !isMass;
+
+                isSonar = !isSonar;
+            }
+            if(isSonar == true)
+            {
+                isScale = !isScale;
+
+                isSonar = !isSonar;
+
+            }
+            else if (isScale == true)
+            {
+                //isScale = !isScale;
+
+                //isSonar = !isSonar;
+
+                isMass = !isMass;
+            }
+               
+          
+
+           
+
+            
+
+            
+
+
+        }
 
         Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
         Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
@@ -151,6 +193,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+        
+
         playerPos = gameObject.transform.localPosition;
 
         Vector3 extraGravityForce = (Physics.gravity * gravityForce) - Physics.gravity;
@@ -160,37 +204,40 @@ public class PlayerBehaviour : MonoBehaviour
         float clampedZ = Mathf.Clamp(0, 0, 0);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, clampedY, clampedZ);
 
-        if (canShoot == true)
+        if(inMagic == true)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (canShoot == true)
             {
-                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+                if (Input.GetMouseButtonDown(1))
+                {
+                    Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                    Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                    Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+                    GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
 
-                projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                    projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
 
-                projectile.tag = "Bullet";
+                    projectile.tag = "Bullet";
 
-                aSource.clip = shootSound;
-                aSource.Play();
+                    aSource.clip = shootSound;
+                    aSource.Play();
 
-            }
+                }
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+                if (Input.GetMouseButtonDown(2))
+                {
+                    Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                    Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                    Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+                    GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
 
-                projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                    projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
 
-                projectile.tag = "Scale Bullet";
+                    projectile.tag = "Scale Bullet";
 
-                aSource.clip = shootSound;
-                aSource.Play();
+                    aSource.clip = shootSound;
+                    aSource.Play();
+                }
             }
         }
 
@@ -272,26 +319,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         // Flip Gravity
-        if (inMagic == true)
-        {
-            if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown("1") || Input.GetButtonDown("Y"))
-            {
-                if (bIsGravityReversed == false)
-                {
-                    bIsGravityReversed = true;
-                    teSelectedGravity.text = "Up";
-                    Physics.gravity = new Vector3(0, 9.81f, 0);
-                  
-                }
-                else if (bIsGravityReversed == true)
-                {
-                    bIsGravityReversed = false;
-                    teSelectedGravity.text = "Down";
-                    Physics.gravity = new Vector3(0, -9.81f, 0);
-                  
-                }
-            }
-        }
+
 
         // Pickup Companion
 
