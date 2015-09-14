@@ -333,7 +333,7 @@ public class PlayerBehaviour : MonoBehaviour
         // Flip Gravity
 
 
-        // Pickup Companion
+        // Pickup & drop Companion
 
         if (inMagic == true)
         {
@@ -349,7 +349,16 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     CompanionnOBJ.SetActive(true);
 
-                    CompanionnOBJ.transform.position = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z);
+                    if (isFacingRight)
+                    {
+                        CompanionnOBJ.transform.position = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z);
+                    }
+                    else if (!isFacingRight)
+                    {
+                        CompanionnOBJ.transform.position = new Vector3(transform.position.x - 2, transform.position.y, transform.position.z);
+                    }
+
+                    
                 }
 
                
