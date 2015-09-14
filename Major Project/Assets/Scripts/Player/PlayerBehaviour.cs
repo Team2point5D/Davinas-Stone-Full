@@ -70,6 +70,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool isScale;
     public bool doorExited;
     public bool doorEntered;
+    bool pressed;
 
 
     Vector3 playerPos;
@@ -112,15 +113,6 @@ public class PlayerBehaviour : MonoBehaviour
 
                 isMass = !isMass;
             }
-               
-          
-
-           
-
-            
-
-            
-
 
         }
 
@@ -323,18 +315,26 @@ public class PlayerBehaviour : MonoBehaviour
 
         // Pickup Companion
 
-        //To change so that you toggle press. When pickup the companion i dont have to be colliding with it to hold
-        if (onCompanion == true)
+        if (inMagic == true)
         {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
             {
-                //print("PickUp cage");
+               pressed = !pressed;
 
-                CompanionnOBJ.transform.position = new Vector3(this.gameObject.transform.position.x + 1, this.gameObject.transform.position.y + 1, this.gameObject.transform.position.z);
+                if (pressed == true)
+                {
+                    CompanionnOBJ.SetActive(false);
+                }
+                else if (pressed == false)
+                {
+                    CompanionnOBJ.SetActive(true);
 
-                // onCompanion = true;
+                    CompanionnOBJ.transform.position = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z);
+                }
 
+               
             }
+           
         }
 
         // Push/pull
