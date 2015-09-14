@@ -28,6 +28,9 @@ public class PlayerBehaviour : MonoBehaviour
     private float jumpIncreaseTime;
     private bool bIsGrounded = true;
 
+    bool isFacingRight = true;
+    float flipMove;
+
     [Range(1f, 100f)]
     [SerializeField]
     float gravityForce;
@@ -261,14 +264,31 @@ public class PlayerBehaviour : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             GetComponent<Rigidbody>().velocity = -Vector3.right * moveSpeed * Time.deltaTime;
+
+            flipMove = 1;
+
+            
         }
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             GetComponent<Rigidbody>().velocity = Vector3.right * moveSpeed * Time.deltaTime;
+
+            flipMove = -1;
+
         }
 
         // TO DO: add xbox controller support
         transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * moveSpeed * Time.deltaTime);
+
+        //Flips player
+        if (flipMove < 0 && !isFacingRight)
+        {
+            Flip();
+        }
+        else if (flipMove > 0 && isFacingRight)
+        {
+            Flip();
+        }
 
         //If the player is on the ground or the ceilling
         if (bIsGravityReversed == false)
@@ -390,7 +410,18 @@ public class PlayerBehaviour : MonoBehaviour
 
     }
 
+    void Flip()
+    {
+        isFacingRight = !isFacingRight;
 
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+
+    }
+
+
+    //Collisisions
     void OnCollisionExit(Collision col)
     {
         if (col.gameObject.tag == "Pushable")
