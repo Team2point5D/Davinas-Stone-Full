@@ -92,7 +92,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            print("Press");
+           // print("Press");
 
 
             if (isMass == true)
