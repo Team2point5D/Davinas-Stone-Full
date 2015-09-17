@@ -207,7 +207,7 @@ public class PlayerBehaviour : MonoBehaviour
         // Make a raycast that checks player is on ground or ceilling
         if (bIsGravityReversed == false)
         {
-            if (Physics.Raycast(transform.position, Vector3.down, 1f))
+            if (Physics.Raycast(transform.position, Vector3.down, 1.5f))
             {
                 bIsGrounded = true;
             }
@@ -218,7 +218,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else
         {
-            if (Physics.Raycast(transform.position, Vector3.up, 1f))
+            if (Physics.Raycast(transform.position, Vector3.up, 1.5f))
             {
                 bIsGrounded = true;
             }
@@ -261,9 +261,13 @@ public class PlayerBehaviour : MonoBehaviour
         //If the player is on the ground or the ceilling
         if (bIsGravityReversed == false)
         {
+           
+
             if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")) && bIsGrounded == true)
             {
-                GetComponent<Rigidbody>().velocity = new Vector3(0f, jumpForce, 0f);
+                print("Jump");
+
+                myRigidBody.velocity = new Vector3(0f, jumpForce, 0f);
                 jumpIncreaseTime = 0.5f;
             }
             if (jumpIncreaseTime > 0f)
@@ -289,6 +293,18 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     GetComponent<Rigidbody>().velocity += new Vector3(0f, -jumpIncrease, 0f);
                 }
+            }
+        }
+
+        if (inMagic == true)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+            {
+
+                CompanionnOBJ.SetActive(false);
+
+                canUseMagic = true;
+
             }
         }
 
@@ -338,44 +354,16 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
 
-
-
         // Pickup & drop Companion
 
-        if (inMagic == true)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
-            {
-
-                CompanionnOBJ.SetActive(false);
-
-                canUseMagic = true;
-
-
-            }
-
-        }
+    
 
 
 
 
     }
 
-    void OnTriggerEnter(Collider col)
-    {
-        if (col.gameObject.tag == "Door Exit")
-        {
-            doorExited = !doorExited;
 
-            doorEntered = !doorEntered;
-        }
-        else if (col.gameObject.tag == "Door Enter")
-        {
-            doorEntered = !doorEntered;
-
-            doorExited = !doorExited;
-        }
-    }
 
     void Flip()
     {
@@ -429,7 +417,21 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Door Exit")
+        {
+            doorExited = !doorExited;
 
+            doorEntered = !doorEntered;
+        }
+        else if (col.gameObject.tag == "Door Enter")
+        {
+            doorEntered = !doorEntered;
+
+            doorExited = !doorExited;
+        }
+    }
 
     void OnTriggerStay(Collider col)
     {
