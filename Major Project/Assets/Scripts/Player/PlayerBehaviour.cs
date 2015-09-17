@@ -68,6 +68,7 @@ public class PlayerBehaviour : MonoBehaviour
 
 
     [Header("Checks")]
+    public bool canUseMagic;
     public bool isMass;
     public bool isSonar;
     public bool isScale;
@@ -84,7 +85,7 @@ public class PlayerBehaviour : MonoBehaviour
         myRigidBody = this.gameObject.GetComponent<Rigidbody>();
         shotParent = GameObject.Find("Magic Shots");
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
-        
+
     }
 
     void Update()
@@ -92,31 +93,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-           // print("Press");
-
-
-            if (isMass == true)
-            {
-                isMass = !isMass;
-
-                isSonar = !isSonar;
-            }
-            if(isSonar == true)
-            {
-                isScale = !isScale;
-
-                isSonar = !isSonar;
-
-            }
-            else if (isScale == true)
-            {
-                //isScale = !isScale;
-
-                //isSonar = !isSonar;
-
-                isMass = !isMass;
-            }
-
+            //This needs to be done fixed by DAVID
         }
 
         Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
@@ -155,10 +132,6 @@ public class PlayerBehaviour : MonoBehaviour
         Cursor.visible = false;
 
 
-        if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
-        {
-            bIsHeavySelected = !bIsHeavySelected;
-        }
 
         if (bIsHeavySelected)
         {
@@ -167,11 +140,6 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
             teSelectedMass.text = "Light";
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown("4"))
-        {
-            isUpScale = !isUpScale;
         }
 
         if (isUpScale)
@@ -188,7 +156,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+
 
         playerPos = gameObject.transform.localPosition;
 
@@ -199,7 +167,7 @@ public class PlayerBehaviour : MonoBehaviour
         float clampedZ = Mathf.Clamp(0, 0, 0);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, clampedY, clampedZ);
 
-        if(inMagic == true)
+        if (canUseMagic == true)
         {
             if (canShoot == true)
             {
@@ -267,7 +235,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             flipMove = 1;
 
-            
+
         }
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
@@ -324,13 +292,52 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
 
-        //Sonar
-        if (Input.GetKeyDown("3"))
+        // if i picked up companion
+        if (canUseMagic == true)
         {
-            GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer,playerPos.y + 2,playerPos.z), Quaternion.identity);
+            // Flip Gravity
+            if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown("1"))
+            {
+                if (bIsGravityReversed == false)
+                {
+                    bIsGravityReversed = true;
+                    teSelectedGravity.text = "Up";
+                    transform.rotation = new Quaternion(180, 0, 0, 0);
+                    Physics.gravity = new Vector3(0, 9.81f, 0);
+
+
+                }
+                else if (bIsGravityReversed == true)
+                {
+                    bIsGravityReversed = false;
+                    teSelectedGravity.text = "Down";
+                    transform.rotation = new Quaternion(0, 0, 0, 0);
+                    Physics.gravity = new Vector3(0, -9.81f, 0);
+
+
+                }
+            }
+
+            //Mass change
+            if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
+            {
+                bIsHeavySelected = !bIsHeavySelected;
+            }
+
+            //Sonar Shoot
+            if (Input.GetKeyDown("3"))
+            {
+                GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
+            }
+
+            //Shoot Scale
+            if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown("4"))
+            {
+                isUpScale = !isUpScale;
+            }
         }
 
-        // Flip Gravity
+
 
 
         // Pickup & drop Companion
@@ -339,34 +346,18 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
             {
-               pressed = !pressed;
 
-                if (pressed == true)
-                {
-                    CompanionnOBJ.SetActive(false);
-                }
-                else if (pressed == false)
-                {
-                    CompanionnOBJ.SetActive(true);
+                CompanionnOBJ.SetActive(false);
 
-                    if (isFacingRight)
-                    {
-                        CompanionnOBJ.transform.position = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z);
-                    }
-                    else if (!isFacingRight)
-                    {
-                        CompanionnOBJ.transform.position = new Vector3(transform.position.x - 2, transform.position.y, transform.position.z);
-                    }
+                canUseMagic = true;
 
-                    
-                }
 
-               
             }
-           
+
         }
 
-        // Push/pull
+
+
 
     }
 
@@ -386,7 +377,19 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    // Collision
+    void Flip()
+    {
+        isFacingRight = !isFacingRight;
+
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+
+    }
+
+
+    //Collisisions
+
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Companion")
@@ -418,19 +421,6 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
     }
-
-    void Flip()
-    {
-        isFacingRight = !isFacingRight;
-
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
-
-    }
-
-
-    //Collisisions
     void OnCollisionExit(Collision col)
     {
         if (col.gameObject.tag == "Pushable")
@@ -438,6 +428,8 @@ public class PlayerBehaviour : MonoBehaviour
             moveSpeed = 15;
         }
     }
+
+
 
     void OnTriggerStay(Collider col)
     {
@@ -448,12 +440,7 @@ public class PlayerBehaviour : MonoBehaviour
             inMagic = true;
         }
 
-        if (col.gameObject.tag == "Magic Area")
-        {
-            // print("Im in magic");
 
-            canShoot = true;
-        }
 
         if (col.gameObject.tag == "Climeable")
         {
@@ -485,12 +472,7 @@ public class PlayerBehaviour : MonoBehaviour
             inMagic = false;
         }
 
-        if (col.gameObject.tag == "Magic Area")
-        {
-            // print("Im in magic");
 
-            canShoot = false;
-        }
 
 
     }
