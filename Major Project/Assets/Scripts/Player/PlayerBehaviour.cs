@@ -228,6 +228,37 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
 
+        Controls();
+
+        Jump();
+       
+        //Flips player
+        if (flipMove < 0 && !isFacingRight)
+        {
+            Flip();
+        }
+        else if (flipMove > 0 && isFacingRight)
+        {
+            Flip();
+        }
+
+      
+
+        Magic();
+
+       
+
+    
+
+
+
+
+    }
+
+
+
+    void Controls()
+    {
         // Player move input
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
@@ -248,63 +279,61 @@ public class PlayerBehaviour : MonoBehaviour
         // TO DO: add xbox controller support
         transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * moveSpeed * Time.deltaTime);
 
-        //Flips player
-        if (flipMove < 0 && !isFacingRight)
-        {
-            Flip();
-        }
-        else if (flipMove > 0 && isFacingRight)
-        {
-            Flip();
-        }
+    }
+
+    void Jump()
+    {
 
         //If the player is on the ground or the ceilling
         if (bIsGravityReversed == false)
         {
-           
+
 
             if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")) && bIsGrounded == true)
             {
-                print("Jump");
+                //print("Jump");
 
-                myRigidBody.velocity = new Vector3(0f, jumpForce, 0f);
+                myRigidBody.AddForce(0, jumpForce, 0f);
                 jumpIncreaseTime = 0.5f;
             }
-            if (jumpIncreaseTime > 0f)
-            {
-                jumpIncreaseTime -= Time.deltaTime;
-                if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")))
-                {
-                    GetComponent<Rigidbody>().velocity += new Vector3(0f, jumpIncrease, 0f);
-                }
-            }
+            //if (jumpIncreaseTime > 0f)
+            //{
+            //    jumpIncreaseTime -= Time.deltaTime;
+            //    if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")))
+            //    {
+            //        GetComponent<Rigidbody>().velocity += new Vector3(0f, jumpIncrease, 0f);
+            //    }
+            //}
         }
         else
         {
             if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("A")) && bIsGrounded == true)
             {
-                GetComponent<Rigidbody>().velocity = new Vector3(0f, -jumpForce, 0f);
+                // GetComponent<Rigidbody>().velocity = new Vector3(0f, -jumpForce, 0f);
+                myRigidBody.AddForce(0, -jumpForce, 0f);
                 jumpIncreaseTime = 0.5f;
             }
-            if (jumpIncreaseTime > 0f)
-            {
-                jumpIncreaseTime -= Time.deltaTime;
-                if (Input.GetButton("Jump"))
-                {
-                    GetComponent<Rigidbody>().velocity += new Vector3(0f, -jumpIncrease, 0f);
-                }
-            }
+            //if (jumpIncreaseTime > 0f)
+            //{
+            //    jumpIncreaseTime -= Time.deltaTime;
+            //    if (Input.GetButton("Jump"))
+            //    {
+            //        GetComponent<Rigidbody>().velocity += new Vector3(0f, -jumpIncrease, 0f);
+            //    }
+            //}
         }
 
+    }
+
+    void Magic()
+    {
         if (inMagic == true)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
             {
-
                 CompanionnOBJ.SetActive(false);
 
                 canUseMagic = true;
-
             }
         }
 
@@ -352,18 +381,7 @@ public class PlayerBehaviour : MonoBehaviour
                 isUpScale = !isUpScale;
             }
         }
-
-
-        // Pickup & drop Companion
-
-    
-
-
-
-
     }
-
-
 
     void Flip()
     {
