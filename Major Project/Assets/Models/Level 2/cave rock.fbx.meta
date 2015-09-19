@@ -1,17 +1,32 @@
 fileFormatVersion: 2
-guid: 5c210a877802501459b71cd9b77d80da
-timeCreated: 1442585739
+guid: e35a928632dea0442934a3d67f87fcf9
+timeCreated: 1442549550
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
-    100002: pasted__pCube1
+    100002: Rock01
+    100004: Rock02
+    100006: Rock03
+    100008: Rock04
     400000: //RootNode
-    400002: pasted__pCube1
-    2300000: pasted__pCube1
-    3300000: pasted__pCube1
-    4300000: pasted__pCube1
+    400002: Rock01
+    400004: Rock02
+    400006: Rock03
+    400008: Rock04
+    2300000: Rock01
+    2300002: Rock02
+    2300004: Rock03
+    2300006: Rock04
+    3300000: Rock01
+    3300002: Rock02
+    3300004: Rock03
+    3300006: Rock04
+    4300000: Rock01
+    4300002: Rock02
+    4300004: Rock03
+    4300006: Rock04
     9500000: //RootNode
   materials:
     importMaterials: 1

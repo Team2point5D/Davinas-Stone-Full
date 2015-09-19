@@ -1,17 +1,36 @@
 fileFormatVersion: 2
-guid: 5c210a877802501459b71cd9b77d80da
-timeCreated: 1442585739
+guid: 605b57de36c176e4d9c1edac75b87b2d
+timeCreated: 1442549513
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
-    100002: pasted__pCube1
+    100002: Rock01
+    100004: Rock02
+    100006: Rock03
+    100008: Rock04
     400000: //RootNode
-    400002: pasted__pCube1
-    2300000: pasted__pCube1
-    3300000: pasted__pCube1
-    4300000: pasted__pCube1
+    400002: Rock01
+    400004: Rock02
+    400006: Rock03
+    400008: Rock04
+    2300000: Rock01
+    2300002: Rock02
+    2300004: Rock03
+    2300006: Rock04
+    3300000: Rock01
+    3300002: Rock02
+    3300004: Rock03
+    3300006: Rock04
+    4300000: Rock01
+    4300002: Rock02
+    4300004: Rock03
+    4300006: Rock04
+    6400000: Rock01
+    6400002: Rock02
+    6400004: Rock03
+    6400006: Rock04
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -38,7 +57,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -56,7 +75,7 @@ ModelImporter:
     splitTangentsAcrossUV: 1
     normalImportMode: 0
     tangentImportMode: 1
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     human: []

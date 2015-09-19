@@ -94,6 +94,12 @@ public class PlayerBehaviour : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             //This needs to be done fixed by DAVID
+
+            print("Click");
+
+           // switch
+
+            // make restart function 
         }
 
         Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
@@ -151,7 +157,7 @@ public class PlayerBehaviour : MonoBehaviour
             teSelectedScale.text = "Small Scale";
         }
 
-
+        
     }
 
     void FixedUpdate()
@@ -329,7 +335,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (inMagic == true)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+            if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
             {
                 CompanionnOBJ.SetActive(false);
 
@@ -341,13 +347,13 @@ public class PlayerBehaviour : MonoBehaviour
         if (canUseMagic == true)
         {
             // Flip Gravity
-            if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown("1"))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 if (bIsGravityReversed == false)
                 {
                     bIsGravityReversed = true;
                     teSelectedGravity.text = "Up";
-                    transform.rotation = new Quaternion(180, 0, 0, 0);
+                    //transform.rotation = new Quaternion(180, 0, 0, 0);
                     Physics.gravity = new Vector3(0, 9.81f, 0);
 
 
@@ -356,7 +362,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     bIsGravityReversed = false;
                     teSelectedGravity.text = "Down";
-                    transform.rotation = new Quaternion(0, 0, 0, 0);
+                    //transform.rotation = new Quaternion(0, 0, 0, 0);
                     Physics.gravity = new Vector3(0, -9.81f, 0);
 
 

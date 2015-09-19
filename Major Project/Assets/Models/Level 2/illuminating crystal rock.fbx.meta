@@ -1,17 +1,42 @@
 fileFormatVersion: 2
-guid: 5c210a877802501459b71cd9b77d80da
-timeCreated: 1442585739
+guid: ea5167d3a5927b4449a3946ac5c1b48c
+timeCreated: 1442549595
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: pasted__pCube1
-    400000: //RootNode
-    400002: pasted__pCube1
-    2300000: pasted__pCube1
-    3300000: pasted__pCube1
-    4300000: pasted__pCube1
+    100000: crystal01
+    100002: crystal02
+    100004: crystal03
+    100006: crystal04
+    100008: crystal05
+    100010: //RootNode
+    100012: maincrystal
+    400000: crystal01
+    400002: crystal02
+    400004: crystal03
+    400006: crystal04
+    400008: crystal05
+    400010: //RootNode
+    400012: maincrystal
+    2300000: crystal01
+    2300002: crystal02
+    2300004: crystal03
+    2300006: crystal04
+    2300008: crystal05
+    2300010: maincrystal
+    3300000: crystal01
+    3300002: crystal02
+    3300004: crystal03
+    3300006: crystal04
+    3300008: crystal05
+    3300010: maincrystal
+    4300000: maincrystal
+    4300002: crystal01
+    4300004: crystal02
+    4300006: crystal04
+    4300008: crystal05
+    4300010: crystal03
     9500000: //RootNode
   materials:
     importMaterials: 1
