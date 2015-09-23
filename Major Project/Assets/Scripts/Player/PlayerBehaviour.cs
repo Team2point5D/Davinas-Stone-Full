@@ -11,6 +11,8 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bIsGravityReversed = false;
     private bool onCompanion;
     private bool inMagic;
+	private float fFlipTimer = 0f;
+	private bool bPlayerReversed = false;
     //public bool onCrate;
 
     [Header("Shooting")]
@@ -62,6 +64,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Text teSelectedMass;
     public Text teSelectedGravity;
     public Text teSelectedScale;
+	public Text teSelectedAbility;
 
     public float fClampedY = 0;
     public float fClampedX = 0;
@@ -69,9 +72,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("Checks")]
     public bool canUseMagic;
-    public bool isMass;
-    public bool isSonar;
-    public bool isScale;
+    public bool bIsMass;
+    public bool bIsSonar;
+    public bool bIsScale;
     public bool doorExited;
     public bool doorEntered;
     bool pressed;
@@ -102,41 +105,55 @@ public class PlayerBehaviour : MonoBehaviour
             // make restart function 
         }
 
-        Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
-        rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
+//        Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+//        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
+//        rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
 
-        fClampedX = Mathf.Clamp(fClampedX, -100, 100);
-        fClampedY = Mathf.Clamp(fClampedY, -100, 100);
+//        fClampedX = Mathf.Clamp(fClampedX, -100, 100);
+//        fClampedY = Mathf.Clamp(fClampedY, -100, 100);
+//
+//        if (fClampedY >= 0)
+//        {
+//            if (fClampedX >= 0)
+//            {
+//                fClampedX = 100 - fClampedY;
+//            }
+//            else
+//            {
+//                fClampedX = -100 + fClampedY;
+//            }
+//        }
+//        else
+//        {
+//            if (fClampedX >= 0)
+//            {
+//                fClampedY = fClampedX - 100;
+//            }
+//            else
+//            {
+//                fClampedY = -100 - fClampedX;
+//            }
+//        }
 
-        if (fClampedY >= 0)
-        {
-            if (fClampedX >= 0)
-            {
-                fClampedX = 100 - fClampedY;
-            }
-            else
-            {
-                fClampedX = -100 + fClampedY;
-            }
-        }
-        else
-        {
-            if (fClampedX >= 0)
-            {
-                fClampedY = fClampedX - 100;
-            }
-            else
-            {
-                fClampedY = -100 - fClampedX;
-            }
-        }
+//        cursorPosition.x = Mathf.Clamp(cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
+//        cursorPosition.y = Mathf.Clamp(cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
+//        imAimer.rectTransform.position = cursorPosition;
+//        Cursor.visible = false;
 
-        cursorPosition.x = Mathf.Clamp(cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
-        cursorPosition.y = Mathf.Clamp(cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
-        imAimer.rectTransform.position = cursorPosition;
-        Cursor.visible = false;
-
+		if (bPlayerReversed)
+		{
+			fFlipTimer += 3 * Time.deltaTime;
+			transform.eulerAngles = Vector3.Lerp (new Vector3 (0, 0, 0),
+			                                      new Vector3 (180, 0, 0),
+			                                      fFlipTimer);
+		}
+		else
+		{
+			fFlipTimer -= 3 * Time.deltaTime;
+			transform.eulerAngles = Vector3.Lerp (new Vector3 (0, 0, 0),
+			                                      new Vector3 (180, 0, 0),
+			                                      fFlipTimer);
+		}
 
 
         if (bIsHeavySelected)
@@ -169,6 +186,7 @@ public class PlayerBehaviour : MonoBehaviour
         Vector3 extraGravityForce = (Physics.gravity * gravityForce) - Physics.gravity;
         myRigidBody.AddForce(extraGravityForce);
 
+		fFlipTimer = Mathf.Clamp (fFlipTimer, 0, 1);
         float clampedY = Mathf.Clamp(0, 0, 0);
         float clampedZ = Mathf.Clamp(0, 0, 0);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, clampedY, clampedZ);
@@ -359,7 +377,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     bIsGravityReversed = true;
                     teSelectedGravity.text = "Up";
-                    //transform.rotation = new Quaternion(180, 0, 0, 0);
+					bPlayerReversed = true;
                     Physics.gravity = new Vector3(0, 9.81f, 0);
 
 
@@ -368,7 +386,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     bIsGravityReversed = false;
                     teSelectedGravity.text = "Down";
-                    //transform.rotation = new Quaternion(0, 0, 0, 0);
+					bPlayerReversed = false;
                     Physics.gravity = new Vector3(0, -9.81f, 0);
 
 
@@ -378,18 +396,21 @@ public class PlayerBehaviour : MonoBehaviour
             //Mass change
             if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
             {
+				ChangeStateToMass();
                 bIsHeavySelected = !bIsHeavySelected;
             }
 
             //Sonar Shoot
             if (Input.GetKeyDown("3"))
             {
+				ChangeStateToSonar();
                 GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
             }
 
             //Shoot Scale
             if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown("4"))
             {
+				ChangeStateToScale();
                 isUpScale = !isUpScale;
             }
         }
@@ -405,6 +426,33 @@ public class PlayerBehaviour : MonoBehaviour
 
     }
 
+	void ResetStates()
+	{
+		bIsMass = false;
+		bIsScale = false;
+		bIsSonar = false;
+	}
+
+	void ChangeStateToMass()
+	{
+		ResetStates();
+		bIsMass = true;
+		teSelectedAbility.text = "Mass";
+	}
+
+	void ChangeStateToScale()
+	{
+		ResetStates();
+		bIsScale = true;
+		teSelectedAbility.text = "Scale";
+	}
+
+	void ChangeStateToSonar()
+	{
+		ResetStates();
+		bIsSonar = true;
+		teSelectedAbility.text = "Sonar";
+	}
 
     //Collisisions
 
