@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 //David
+[RequireComponent(typeof(Rigidbody))]
 public class Crate : MonoBehaviour {
 
     [Header("Mass")]
