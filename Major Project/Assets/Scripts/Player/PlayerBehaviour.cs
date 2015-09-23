@@ -97,7 +97,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             print("Click");
 
-           // switch
+            // switch
 
             // make restart function 
         }
@@ -157,7 +157,7 @@ public class PlayerBehaviour : MonoBehaviour
             teSelectedScale.text = "Small Scale";
         }
 
-        
+
     }
 
     void FixedUpdate()
@@ -175,39 +175,40 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (canUseMagic == true)
         {
-            if (canShoot == true)
+            if (Input.GetMouseButtonDown(1))
             {
-                if (Input.GetMouseButtonDown(1))
-                {
-                    Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                    Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                    Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                    GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+                print("Press");
 
-                    projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+                GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
 
-                    projectile.tag = "Bullet";
 
-                    aSource.clip = shootSound;
-                    aSource.Play();
+                projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
 
-                }
+                projectile.tag = "Bullet";
 
-                if (Input.GetMouseButtonDown(2))
-                {
-                    Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                    Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                    Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                    GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+                aSource.clip = shootSound;
+                aSource.Play();
 
-                    projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
-
-                    projectile.tag = "Scale Bullet";
-
-                    aSource.clip = shootSound;
-                    aSource.Play();
-                }
             }
+
+            //if (Input.GetMouseButtonDown(2))
+            //{
+            //    Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+            //    Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+            //    Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+            //    GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+
+            //    projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+
+            //    projectile.tag = "Scale Bullet";
+
+            //    aSource.clip = shootSound;
+            //    aSource.Play();
+            //}
+
         }
 
         // Make a raycast that checks player is on ground or ceilling
@@ -237,7 +238,7 @@ public class PlayerBehaviour : MonoBehaviour
         Controls();
 
         Jump();
-       
+
         //Flips player
         if (flipMove < 0 && !isFacingRight)
         {
@@ -248,13 +249,13 @@ public class PlayerBehaviour : MonoBehaviour
             Flip();
         }
 
-      
+
 
         Magic();
 
-       
 
-    
+
+
 
 
 
@@ -337,11 +338,16 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
             {
-                CompanionnOBJ.SetActive(false);
 
-                canUseMagic = true;
+                if (canUseMagic == false)
+                {
+                    CompanionnOBJ.SetActive(false);
+
+                    canUseMagic = true;
+                }
             }
         }
+
 
         // if i picked up companion
         if (canUseMagic == true)
@@ -419,18 +425,32 @@ public class PlayerBehaviour : MonoBehaviour
             onCompanion = false;
         }
 
-        if (col.gameObject.tag == "Pushable")
+        if (col.gameObject.tag == "Crate")
         {
-            //print("Hit Crate");
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                col.gameObject.transform.position = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z);
 
-            thingToPushPull = col.gameObject;
-
-            Vector3 pushDir = new Vector3(thingToPushPull.GetComponent<Rigidbody>().velocity.x, 0, 0);
-
-            thingToPushPull.GetComponent<Rigidbody>().velocity = pushDir * 1;
-
-            moveSpeed = 5;
+                col.gameObject.GetComponent<Rigidbody>().useGravity = false;
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftControl))
+            {
+                col.gameObject.GetComponent<Rigidbody>().useGravity = true;
+            }
         }
+
+        //if (col.gameObject.tag == "Pushable")
+        //{
+        //    //print("Hit Crate");
+
+        //    thingToPushPull = col.gameObject;
+
+        //    Vector3 pushDir = new Vector3(thingToPushPull.GetComponent<Rigidbody>().velocity.x, 0, 0);
+
+        //    thingToPushPull.GetComponent<Rigidbody>().velocity = pushDir * 1;
+
+        //    moveSpeed = 5;
+        //}
 
     }
     void OnCollisionExit(Collision col)
