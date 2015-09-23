@@ -249,16 +249,7 @@ public class PlayerBehaviour : MonoBehaviour
             Flip();
         }
 
-
-
         Magic();
-
-
-
-
-
-
-
 
     }
 
@@ -358,7 +349,9 @@ public class PlayerBehaviour : MonoBehaviour
                 if (bIsGravityReversed == false)
                 {
                     bIsGravityReversed = true;
-                    teSelectedGravity.text = "Up";
+
+                   // teSelectedGravity.text = "Up";
+
                     //transform.rotation = new Quaternion(180, 0, 0, 0);
                     Physics.gravity = new Vector3(0, 9.81f, 0);
 
@@ -367,7 +360,9 @@ public class PlayerBehaviour : MonoBehaviour
                 else if (bIsGravityReversed == true)
                 {
                     bIsGravityReversed = false;
-                    teSelectedGravity.text = "Down";
+
+                   // teSelectedGravity.text = "Down";
+
                     //transform.rotation = new Quaternion(0, 0, 0, 0);
                     Physics.gravity = new Vector3(0, -9.81f, 0);
 
