@@ -437,21 +437,21 @@ public class PlayerBehaviour : MonoBehaviour
 	{
 		ResetStates();
 		bIsMass = true;
-		teSelectedAbility.text = "Mass";
+		//teSelectedAbility.text = "Mass";
 	}
 
 	void ChangeStateToScale()
 	{
 		ResetStates();
 		bIsScale = true;
-		teSelectedAbility.text = "Scale";
+		//teSelectedAbility.text = "Scale";
 	}
 
 	void ChangeStateToSonar()
 	{
 		ResetStates();
 		bIsSonar = true;
-		teSelectedAbility.text = "Sonar";
+		//teSelectedAbility.text = "Sonar";
 	}
 
     //Collisisions
