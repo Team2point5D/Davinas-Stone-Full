@@ -17,6 +17,14 @@ public class Lever : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
+        if (isOpen)
+        {
+            affectedDoor.SetActive(false);
+        }
+        else
+        {
+            affectedDoor.SetActive(true);
+        }
 	
 	}
 
@@ -28,10 +36,7 @@ public class Lever : MonoBehaviour {
             {
                 print("Press");
 
-                if (isOpen)
-                {
-                    affectedDoor.SetActive(false);
-                }
+                isOpen = !isOpen;
                
             }
 
