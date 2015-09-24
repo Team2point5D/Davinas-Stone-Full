@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-
+//David
 public class PlayerBehaviour : MonoBehaviour
 {
 
@@ -11,8 +11,8 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bIsGravityReversed = false;
     private bool onCompanion;
     private bool inMagic;
-	private float fFlipTimer = 0f;
-	private bool bPlayerReversed = false;
+    private float fFlipTimer = 0f;
+    private bool bPlayerReversed = false;
     //public bool onCrate;
 
     [Header("Shooting")]
@@ -24,11 +24,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed;
-    public float jumpForce;
+    public float jumpHeight;
     public float jumpIncrease;
     public float pushPullForce;
     private float jumpIncreaseTime;
     private bool bIsGrounded = true;
+    public Animator playerAnimator;
 
     bool isFacingRight = true;
     float flipMove;
@@ -64,7 +65,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Text teSelectedMass;
     public Text teSelectedGravity;
     public Text teSelectedScale;
-	public Text teSelectedAbility;
+    public Text teSelectedAbility;
 
     public float fClampedY = 0;
     public float fClampedX = 0;
@@ -93,6 +94,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+        
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -105,57 +107,55 @@ public class PlayerBehaviour : MonoBehaviour
             // make restart function 
         }
 
-//        Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-//        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
-//        rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
+        //        Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+        //        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
+        //        rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
 
-//        fClampedX = Mathf.Clamp(fClampedX, -100, 100);
-//        fClampedY = Mathf.Clamp(fClampedY, -100, 100);
-//
-//        if (fClampedY >= 0)
-//        {
-//            if (fClampedX >= 0)
-//            {
-//                fClampedX = 100 - fClampedY;
-//            }
-//            else
-//            {
-//                fClampedX = -100 + fClampedY;
-//            }
-//        }
-//        else
-//        {
-//            if (fClampedX >= 0)
-//            {
-//                fClampedY = fClampedX - 100;
-//            }
-//            else
-//            {
-//                fClampedY = -100 - fClampedX;
-//            }
-//        }
+        //        fClampedX = Mathf.Clamp(fClampedX, -100, 100);
+        //        fClampedY = Mathf.Clamp(fClampedY, -100, 100);
+        //
+        //        if (fClampedY >= 0)
+        //        {
+        //            if (fClampedX >= 0)
+        //            {
+        //                fClampedX = 100 - fClampedY;
+        //            }
+        //            else
+        //            {
+        //                fClampedX = -100 + fClampedY;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (fClampedX >= 0)
+        //            {
+        //                fClampedY = fClampedX - 100;
+        //            }
+        //            else
+        //            {
+        //                fClampedY = -100 - fClampedX;
+        //            }
+        //        }
 
-//        cursorPosition.x = Mathf.Clamp(cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
-//        cursorPosition.y = Mathf.Clamp(cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
-//        imAimer.rectTransform.position = cursorPosition;
-//        Cursor.visible = false;
+        //        cursorPosition.x = Mathf.Clamp(cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
+        //        cursorPosition.y = Mathf.Clamp(cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
+        //        imAimer.rectTransform.position = cursorPosition;
+        //        Cursor.visible = false;
 
-		if (bPlayerReversed)
-		{
-			fFlipTimer += 3 * Time.deltaTime;
-			transform.eulerAngles = Vector3.Lerp (new Vector3 (0, 0, 0),
-			                                      new Vector3 (180, 0, 0),
-			                                      fFlipTimer);
-		}
-		else
-		{
-			fFlipTimer -= 3 * Time.deltaTime;
-			transform.eulerAngles = Vector3.Lerp (new Vector3 (0, 0, 0),
-			                                      new Vector3 (180, 0, 0),
-			                                      fFlipTimer);
-		}
-
-
+        if (bPlayerReversed)
+        {
+            fFlipTimer += 3 * Time.deltaTime;
+            transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
+                                            new Vector3(180, 0, 0),
+                                            fFlipTimer);
+        }
+        else
+        {
+            fFlipTimer -= 3 * Time.deltaTime;
+            transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
+                                                  new Vector3(180, 0, 0),
+                                                  fFlipTimer);
+        }
         if (bIsHeavySelected)
         {
             teSelectedMass.text = "Heavy";
@@ -181,12 +181,12 @@ public class PlayerBehaviour : MonoBehaviour
     {
 
 
-        playerPos = gameObject.transform.localPosition;
+        //playerPos = gameObject.transform.localPosition;
 
-        Vector3 extraGravityForce = (Physics.gravity * gravityForce) - Physics.gravity;
+        Vector3 extraGravityForce = (Physics.gravity * gravityForce);
         myRigidBody.AddForce(extraGravityForce);
 
-		fFlipTimer = Mathf.Clamp (fFlipTimer, 0, 1);
+        fFlipTimer = Mathf.Clamp(fFlipTimer, 0, 1);
         float clampedY = Mathf.Clamp(0, 0, 0);
         float clampedZ = Mathf.Clamp(0, 0, 0);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, clampedY, clampedZ);
@@ -287,7 +287,8 @@ public class PlayerBehaviour : MonoBehaviour
         // Player move input
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            GetComponent<Rigidbody>().velocity = -Vector3.right * moveSpeed * Time.deltaTime;
+            Vector3 moveQuantity = new Vector3(-moveSpeed, 0, 0);
+            myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
 
             flipMove = 1;
 
@@ -295,7 +296,8 @@ public class PlayerBehaviour : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            GetComponent<Rigidbody>().velocity = Vector3.right * moveSpeed * Time.deltaTime;
+            Vector3 moveQuantity = new Vector3(moveSpeed, 0, 0);
+            myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
 
             flipMove = -1;
 
@@ -316,10 +318,8 @@ public class PlayerBehaviour : MonoBehaviour
 
             if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")) && bIsGrounded == true)
             {
-                //print("Jump");
-
-                myRigidBody.AddForce(0, jumpForce, 0f);
-                jumpIncreaseTime = 0.5f;
+                myRigidBody.velocity = (Vector3.up * jumpHeight);
+                //jumpIncreaseTime = 0.5f;
             }
             //if (jumpIncreaseTime > 0f)
             //{
@@ -334,9 +334,8 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("A")) && bIsGrounded == true)
             {
-                // GetComponent<Rigidbody>().velocity = new Vector3(0f, -jumpForce, 0f);
-                myRigidBody.AddForce(0, -jumpForce, 0f);
-                jumpIncreaseTime = 0.5f;
+                myRigidBody.velocity = (Vector3.down * jumpHeight);
+                //jumpIncreaseTime = 0.5f;
             }
             //if (jumpIncreaseTime > 0f)
             //{
@@ -377,7 +376,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     bIsGravityReversed = true;
                     teSelectedGravity.text = "Up";
-					bPlayerReversed = true;
+                    bPlayerReversed = true;
                     Physics.gravity = new Vector3(0, 9.81f, 0);
 
 
@@ -386,7 +385,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     bIsGravityReversed = false;
                     teSelectedGravity.text = "Down";
-					bPlayerReversed = false;
+                    bPlayerReversed = false;
                     Physics.gravity = new Vector3(0, -9.81f, 0);
 
 
@@ -396,21 +395,21 @@ public class PlayerBehaviour : MonoBehaviour
             //Mass change
             if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
             {
-				ChangeStateToMass();
+                ChangeStateToMass();
                 bIsHeavySelected = !bIsHeavySelected;
             }
 
             //Sonar Shoot
             if (Input.GetKeyDown("3"))
             {
-				ChangeStateToSonar();
+                ChangeStateToSonar();
                 GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
             }
 
             //Shoot Scale
             if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown("4"))
             {
-				ChangeStateToScale();
+                ChangeStateToScale();
                 isUpScale = !isUpScale;
             }
         }
@@ -426,33 +425,33 @@ public class PlayerBehaviour : MonoBehaviour
 
     }
 
-	void ResetStates()
-	{
-		bIsMass = false;
-		bIsScale = false;
-		bIsSonar = false;
-	}
+    void ResetStates()
+    {
+        bIsMass = false;
+        bIsScale = false;
+        bIsSonar = false;
+    }
 
-	void ChangeStateToMass()
-	{
-		ResetStates();
-		bIsMass = true;
-		//teSelectedAbility.text = "Mass";
-	}
+    void ChangeStateToMass()
+    {
+        ResetStates();
+        bIsMass = true;
+        //teSelectedAbility.text = "Mass";
+    }
 
-	void ChangeStateToScale()
-	{
-		ResetStates();
-		bIsScale = true;
-		//teSelectedAbility.text = "Scale";
-	}
+    void ChangeStateToScale()
+    {
+        ResetStates();
+        bIsScale = true;
+        //teSelectedAbility.text = "Scale";
+    }
 
-	void ChangeStateToSonar()
-	{
-		ResetStates();
-		bIsSonar = true;
-		//teSelectedAbility.text = "Sonar";
-	}
+    void ChangeStateToSonar()
+    {
+        ResetStates();
+        bIsSonar = true;
+        //teSelectedAbility.text = "Sonar";
+    }
 
     //Collisisions
 
