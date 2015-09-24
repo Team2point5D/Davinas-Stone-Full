@@ -63,7 +63,13 @@ public class CameraMove : MonoBehaviour
 
             //mOVE camera
 
-            mainCam.transform.position = playerPos;
+            if (mainCam.transform.position == playerPos)
+            {
+                mainCam.transform.position = playerPos;
+            }
+
+
+            
 
         }
         else if (playerB.doorEntered == true)
