@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Marcus
 public class CameraMove : MonoBehaviour
 {
+
+    //
     [Header("Distance")]
     public float distanceX;
 
@@ -54,9 +57,20 @@ public class CameraMove : MonoBehaviour
         
         if (playerB.doorExited == true)
         {
-            mainCam.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
+            //mainCam.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
 
             mainCam.transform.position = Vector3.Lerp(camLocation, playerPos, speed * Time.fixedDeltaTime);
+
+            //mOVE camera
+
+            if (mainCam.transform.position == playerPos)
+            {
+                mainCam.transform.position = playerPos;
+            }
+
+
+            
+
         }
         else if (playerB.doorEntered == true)
         {
