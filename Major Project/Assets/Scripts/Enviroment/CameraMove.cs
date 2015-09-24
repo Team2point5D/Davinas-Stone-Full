@@ -38,7 +38,7 @@ public class CameraMove : MonoBehaviour
 
         for (int i = 0; i < cameraLocations.Length; i++)
         {
-            mainCam.transform.position = cameraLocations[0].transform.position;
+            mainCam.transform.position = cameraLocations[1].transform.position;
         }
 
 
