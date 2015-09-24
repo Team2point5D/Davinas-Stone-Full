@@ -59,6 +59,9 @@ public class PlayerBehaviour : MonoBehaviour
 
 
     [Header("User Interface")]
+    public Texture2D texCursor;
+    public Vector2 hotSpot = Vector2.zero;
+    public CursorMode cursorMode = CursorMode.Auto;
     public RectTransform rectCanvas;
     public Image rectAimerFollow;
     public Image imAimer;
@@ -89,13 +92,11 @@ public class PlayerBehaviour : MonoBehaviour
         myRigidBody = this.gameObject.GetComponent<Rigidbody>();
         shotParent = GameObject.Find("Magic Shots");
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
-
+        Cursor.SetCursor(texCursor, hotSpot, cursorMode);
     }
 
     void Update()
     {
-        
-
         if (Input.GetMouseButtonDown(0))
         {
             //This needs to be done fixed by DAVID
@@ -107,9 +108,9 @@ public class PlayerBehaviour : MonoBehaviour
             // make restart function 
         }
 
-        //        Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-        //        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
-        //        rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
+                Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+                Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
+                rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
 
         //        fClampedX = Mathf.Clamp(fClampedX, -100, 100);
         //        fClampedY = Mathf.Clamp(fClampedY, -100, 100);
@@ -137,10 +138,10 @@ public class PlayerBehaviour : MonoBehaviour
         //            }
         //        }
 
-        //        cursorPosition.x = Mathf.Clamp(cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
-        //        cursorPosition.y = Mathf.Clamp(cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
-        //        imAimer.rectTransform.position = cursorPosition;
-        //        Cursor.visible = false;
+                cursorPosition.x = Mathf.Clamp(cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
+                cursorPosition.y = Mathf.Clamp(cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
+                imAimer.rectTransform.position = cursorPosition;
+                Cursor.visible = false;
 
         if (bPlayerReversed)
         {
@@ -158,20 +159,20 @@ public class PlayerBehaviour : MonoBehaviour
         }
         if (bIsHeavySelected)
         {
-            teSelectedMass.text = "Heavy";
+            //teSelectedMass.text = "Heavy";
         }
         else
         {
-            teSelectedMass.text = "Light";
+           // teSelectedMass.text = "Light";
         }
 
         if (isUpScale)
         {
-            teSelectedScale.text = "Large Scale";
+            //teSelectedScale.text = "Large Scale";
         }
         else
         {
-            teSelectedScale.text = "Small Scale";
+            //teSelectedScale.text = "Small Scale";
         }
 
 
@@ -375,7 +376,7 @@ public class PlayerBehaviour : MonoBehaviour
                 if (bIsGravityReversed == false)
                 {
                     bIsGravityReversed = true;
-                    teSelectedGravity.text = "Up";
+                    //teSelectedGravity.text = "Up";
                     bPlayerReversed = true;
                     Physics.gravity = new Vector3(0, 9.81f, 0);
 
@@ -384,7 +385,7 @@ public class PlayerBehaviour : MonoBehaviour
                 else if (bIsGravityReversed == true)
                 {
                     bIsGravityReversed = false;
-                    teSelectedGravity.text = "Down";
+                    //teSelectedGravity.text = "Down";
                     bPlayerReversed = false;
                     Physics.gravity = new Vector3(0, -9.81f, 0);
 
@@ -436,21 +437,21 @@ public class PlayerBehaviour : MonoBehaviour
     {
         ResetStates();
         bIsMass = true;
-        //teSelectedAbility.text = "Mass";
+        teSelectedAbility.text = "Mass";
     }
 
     void ChangeStateToScale()
     {
         ResetStates();
         bIsScale = true;
-        //teSelectedAbility.text = "Scale";
+        teSelectedAbility.text = "Scale";
     }
 
     void ChangeStateToSonar()
     {
         ResetStates();
         bIsSonar = true;
-        //teSelectedAbility.text = "Sonar";
+        teSelectedAbility.text = "Sonar";
     }
 
     //Collisisions

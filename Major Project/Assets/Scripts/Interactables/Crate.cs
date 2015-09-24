@@ -73,20 +73,19 @@ public class Crate : MonoBehaviour {
     void ChangeScale()
     {
 
-        ////Marcus
-        //transform.localScale = Vector3.Lerp (new Vector3(scaleUSize, transform.localScale.y, transform.localScale.z),
-        //                                     new Vector3(scaleSSize, transform.localScale.y, transform.localScale.z),
-        //                                     fScaleTimer);
-        //if (bIsBig == true)
-        //{
-        //    fScaleTimer -= 5 * Time.deltaTime;
-        //    gameObject.GetComponent<Renderer>().material.color = Color.red;
-        //}
-        //else
-        //{
-        //    fScaleTimer += 5 * Time.deltaTime;
-        //    gameObject.GetComponent<Renderer>().material.color = Color.blue;
-        //}
+        transform.localScale = Vector3.Lerp (new Vector3(scaleUSize, transform.localScale.y, transform.localScale.z),
+                                             new Vector3(scaleSSize, transform.localScale.y, transform.localScale.z),
+                                             fScaleTimer);
+        if (bIsBig == true)
+        {
+            fScaleTimer -= 5 * Time.deltaTime;
+            gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
+        else
+        {
+            fScaleTimer += 5 * Time.deltaTime;
+            gameObject.GetComponent<Renderer>().material.color = Color.blue;
+        }
     }
 
 	void OnTriggerEnter(Collider col)
