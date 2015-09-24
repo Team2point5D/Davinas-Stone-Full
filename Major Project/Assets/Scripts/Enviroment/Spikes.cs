@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Marcus
 public class Spikes : MonoBehaviour {
 
     public Transform respawnPOS; 
