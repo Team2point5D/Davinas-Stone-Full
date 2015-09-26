@@ -15,15 +15,20 @@ public class CameraMove : MonoBehaviour
 
     public float speed;
 
-    Camera mainCam;
+
+    [Header("Camera Location")]
+    public Transform[] cameraLocations;
+
+    public int startingCamLocation;
+
 
     Vector3 camLocation;
-
-    public Transform[] cameraLocations;
 
     PlayerBehaviour playerB;
 
     Vector3 playerPos;
+
+    Camera mainCam;
 
     // Use this for initialization
     void Start()
@@ -38,7 +43,7 @@ public class CameraMove : MonoBehaviour
 
         for (int i = 0; i < cameraLocations.Length; i++)
         {
-            mainCam.transform.position = cameraLocations[2].transform.position;
+            mainCam.transform.position = cameraLocations[startingCamLocation].transform.position;
         }
 
 
