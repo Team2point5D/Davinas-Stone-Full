@@ -398,6 +398,17 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 ChangeStateToMass();
                 bIsHeavySelected = !bIsHeavySelected;
+
+				if(bIsHeavySelected)
+				{
+					Debug.Log ("Mass up");
+					FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Powers/The Other - Mass up", new Vector3 (0, 0, 0));
+				}
+				else
+				{
+					Debug.Log ("Mass down");
+					FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Powers/The Other - Mass down", new Vector3 (0, 0, 0));
+				}
             }
 
             //Sonar Shoot
@@ -437,7 +448,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         ResetStates();
         bIsMass = true;
-        teSelectedAbility.text = "Mass";
+//        teSelectedAbility.text = "Mass";
     }
 
     void ChangeStateToScale()
