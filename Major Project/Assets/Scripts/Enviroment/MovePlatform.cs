@@ -20,9 +20,13 @@ public class MovePlatform : MonoBehaviour
 
     bool started = true;
 
+    Rigidbody rig;
+
     // Use this for initialization
     void Start()
     {
+        rig = GetComponent<Rigidbody>();
+
         gameOBJPos = this.gameObject.transform.localPosition;
     }
 
@@ -34,22 +38,22 @@ public class MovePlatform : MonoBehaviour
         {
             if (isLeft == true)
             {
-                transform.Translate(Vector3.left * Time.deltaTime * speed);
+               rig.velocity = Vector3.left * Time.deltaTime * speed;
             }
             else
             {
-                transform.Translate(Vector3.right * Time.deltaTime * speed);
+                rig.velocity = Vector3.right * Time.deltaTime * speed;
             }
         }
         else if (upDown == true)
         {
             if (isUp == true)
             {
-                transform.Translate(Vector3.up * Time.deltaTime * speed);
+                rig.velocity = Vector3.up * Time.deltaTime * speed;
             }
             else
             {
-                transform.Translate(Vector3.down * Time.deltaTime * speed);
+                rig.velocity = Vector3.down * Time.deltaTime * speed;
             }
         }
         
