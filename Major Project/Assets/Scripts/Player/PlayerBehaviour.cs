@@ -180,7 +180,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
 
         //playerPos = gameObject.transform.localPosition;
-
+        Debug.Log("" + myRigidBody.velocity + "");
         Vector3 extraGravityForce = (Physics.gravity * gravityForce);
         myRigidBody.AddForce(extraGravityForce);
 
@@ -287,6 +287,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Vector3 moveQuantity = new Vector3(-moveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
+            //myRigidBody.velocity = new Vector3(Input.GetAxis("LeftThumbstickX"), myRigidBody.velocity.y, myRigidBody.velocity.z);
 
             flipMove = 1;
 
