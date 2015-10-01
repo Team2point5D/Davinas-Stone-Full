@@ -288,7 +288,7 @@ public class PlayerBehaviour : MonoBehaviour
             Vector3 moveQuantity = new Vector3(-moveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
             //myRigidBody.velocity = new Vector3(Input.GetAxis("LeftThumbstickX"), myRigidBody.velocity.y, myRigidBody.velocity.z);
-
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Grass run", transform.position);
             flipMove = 1;
 
 
@@ -297,7 +297,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Vector3 moveQuantity = new Vector3(moveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
-
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Grass run", transform.position);
             flipMove = -1;
 
         }
@@ -400,12 +400,12 @@ public class PlayerBehaviour : MonoBehaviour
 				if(bIsHeavySelected)
 				{
 					Debug.Log ("Mass up");
-                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Powers/The Other - Mass up", transform.position);
+                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass up", transform.position);
 				}
 				else
 				{
 					Debug.Log ("Mass down");
-                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Powers/The Other - Mass down", transform.position);
+                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass down", transform.position);
 				}
             }
 
