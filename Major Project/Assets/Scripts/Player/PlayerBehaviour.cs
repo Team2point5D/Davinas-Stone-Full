@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using FMOD.Studio;
 using System.Collections;
 
 //David
@@ -29,7 +30,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float pushPullForce;
     private float jumpIncreaseTime;
     private bool bIsGrounded = true;
-    public Animator playerAnimator;
+    //public Animator playerAnimator;
 
     bool isFacingRight = true;
     float flipMove;
@@ -65,9 +66,6 @@ public class PlayerBehaviour : MonoBehaviour
     public RectTransform rectCanvas;
     public Image rectAimerFollow;
     public Image imAimer;
-    public Text teSelectedMass;
-    public Text teSelectedGravity;
-    public Text teSelectedScale;
     public Text teSelectedAbility;
 
     public float fClampedY = 0;
@@ -138,8 +136,8 @@ public class PlayerBehaviour : MonoBehaviour
         //            }
         //        }
 
-                cursorPosition.x = Mathf.Clamp(cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
-                cursorPosition.y = Mathf.Clamp(cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
+                //cursorPosition.x = Mathf.Clamp(cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
+                //cursorPosition.y = Mathf.Clamp(cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
                 imAimer.rectTransform.position = cursorPosition;
                 Cursor.visible = false;
 
@@ -180,7 +178,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-
 
         //playerPos = gameObject.transform.localPosition;
 
@@ -402,12 +399,12 @@ public class PlayerBehaviour : MonoBehaviour
 				if(bIsHeavySelected)
 				{
 					Debug.Log ("Mass up");
-					FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Powers/The Other - Mass up", new Vector3 (0, 0, 0));
+                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Powers/The Other - Mass up", transform.position);
 				}
 				else
 				{
 					Debug.Log ("Mass down");
-					FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Powers/The Other - Mass down", new Vector3 (0, 0, 0));
+                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Powers/The Other - Mass down", transform.position);
 				}
             }
 
@@ -448,7 +445,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         ResetStates();
         bIsMass = true;
-//        teSelectedAbility.text = "Mass";
+        teSelectedAbility.text = "Mass";
     }
 
     void ChangeStateToScale()
