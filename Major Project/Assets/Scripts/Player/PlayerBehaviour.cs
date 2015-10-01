@@ -30,7 +30,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float pushPullForce;
     private float jumpIncreaseTime;
     private bool bIsGrounded = true;
-    //public Animator playerAnimator;
+    public Animator playerAnimator;
 
     bool isFacingRight = true;
     float flipMove;
@@ -105,7 +105,6 @@ public class PlayerBehaviour : MonoBehaviour
 
             // make restart function 
         }
-
                 Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
                 Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
                 rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
