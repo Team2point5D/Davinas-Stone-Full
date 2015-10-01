@@ -55,7 +55,7 @@ public class CameraMove : MonoBehaviour
         camLocation = mainCam.transform.position;
 
 
-        playerPos = GameObject.FindGameObjectWithTag("Player").transform.localPosition;
+        playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
 
         playerPos = new Vector3(playerPos.x + distanceX, playerPos.y + distanceY, -distanceZ);
 

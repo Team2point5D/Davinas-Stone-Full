@@ -38,22 +38,22 @@ public class MovePlatform : MonoBehaviour
         {
             if (isLeft == true)
             {
-               rig.velocity = Vector3.left * Time.deltaTime * speed;
+               rig.velocity = Vector3.left * Time.fixedDeltaTime * speed;
             }
             else
             {
-                rig.velocity = Vector3.right * Time.deltaTime * speed;
+                rig.velocity = Vector3.right * Time.fixedDeltaTime * speed;
             }
         }
         else if (upDown == true)
         {
             if (isUp == true)
             {
-                rig.velocity = Vector3.up * Time.deltaTime * speed;
+                rig.velocity = Vector3.up * Time.fixedDeltaTime * speed;
             }
             else
             {
-                rig.velocity = Vector3.down * Time.deltaTime * speed;
+                rig.velocity = Vector3.down * Time.fixedDeltaTime * speed;
             }
         }
         
@@ -63,7 +63,7 @@ public class MovePlatform : MonoBehaviour
         {
            // print("CHANGE");
 
-            isLeft = !isLeft;
+            isLeft = true;
 
             started = false;  //The object has moved from its start position
         }
@@ -74,7 +74,7 @@ public class MovePlatform : MonoBehaviour
             {
                 //print("Start Pos");
 
-                isLeft = !isLeft;
+                isLeft = false;
             }
         }
 
@@ -96,4 +96,27 @@ public class MovePlatform : MonoBehaviour
         }
 
     }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+            //print("Player");
+
+            col.transform.parent = gameObject.transform;
+        }
+
+    }
+
+    void OnCollisionExit(Collision col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+            //print("Player");
+
+            col.transform.parent = null;
+        }
+
+    }
+
 }
