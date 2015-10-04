@@ -5,6 +5,7 @@ using System.Collections;
 public class CrumblingPlatform : MonoBehaviour
 {
 
+    //public variables that set the times on when platforms will be destroyed and regain
     public float timeTillDestroy;
 
     public float recoveryTime;
@@ -26,7 +27,7 @@ public class CrumblingPlatform : MonoBehaviour
 
     // Use this for initialization
     void Start()
-    {
+    { 
         platBoxCol = GetComponent<BoxCollider>();
 
         platMeshRend = GetComponent<MeshRenderer>();
@@ -36,13 +37,10 @@ public class CrumblingPlatform : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
-
+        // Starts the crumbling timer and process
         if (startCrumbling)
         {
             respawnTimer = 0;
-
-           // print("CrumbleTime: " + crumbleTimer.ToString());
 
             crumbleTimer += Time.fixedDeltaTime;
 
@@ -59,7 +57,7 @@ public class CrumblingPlatform : MonoBehaviour
         }
         else if (startCrumbling == false)
         {
-            //print("Recoverytimer: " + respawnTimer.ToString());
+            
 
             crumbleTimer = 0;
 
@@ -79,6 +77,7 @@ public class CrumblingPlatform : MonoBehaviour
 
     void OnCollisionStay(Collision col)
     {
+        // If the player is on the platform start crumbling
         if (col.gameObject.tag == "Player")
         {
             startCrumbling = true;
@@ -87,6 +86,7 @@ public class CrumblingPlatform : MonoBehaviour
 
     void OnCollisionExit(Collision col)
     {
+        // Stop crumbling 
         if (col.gameObject.tag == "Player")
         {
             startCrumbling = false;
