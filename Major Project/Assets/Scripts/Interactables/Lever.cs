@@ -4,7 +4,7 @@ using System.Collections;
 //Marcus
 public class Lever : MonoBehaviour
 {
-
+    //The gameobject that the lever efects
     public GameObject affectedDoor;
 
     public bool isOpen;
@@ -17,19 +17,19 @@ public class Lever : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        // Sets the affected door to start 
         affectedDoor.SetActive(true);
 
         leverOBJ = GameObject.Find("Lever");
 
         leverRot = leverOBJ.transform.rotation;
 
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        //If the door is open and the lever is switched turn the door to be inactive
         if (isOpen)
         {
             affectedDoor.SetActive(false);
@@ -47,8 +47,10 @@ public class Lever : MonoBehaviour
 
     }
 
+    // If the player is in the lever trigger box
     void OnTriggerStay(Collider col)
     {
+        // If the player presses Q while in the lever trigger box change open state
         if (col.gameObject.tag == "Player")
         {
             if (Input.GetKeyDown(KeyCode.Q))

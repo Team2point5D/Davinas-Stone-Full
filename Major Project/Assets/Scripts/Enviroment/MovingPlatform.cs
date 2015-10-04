@@ -2,16 +2,19 @@
 using System.Collections;
 
 // Created: Marcus
-public class MovePlatform : MonoBehaviour
+public class MovingPlatform : MonoBehaviour
 {
+    // Public Variables that set the speed of the platform and the distance in which to change
     [Header("Variables")]
     public float speed;
     public float changeDis;
 
+    // Indicates on whether the platform is going left or right
     [Header("Left Right")]
     public bool leftRight;
     public bool isLeft;
 
+    // Indicates on whether the platform is going up and down
     [Header("Up Down")]
     public bool upDown;
     public bool isUp;
@@ -65,7 +68,8 @@ public class MovePlatform : MonoBehaviour
 
             isLeft = true;
 
-            started = false;  //The object has moved from its start position
+            //The object has moved from its start position
+            started = false;  
         }
 
         if (started == false)
@@ -101,8 +105,7 @@ public class MovePlatform : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            //print("Player");
-
+            //Parents the platfrom to the player so they both move
             col.transform.parent = gameObject.transform;
         }
 
@@ -112,8 +115,8 @@ public class MovePlatform : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            //print("Player");
-
+           
+            //The player so no longer a child of the platform
             col.transform.parent = null;
         }
 
