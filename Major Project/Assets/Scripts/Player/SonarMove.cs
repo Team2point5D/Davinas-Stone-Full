@@ -1,26 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Marcus
 public class SonarMove : MonoBehaviour
 {
+    //Public values that change the speed of the sonar
     [Header("Values")]
     public float speed;
-
     public float lifeTime;
+    public bool colourChanged;
+    public float colourChangeTime;
 
     float timer;
 
-    public bool colourChanged;
-
-    public float colourChangeTime;
-
     float colourTimer;
 
-    [Header("Audio")]
-    public AudioClip sonarSFX;
-
-    public AudioSource AS;
-
+    // Variables for the point light added to an object that the sonar hits
     [Header("Light")]
     public float lightRange;
     public float lightIntensity;
@@ -34,21 +29,15 @@ public class SonarMove : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        AS = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
 
         rig = GetComponent<Rigidbody>();
-
-        AS.clip = sonarSFX;
-
-        AS.Play();
 
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //transform.Translate(speed, 0, 0);
-
+        // Adds velocity to the sonar object based on speed
         rig.velocity = new Vector2(speed, 0);
 
         timer += Time.deltaTime;
@@ -66,21 +55,17 @@ public class SonarMove : MonoBehaviour
 
             if (colourTimer >= colourChangeTime)
             {
-                print("Change!");
-
                 colourChanged = false;
 
                 colourTimer = 0;
-
             }
         }
 
     }
 
+    // Change colour of object and add point light that the sonar hits 
     void OnCollisionEnter(Collision col)
     {
-        print("Col");
-
         colourChanged = true;
 
         objRend = col.gameObject.GetComponent<Renderer>();
@@ -99,18 +84,11 @@ public class SonarMove : MonoBehaviour
 
             sonarLight.color = Color.red;
 
-            
-
-
         }
         else
         {
-           // print("Colour Change!");
-
-            col.gameObject.GetComponent<Renderer>().material = objRend.material; 
+            col.gameObject.GetComponent<Renderer>().material = objRend.material;
         }
-
-      //  print("Hit");
 
         Destroy(this.gameObject);
     }

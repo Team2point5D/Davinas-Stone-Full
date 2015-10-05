@@ -30,7 +30,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float pushPullForce;
     private float jumpIncreaseTime;
     private bool bIsGrounded = true;
-    //public Animator playerAnimator;
+    public Animator playerAnimator;
 
     bool isFacingRight = true;
     float flipMove;
@@ -105,7 +105,6 @@ public class PlayerBehaviour : MonoBehaviour
 
             // make restart function 
         }
-
                 Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
                 Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
                 rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
@@ -288,7 +287,7 @@ public class PlayerBehaviour : MonoBehaviour
             Vector3 moveQuantity = new Vector3(-moveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
             //myRigidBody.velocity = new Vector3(Input.GetAxis("LeftThumbstickX"), myRigidBody.velocity.y, myRigidBody.velocity.z);
-
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Grass run", transform.position);
             flipMove = 1;
 
 
@@ -297,7 +296,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Vector3 moveQuantity = new Vector3(moveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
-
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Grass run", transform.position);
             flipMove = -1;
 
         }
@@ -400,12 +399,12 @@ public class PlayerBehaviour : MonoBehaviour
 				if(bIsHeavySelected)
 				{
 					Debug.Log ("Mass up");
-                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Powers/The Other - Mass up", transform.position);
+                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass up", transform.position);
 				}
 				else
 				{
 					Debug.Log ("Mass down");
-                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Powers/The Other - Mass down", transform.position);
+                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass down", transform.position);
 				}
             }
 

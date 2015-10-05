@@ -1,18 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//David
 public class BreakableWall : MonoBehaviour {
 	
-	void Start ()
-	{
-
-	}
-
-	void Update () 
-	{
-
-	}
-
 	void OnCollisionEnter (Collision col)
 	{
 		if(col.gameObject.tag == "Crate")

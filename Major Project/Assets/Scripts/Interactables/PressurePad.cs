@@ -4,14 +4,11 @@ using System.Collections;
 //Marcus
 public class PressurePad : MonoBehaviour
 {
-
+    //Whats the affected object
     public GameObject affectedOBJ;
 
     public bool isOpen;
 
-  
-
-    //Do stuff here
 
     // Use this for initialization
     void Start()
@@ -20,17 +17,11 @@ public class PressurePad : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void OnCollisionEnter(Collision col)
     {
+        //Changes state depending on the collided objects mass
         if (col.gameObject.tag == "Crate")
         {
-       
             //Heavy
             if (col.gameObject.GetComponent<Rigidbody>().mass >= 10)
             {

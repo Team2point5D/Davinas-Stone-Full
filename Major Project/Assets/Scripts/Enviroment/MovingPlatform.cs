@@ -2,16 +2,19 @@
 using System.Collections;
 
 // Created: Marcus
-public class MovePlatform : MonoBehaviour
+public class MovingPlatform : MonoBehaviour
 {
+    // Public Variables that set the speed of the platform and the distance in which to change
     [Header("Variables")]
     public float speed;
     public float changeDis;
 
+    // Indicates on whether the platform is going left or right
     [Header("Left Right")]
     public bool leftRight;
     public bool isLeft;
 
+    // Indicates on whether the platform is going up and down
     [Header("Up Down")]
     public bool upDown;
     public bool isUp;
@@ -20,9 +23,13 @@ public class MovePlatform : MonoBehaviour
 
     bool started = true;
 
+    Rigidbody rig;
+
     // Use this for initialization
     void Start()
     {
+        rig = GetComponent<Rigidbody>();
+
         gameOBJPos = this.gameObject.transform.localPosition;
     }
 
@@ -34,22 +41,22 @@ public class MovePlatform : MonoBehaviour
         {
             if (isLeft == true)
             {
-                transform.Translate(Vector3.left * Time.deltaTime * speed);
+               rig.velocity = Vector3.left * Time.fixedDeltaTime * speed;
             }
             else
             {
-                transform.Translate(Vector3.right * Time.deltaTime * speed);
+                rig.velocity = Vector3.right * Time.fixedDeltaTime * speed;
             }
         }
         else if (upDown == true)
         {
             if (isUp == true)
             {
-                transform.Translate(Vector3.up * Time.deltaTime * speed);
+                rig.velocity = Vector3.up * Time.fixedDeltaTime * speed;
             }
             else
             {
-                transform.Translate(Vector3.down * Time.deltaTime * speed);
+                rig.velocity = Vector3.down * Time.fixedDeltaTime * speed;
             }
         }
         
@@ -59,9 +66,10 @@ public class MovePlatform : MonoBehaviour
         {
            // print("CHANGE");
 
-            isLeft = !isLeft;
+            isLeft = true;
 
-            started = false;  //The object has moved from its start position
+            //The object has moved from its start position
+            started = false;  
         }
 
         if (started == false)
@@ -70,7 +78,7 @@ public class MovePlatform : MonoBehaviour
             {
                 //print("Start Pos");
 
-                isLeft = !isLeft;
+                isLeft = false;
             }
         }
 
@@ -92,4 +100,26 @@ public class MovePlatform : MonoBehaviour
         }
 
     }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+            //Parents the platfrom to the player so they both move
+            col.transform.parent = gameObject.transform;
+        }
+
+    }
+
+    void OnCollisionExit(Collision col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+           
+            //The player so no longer a child of the platform
+            col.transform.parent = null;
+        }
+
+    }
+
 }
