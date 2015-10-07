@@ -87,6 +87,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Start()
     {
+        //Sets private variables to their corresponding parts via tags and getComponent
         myRigidBody = this.gameObject.GetComponent<Rigidbody>();
         shotParent = GameObject.Find("Magic Shots");
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
@@ -95,51 +96,14 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            //This needs to be done fixed by DAVID
+        //Sets the aim cursor to mouse's current position on screen
+        Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
+        rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
+        imAimer.rectTransform.position = cursorPosition;
+        Cursor.visible = false;
 
-            print("Click");
-
-            // switch
-
-            // make restart function 
-        }
-                Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-                Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
-                rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
-
-        //        fClampedX = Mathf.Clamp(fClampedX, -100, 100);
-        //        fClampedY = Mathf.Clamp(fClampedY, -100, 100);
-        //
-        //        if (fClampedY >= 0)
-        //        {
-        //            if (fClampedX >= 0)
-        //            {
-        //                fClampedX = 100 - fClampedY;
-        //            }
-        //            else
-        //            {
-        //                fClampedX = -100 + fClampedY;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (fClampedX >= 0)
-        //            {
-        //                fClampedY = fClampedX - 100;
-        //            }
-        //            else
-        //            {
-        //                fClampedY = -100 - fClampedX;
-        //            }
-        //        }
-
-                //cursorPosition.x = Mathf.Clamp(cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
-                //cursorPosition.y = Mathf.Clamp(cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
-                imAimer.rectTransform.position = cursorPosition;
-                Cursor.visible = false;
-
+        //Flips Player on its x axis when gravity is switched up and down
         if (bPlayerReversed)
         {
             fFlipTimer += 3 * Time.deltaTime;
@@ -154,40 +118,21 @@ public class PlayerBehaviour : MonoBehaviour
                                                   new Vector3(180, 0, 0),
                                                   fFlipTimer);
         }
-        if (bIsHeavySelected)
-        {
-            //teSelectedMass.text = "Heavy";
-        }
-        else
-        {
-           // teSelectedMass.text = "Light";
-        }
-
-        if (isUpScale)
-        {
-            //teSelectedScale.text = "Large Scale";
-        }
-        else
-        {
-            //teSelectedScale.text = "Small Scale";
-        }
-
-
     }
 
     void FixedUpdate()
     {
-
-        //playerPos = gameObject.transform.localPosition;
-        Debug.Log("" + myRigidBody.velocity + "");
+        //Temporary fix to gravity till we fix issues
         Vector3 extraGravityForce = (Physics.gravity * gravityForce);
         myRigidBody.AddForce(extraGravityForce);
 
+        //Clamps used to prevent values going out of desired bounds
         fFlipTimer = Mathf.Clamp(fFlipTimer, 0, 1);
         float clampedY = Mathf.Clamp(0, 0, 0);
         float clampedZ = Mathf.Clamp(0, 0, 0);
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, clampedY, clampedZ);
 
+        //Allows player to use magic once they pick up the crystal
         if (canUseMagic == true)
         {
             if (Input.GetMouseButtonDown(1))
@@ -208,22 +153,6 @@ public class PlayerBehaviour : MonoBehaviour
                 aSource.Play();
 
             }
-
-            //if (Input.GetMouseButtonDown(2))
-            //{
-            //    Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-            //    Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-            //    Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-            //    GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
-
-            //    projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
-
-            //    projectile.tag = "Scale Bullet";
-
-            //    aSource.clip = shootSound;
-            //    aSource.Play();
-            //}
-
         }
 
         // Make a raycast that checks player is on ground or ceilling
@@ -254,7 +183,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         Jump();
 
-        //Flips player
+        Magic();
+
+        //Flips player left and right
         if (flipMove < 0 && !isFacingRight)
         {
             Flip();
@@ -263,18 +194,6 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Flip();
         }
-
-
-
-        Magic();
-
-
-
-
-
-
-
-
     }
 
 
@@ -286,65 +205,37 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Vector3 moveQuantity = new Vector3(-moveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
-            //myRigidBody.velocity = new Vector3(Input.GetAxis("LeftThumbstickX"), myRigidBody.velocity.y, myRigidBody.velocity.z);
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Grass run", transform.position);
             flipMove = 1;
-
-
         }
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             Vector3 moveQuantity = new Vector3(moveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Grass run", transform.position);
             flipMove = -1;
-
         }
 
-        // TO DO: add xbox controller support
+        // Xbox move input
         transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * moveSpeed * Time.deltaTime);
 
     }
 
     void Jump()
     {
-
         //If the player is on the ground or the ceilling
         if (bIsGravityReversed == false)
         {
-
-
             if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")) && bIsGrounded == true)
             {
                 myRigidBody.velocity = (Vector3.up * jumpHeight);
-                //jumpIncreaseTime = 0.5f;
             }
-            //if (jumpIncreaseTime > 0f)
-            //{
-            //    jumpIncreaseTime -= Time.deltaTime;
-            //    if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")))
-            //    {
-            //        GetComponent<Rigidbody>().velocity += new Vector3(0f, jumpIncrease, 0f);
-            //    }
-            //}
         }
         else
         {
             if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("A")) && bIsGrounded == true)
             {
                 myRigidBody.velocity = (Vector3.down * jumpHeight);
-                //jumpIncreaseTime = 0.5f;
             }
-            //if (jumpIncreaseTime > 0f)
-            //{
-            //    jumpIncreaseTime -= Time.deltaTime;
-            //    if (Input.GetButton("Jump"))
-            //    {
-            //        GetComponent<Rigidbody>().velocity += new Vector3(0f, -jumpIncrease, 0f);
-            //    }
-            //}
         }
-
     }
 
     void Magic()
@@ -353,18 +244,16 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
             {
-
                 if (canUseMagic == false)
                 {
                     CompanionnOBJ.SetActive(false);
-
                     canUseMagic = true;
                 }
             }
         }
 
 
-        // if i picked up companion
+        //Allows use of abilities once crystal is picked up
         if (canUseMagic == true)
         {
             // Flip Gravity
@@ -373,20 +262,14 @@ public class PlayerBehaviour : MonoBehaviour
                 if (bIsGravityReversed == false)
                 {
                     bIsGravityReversed = true;
-                    //teSelectedGravity.text = "Up";
                     bPlayerReversed = true;
                     Physics.gravity = new Vector3(0, 9.81f, 0);
-
-
                 }
                 else if (bIsGravityReversed == true)
                 {
                     bIsGravityReversed = false;
-                    //teSelectedGravity.text = "Down";
                     bPlayerReversed = false;
                     Physics.gravity = new Vector3(0, -9.81f, 0);
-
-
                 }
             }
 
@@ -427,13 +310,12 @@ public class PlayerBehaviour : MonoBehaviour
     void Flip()
     {
         isFacingRight = !isFacingRight;
-
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
-
     }
 
+    //States used to switch between abilities
     void ResetStates()
     {
         bIsMass = false;
@@ -462,25 +344,18 @@ public class PlayerBehaviour : MonoBehaviour
         teSelectedAbility.text = "Sonar";
     }
 
+    //Sounds
+
+    public void Footstep (float volume)
+    {
+        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Grass run", transform.position, volume);
+    }
+
     //Collisisions
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Companion")
-        {
-            //print("Companion");
-
-            CompanionnOBJ = col.gameObject;
-
-            onCompanion = true;
-        }
-        else if (col.gameObject.tag != "Companion")
-        {
-            CompanionnOBJ = null;
-
-            onCompanion = false;
-        }
-
+        //Picking up crate
         if (col.gameObject.tag == "Crate")
         {
             if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -494,20 +369,6 @@ public class PlayerBehaviour : MonoBehaviour
                 col.gameObject.GetComponent<Rigidbody>().useGravity = true;
             }
         }
-
-        //if (col.gameObject.tag == "Pushable")
-        //{
-        //    //print("Hit Crate");
-
-        //    thingToPushPull = col.gameObject;
-
-        //    Vector3 pushDir = new Vector3(thingToPushPull.GetComponent<Rigidbody>().velocity.x, 0, 0);
-
-        //    thingToPushPull.GetComponent<Rigidbody>().velocity = pushDir * 1;
-
-        //    moveSpeed = 5;
-        //}
-
     }
     void OnCollisionExit(Collision col)
     {
@@ -519,17 +380,26 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
+        if (col.gameObject.tag == "Magic Area")
+        {
+            CompanionnOBJ = GameObject.FindWithTag("Companion");
+            onCompanion = true;
+        }
+        else if (col.gameObject.tag != "Magic Area")
+        {
+            CompanionnOBJ = null;
+            onCompanion = false;
+        }
+
         if (col.gameObject.tag == "Door Exit")
         {
-            doorExited = !doorExited;
-
-            doorEntered = !doorEntered;
+            doorExited = true;
+            doorEntered = false;
         }
         else if (col.gameObject.tag == "Door Enter")
         {
-            doorEntered = !doorEntered;
-
-            doorExited = !doorExited;
+            doorEntered = true;
+            doorExited = false;
         }
     }
 
@@ -537,12 +407,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (col.gameObject.tag == "Magic Area")
         {
-            //print("Im in magic");
-
             inMagic = true;
         }
-
-
 
         if (col.gameObject.tag == "Climeable")
         {
@@ -573,11 +439,5 @@ public class PlayerBehaviour : MonoBehaviour
 
             inMagic = false;
         }
-
-
-
-
     }
-
-
 }

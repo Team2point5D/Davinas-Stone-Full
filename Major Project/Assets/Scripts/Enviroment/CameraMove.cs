@@ -26,7 +26,7 @@ public class CameraMove : MonoBehaviour
     // The camera location
     Vector3 camLocation;
 
-    PlayerBehaviour playerB;
+    public PlayerBehaviour player;
 
     Vector3 playerPos;
 
@@ -37,9 +37,6 @@ public class CameraMove : MonoBehaviour
     {
         // Sets maincam to be the main camera
         mainCam = Camera.main;
-
-        // Gets playerbehaviour script
-        playerB = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
 
         //The main camera does not have a parent as the player starts in a puzzle
         mainCam.transform.parent = null;
@@ -58,14 +55,14 @@ public class CameraMove : MonoBehaviour
     {
         camLocation = mainCam.transform.position;
 
-        playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+        playerPos = player.gameObject.transform.position;
 
         playerPos = new Vector3(playerPos.x + distanceX, playerPos.y + distanceY, -distanceZ);
 
 
         // Get the player behaviour and check a bool within
         // If that bool is true than move the camera to the player
-        if (playerB.doorExited == true)
+        if (player.doorExited == true)
         {
             // Lerp the camera to set player position 
             mainCam.transform.position = Vector3.Lerp(camLocation, playerPos, speed * Time.fixedDeltaTime);
@@ -78,7 +75,7 @@ public class CameraMove : MonoBehaviour
 
 
         }
-        else if (playerB.doorEntered == true)
+        else if (player.doorEntered == true)
         {
             // If the player has exited a door
             // Set camera to the next cam location
