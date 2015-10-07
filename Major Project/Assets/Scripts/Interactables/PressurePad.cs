@@ -28,16 +28,17 @@ public class PressurePad : MonoBehaviour
                 affectedOBJ.SetActive(false);
 
             }
-            //Normal
             else if (col.gameObject.GetComponent<Rigidbody>().mass == 5)
             {
+                //Normal
+
                 affectedOBJ.SetActive(true);
             }
-            //Light
-            //else if (col.gameObject.GetComponent<Rigidbody>().mass <= 1)
-            //{
+            else if (col.gameObject.GetComponent<Rigidbody>().mass <= 1)
+            {
+                //Light
 
-            //}
+            }
 
 
 
