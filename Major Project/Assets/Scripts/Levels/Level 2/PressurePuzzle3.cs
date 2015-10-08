@@ -116,7 +116,7 @@ public class PressurePuzzle3 : MonoBehaviour
             //Heavy
             if (col.gameObject.GetComponent<Rigidbody>().mass >= 10)
             {
-                print("HEAVY");
+                //print("HEAVY");
 
                 platform1MoveHeavy = true;
                 platform2MoveHeavy = true;

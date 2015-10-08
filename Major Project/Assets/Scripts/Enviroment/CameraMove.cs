@@ -92,19 +92,31 @@ public class CameraMove : MonoBehaviour
                 case 1:
                     for (int i = 0; i < cameraLocations.Length; i++)
                     {
-                        mainCam.transform.position = cameraLocations[1].transform.position;
+                        mainCam.transform.position = cameraLocations[0].transform.position;
                     }
                     break;
                 case 2:
                     for (int i = 0; i < cameraLocations.Length; i++)
                     {
-                        mainCam.transform.position = cameraLocations[2].transform.position;
+                        mainCam.transform.position = cameraLocations[1].transform.position;
                     }
                     break;
                 case 3:
                     for (int i = 0; i < cameraLocations.Length; i++)
                     {
+                        mainCam.transform.position = cameraLocations[2].transform.position;
+                    }
+                    break;
+                case 4:
+                    for (int i = 0; i < cameraLocations.Length; i++)
+                    {
                         mainCam.transform.position = cameraLocations[3].transform.position;
+                    }
+                    break;
+                case 5:
+                    for (int i = 0; i < cameraLocations.Length; i++)
+                    {
+                        mainCam.transform.position = cameraLocations[4].transform.position;
                     }
                     break;
                 default:
