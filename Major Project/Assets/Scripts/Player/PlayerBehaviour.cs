@@ -31,6 +31,7 @@ public class PlayerBehaviour : MonoBehaviour
     private float jumpIncreaseTime;
     private bool bIsGrounded = true;
     public Animator playerAnimator;
+    public float fGroundRayDetectionDistance = 1.5f;
 
     bool isFacingRight = true;
     float flipMove;
@@ -158,7 +159,7 @@ public class PlayerBehaviour : MonoBehaviour
         // Make a raycast that checks player is on ground or ceilling
         if (bIsGravityReversed == false)
         {
-            if (Physics.Raycast(transform.position, Vector3.down, 1.5f))
+            if (Physics.Raycast(transform.position, Vector3.down, fGroundRayDetectionDistance))
             {
                 bIsGrounded = true;
             }
@@ -169,7 +170,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else
         {
-            if (Physics.Raycast(transform.position, Vector3.up, 1.5f))
+            if (Physics.Raycast(transform.position, Vector3.up, fGroundRayDetectionDistance))
             {
                 bIsGrounded = true;
             }
