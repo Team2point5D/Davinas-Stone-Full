@@ -5,13 +5,12 @@ using System.Collections;
 public class PuzzleOneGravCube : MonoBehaviour
 {
 
-    PlayerBehaviour Player;
+    public PlayerBehaviour Player;
 
     // Use this for initialization
     void Start()
     {
-        // get player behaviour script form player
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+
     }
 
     // Update is called once per frame
