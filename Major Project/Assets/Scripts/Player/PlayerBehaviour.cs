@@ -68,10 +68,9 @@ public class PlayerBehaviour : MonoBehaviour
     public Image rectAimerFollow;
     public Image imAimer;
     public Text teSelectedAbility;
-
-    public float fClampedY = 0;
-    public float fClampedX = 0;
-
+    public Image imAbilityType;
+    public Sprite sMassUp;
+    public Sprite sMassDown;
 
     [Header("Checks")]
     public bool canUseMagic;
@@ -136,7 +135,7 @@ public class PlayerBehaviour : MonoBehaviour
         //Allows player to use magic once they pick up the crystal
         if (canUseMagic == true)
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(0))
             {
                 print("Press");
 
@@ -153,6 +152,25 @@ public class PlayerBehaviour : MonoBehaviour
                 aSource.clip = shootSound;
                 aSource.Play();
 
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (bIsMass)
+                {
+                    bIsHeavySelected = !bIsHeavySelected;
+
+                    if (bIsHeavySelected)
+                    {
+                        imAbilityType.overrideSprite = sMassUp;
+                        //FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass up", transform.position);
+                    }
+                    else
+                    {
+                        imAbilityType.overrideSprite = sMassDown;
+                       // FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass down", transform.position);
+                    }
+                }
             }
         }
 
@@ -275,32 +293,20 @@ public class PlayerBehaviour : MonoBehaviour
             }
 
             //Mass change
-            if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
+            if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown("1"))
             {
                 ChangeStateToMass();
-                bIsHeavySelected = !bIsHeavySelected;
-
-				if(bIsHeavySelected)
-				{
-					Debug.Log ("Mass up");
-                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass up", transform.position);
-				}
-				else
-				{
-					Debug.Log ("Mass down");
-                    FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass down", transform.position);
-				}
             }
 
             //Sonar Shoot
-            if (Input.GetKeyDown("3"))
+            if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
             {
                 ChangeStateToSonar();
                 GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
             }
 
             //Shoot Scale
-            if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown("4"))
+            if (Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown("3"))
             {
                 ChangeStateToScale();
                 isUpScale = !isUpScale;
