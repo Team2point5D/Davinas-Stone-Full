@@ -1,0 +1,177 @@
+fileFormatVersion: 2
+guid: 0c815a781df968949944703235ac4439
+timeCreated: 1444274151
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Branch01
+    100002: Branch010
+    100004: Branch02
+    100006: Branch03
+    100008: Branch04
+    100010: Branch05
+    100012: Branch06
+    100014: Branch07
+    100016: Branch08
+    100018: Branch09
+    100020: //RootNode
+    100022: Leaves1
+    100024: leaves_01
+    100026: leaves_03
+    100028: Leaves_main
+    100030: Root01
+    100032: Root02
+    100034: Root03
+    100036: Root04
+    100038: Root05
+    100040: Root06
+    100042: Walkable_Branch
+    400000: Branch01
+    400002: Branch010
+    400004: Branch02
+    400006: Branch03
+    400008: Branch04
+    400010: Branch05
+    400012: Branch06
+    400014: Branch07
+    400016: Branch08
+    400018: Branch09
+    400020: //RootNode
+    400022: Leaves1
+    400024: leaves_01
+    400026: leaves_03
+    400028: Leaves_main
+    400030: Root01
+    400032: Root02
+    400034: Root03
+    400036: Root04
+    400038: Root05
+    400040: Root06
+    400042: Walkable_Branch
+    2300000: Branch01
+    2300002: Branch010
+    2300004: Branch02
+    2300006: Branch03
+    2300008: Branch04
+    2300010: Branch05
+    2300012: Branch06
+    2300014: Branch07
+    2300016: Branch08
+    2300018: Branch09
+    2300020: //RootNode
+    2300022: leaves_01
+    2300024: leaves_03
+    2300026: Leaves_main
+    2300028: Root01
+    2300030: Root02
+    2300032: Root03
+    2300034: Root04
+    2300036: Root05
+    2300038: Root06
+    2300040: Walkable_Branch
+    3300000: Branch01
+    3300002: Branch010
+    3300004: Branch02
+    3300006: Branch03
+    3300008: Branch04
+    3300010: Branch05
+    3300012: Branch06
+    3300014: Branch07
+    3300016: Branch08
+    3300018: Branch09
+    3300020: //RootNode
+    3300022: leaves_01
+    3300024: leaves_03
+    3300026: Leaves_main
+    3300028: Root01
+    3300030: Root02
+    3300032: Root03
+    3300034: Root04
+    3300036: Root05
+    3300038: Root06
+    3300040: Walkable_Branch
+    4300000: Tree_Body
+    4300002: Walkable_Branch
+    4300004: Root01
+    4300006: Root02
+    4300008: Root03
+    4300010: Root04
+    4300012: Root05
+    4300014: Root06
+    4300016: Branch01
+    4300018: Branch02
+    4300020: Branch03
+    4300022: Branch04
+    4300024: Branch05
+    4300026: Branch06
+    4300028: Branch07
+    4300030: Branch08
+    4300032: Branch09
+    4300034: Branch010
+    4300036: Leaves_main
+    4300038: leaves_01
+    4300040: leaves_03
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
