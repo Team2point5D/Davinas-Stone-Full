@@ -41,7 +41,7 @@ public class MovingPlatform : MonoBehaviour
         {
             if (isLeft == true)
             {
-               rig.velocity = Vector3.left * Time.fixedDeltaTime * speed;
+                rig.velocity = Vector3.left * Time.fixedDeltaTime * speed;
             }
             else
             {
@@ -59,44 +59,50 @@ public class MovingPlatform : MonoBehaviour
                 rig.velocity = Vector3.down * Time.fixedDeltaTime * speed;
             }
         }
-        
+
 
         //Move direction  Left Right
-        if (this.gameObject.transform.localPosition.x >= changeDis)
+        if (leftRight == true)
         {
-           // print("CHANGE");
-
-            isLeft = true;
-
-            //The object has moved from its start position
-            started = false;  
-        }
-
-        if (started == false)
-        {
-            if (this.gameObject.transform.localPosition.x <= gameOBJPos.x)
+            if (this.gameObject.transform.position.x >= changeDis)
             {
-                //print("Start Pos");
+                // print("CHANGE");
 
-                isLeft = false;
+                isLeft = !isLeft;
+
+                //The object has moved from its start position
+                started = false;
+            }
+
+            if (started == false)
+            {
+                if (this.gameObject.transform.position.x <= gameOBJPos.x)
+                {
+                    //print("Start Pos");
+
+                    isLeft = false;
+                }
             }
         }
 
         //Up Down
-        if (this.gameObject.transform.localPosition.y >= changeDis)
+        if (upDown == true)
         {
-            isUp = !isUp;
-
-            started = false;
-        }
-
-        if (started == false)
-        {
-            if (this.gameObject.transform.localPosition.y <= gameOBJPos.y)
+            if (this.gameObject.transform.localPosition.y >= changeDis)
             {
-                isUp = !isUp;
+                isUp = false;
+
+                started = false;
             }
 
+            if (started == false)
+            {
+                if (this.gameObject.transform.localPosition.y <= gameOBJPos.y)
+                {
+                    isUp = true;
+                }
+
+            }
         }
 
     }
@@ -109,13 +115,15 @@ public class MovingPlatform : MonoBehaviour
             col.transform.parent = gameObject.transform;
         }
 
+
+
     }
 
     void OnCollisionExit(Collision col)
     {
         if (col.gameObject.tag == "Player")
         {
-           
+
             //The player so no longer a child of the platform
             col.transform.parent = null;
         }

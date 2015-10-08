@@ -178,14 +178,14 @@ ModelImporter:
         functionName: Footstep
         data: 
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: .200000003
+        floatParameter: .5
         intParameter: 0
         messageOptions: 0
       - time: .991739929
         functionName: Footstep
         data: 
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: .200000003
+        floatParameter: .5
         intParameter: 0
         messageOptions: 0
       transformMask:
