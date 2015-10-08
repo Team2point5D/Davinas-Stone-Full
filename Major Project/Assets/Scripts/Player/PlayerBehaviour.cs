@@ -348,7 +348,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Footstep (float volume)
     {
-        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Grass run", transform.position, volume);
+        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
     }
 
     //Collisisions
