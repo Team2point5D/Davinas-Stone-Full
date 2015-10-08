@@ -33,20 +33,25 @@ public class Crate : MonoBehaviour {
 	{
 		fScaleTimer = Mathf.Clamp (fScaleTimer, 0, 1);
 
-		if(!bIsObjectHeavy && !bIsObjectLight)
-		{
-			gameObject.GetComponent<Rigidbody>().mass = 5;
-			gameObject.GetComponent<Renderer>().material.color = Color.white;
-		}
+        if (!bIsObjectHeavy && !bIsObjectLight)
+        {
+            ChangeStateToRegular();
+        }
 
 		if(bIsObjectZeroMass)
 		{
-			gameObject.GetComponent<Rigidbody>().useGravity = false;
-			gameObject.GetComponent<Renderer>().material.color = Color.black;
+            ChangeStateToZeroMass();
 		}
 
+        if (bIsObjectHeavy)
+        {
+            ChangeStateToHeavy();
+        }
 
-
+        if(bIsObjectLight)
+        {
+            ChangeStateToLight();
+        }
 	}
 
 	void ChangeMass ()
@@ -55,17 +60,11 @@ public class Crate : MonoBehaviour {
 		{
 			if(PlayerBehaviour.bIsHeavySelected)
 			{
-				bIsObjectHeavy = !bIsObjectHeavy;
-				bIsObjectLight = false;
-				gameObject.GetComponent<Rigidbody>().mass = 10;
-				gameObject.GetComponent<Renderer>().material.color = Color.red;
+                bIsObjectHeavy = !bIsObjectHeavy;
 			}
 			else
 			{
-				bIsObjectLight = !bIsObjectLight;
-				bIsObjectHeavy = false;
-				gameObject.GetComponent<Rigidbody>().mass = 1;
-				gameObject.GetComponent<Renderer>().material.color = Color.blue;
+                bIsObjectLight = !bIsObjectLight;
 			}
 		}
 	}
@@ -86,6 +85,45 @@ public class Crate : MonoBehaviour {
             fScaleTimer += 5 * Time.deltaTime;
             gameObject.GetComponent<Renderer>().material.color = Color.blue;
         }
+    }
+
+    //Change states based on what is shot at the crate
+
+    void ResetStates()
+    {
+        bIsObjectHeavy = false;
+        bIsObjectLight = false;
+        bIsObjectZeroMass = false;
+    }
+
+    void ChangeStateToRegular ()
+    {
+        gameObject.GetComponent<Rigidbody>().mass = 5;
+        gameObject.GetComponent<Renderer>().material.color = Color.white;
+    }
+
+    void ChangeStateToLight ()
+    {
+        ResetStates();
+        bIsObjectLight = true;
+        gameObject.GetComponent<Rigidbody>().mass = 1;
+        gameObject.GetComponent<Renderer>().material.color = Color.blue;
+    }
+
+    void ChangeStateToHeavy ()
+    {
+        ResetStates();
+        bIsObjectHeavy = true;
+        gameObject.GetComponent<Rigidbody>().mass = 10;
+        gameObject.GetComponent<Renderer>().material.color = Color.red;
+    }
+
+    void ChangeStateToZeroMass ()
+    {
+        ResetStates();
+        bIsObjectZeroMass = true;
+        gameObject.GetComponent<Rigidbody>().useGravity = false;
+        gameObject.GetComponent<Renderer>().material.color = Color.black;
     }
 
 	void OnTriggerEnter(Collider col)
