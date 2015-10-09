@@ -4,6 +4,7 @@ using System.Collections;
 //Marcus
 public class CameraMove : MonoBehaviour
 {
+    public PlayerBehaviour player;
 
     // Public variables that can be changed
     //The distance the camera is from the player character   
@@ -22,11 +23,12 @@ public class CameraMove : MonoBehaviour
 
     public int startingCamLocation;
 
+    public int camNum;
 
     // The camera location
     Vector3 camLocation;
 
-    public PlayerBehaviour player;
+
 
     Vector3 playerPos;
 
@@ -84,45 +86,54 @@ public class CameraMove : MonoBehaviour
             mainCam.transform.parent = null;
 
             // increase an int number by 1
-            int camNum = +1;
+            camNum++;
+
+            player.doorEntered = false;
 
             //Based on the number of the camNum int, move the camera to the locations in the public array
             switch (camNum)
             {
                 case 1:
-                    for (int i = 0; i < cameraLocations.Length; i++)
-                    {
-                        mainCam.transform.position = cameraLocations[0].transform.position;
-                    }
+
+                    mainCam.transform.position = cameraLocations[1].transform.position;
+
+                    print("Enter Puzzle 2");
+
                     break;
                 case 2:
-                    for (int i = 0; i < cameraLocations.Length; i++)
-                    {
-                        mainCam.transform.position = cameraLocations[1].transform.position;
-                    }
+
+                    mainCam.transform.position = cameraLocations[2].transform.position;
+
+                    print("Enter Puzzle 3");
+
                     break;
                 case 3:
-                    for (int i = 0; i < cameraLocations.Length; i++)
-                    {
-                        mainCam.transform.position = cameraLocations[2].transform.position;
-                    }
+
+                    mainCam.transform.position = cameraLocations[3].transform.position;
+
+                    print("Enter Puzzle 4");
+
                     break;
                 case 4:
-                    for (int i = 0; i < cameraLocations.Length; i++)
-                    {
-                        mainCam.transform.position = cameraLocations[3].transform.position;
-                    }
+
+
+                    mainCam.transform.position = cameraLocations[4].transform.position;
+
+                    print("Enter Puzzle 5");
+
                     break;
                 case 5:
-                    for (int i = 0; i < cameraLocations.Length; i++)
-                    {
-                        mainCam.transform.position = cameraLocations[4].transform.position;
-                    }
+
+                    mainCam.transform.position = cameraLocations[5].transform.position;
+
                     break;
                 default:
                     print("Error");
                     break;
             }
+
+
+         
 
         }
     }
