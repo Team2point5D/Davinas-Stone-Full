@@ -23,7 +23,7 @@ public class CameraMove : MonoBehaviour
 
     public int startingCamLocation;
 
-    public int camNum;
+    int camNum;
 
     // The camera location
     Vector3 camLocation;
@@ -97,21 +97,21 @@ public class CameraMove : MonoBehaviour
 
                     mainCam.transform.position = cameraLocations[1].transform.position;
 
-                    print("Enter Puzzle 2");
+
 
                     break;
                 case 2:
 
                     mainCam.transform.position = cameraLocations[2].transform.position;
 
-                    print("Enter Puzzle 3");
+
 
                     break;
                 case 3:
 
                     mainCam.transform.position = cameraLocations[3].transform.position;
 
-                    print("Enter Puzzle 4");
+
 
                     break;
                 case 4:
@@ -119,7 +119,7 @@ public class CameraMove : MonoBehaviour
 
                     mainCam.transform.position = cameraLocations[4].transform.position;
 
-                    print("Enter Puzzle 5");
+
 
                     break;
                 case 5:
@@ -133,7 +133,7 @@ public class CameraMove : MonoBehaviour
             }
 
 
-         
+
 
         }
     }
