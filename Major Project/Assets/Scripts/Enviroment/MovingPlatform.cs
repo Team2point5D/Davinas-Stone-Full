@@ -7,7 +7,8 @@ public class MovingPlatform : MonoBehaviour
     // Public Variables that set the speed of the platform and the distance in which to change
     [Header("Variables")]
     public float speed;
-    public float changeDis;
+    public float xChangePosition;
+    public float yChangePosition;
 
     // Indicates on whether the platform is going left or right
     [Header("Left Right")]
@@ -19,7 +20,8 @@ public class MovingPlatform : MonoBehaviour
     public bool upDown;
     public bool isUp;
 
-    Vector3 gameOBJPos;
+    float objXPos;
+    float objYPos;
 
     bool started = true;
 
@@ -30,45 +32,32 @@ public class MovingPlatform : MonoBehaviour
     {
         rig = GetComponent<Rigidbody>();
 
-        gameOBJPos = this.gameObject.transform.localPosition;
+        objXPos = gameObject.transform.localPosition.x;
+
+        objYPos = gameObject.transform.localPosition.y;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //changes objects direction Left Right
-        if (leftRight == true)
-        {
-            if (isLeft == true)
-            {
-                rig.velocity = Vector3.left * Time.fixedDeltaTime * speed;
-            }
-            else
-            {
-                rig.velocity = Vector3.right * Time.fixedDeltaTime * speed;
-            }
-        }
-        else if (upDown == true)
-        {
-            if (isUp == true)
-            {
-                rig.velocity = Vector3.up * Time.fixedDeltaTime * speed;
-            }
-            else
-            {
-                rig.velocity = Vector3.down * Time.fixedDeltaTime * speed;
-            }
-        }
-
-
         //Move direction  Left Right
+        //Change to make all positive values
         if (leftRight == true)
         {
-            if (this.gameObject.transform.position.x >= changeDis)
+            if (this.gameObject.transform.localPosition.x <= xChangePosition)
             {
-                // print("CHANGE");
+                print("CHANGE");
 
-                isLeft = !isLeft;
+                //isLeft = !isLeft;
+
+                if (isLeft == false)
+                {
+                    isLeft = true;
+                }
+                else if (isLeft == true)
+                {
+                    isLeft = false;
+                }
 
                 //The object has moved from its start position
                 started = false;
@@ -76,19 +65,43 @@ public class MovingPlatform : MonoBehaviour
 
             if (started == false)
             {
-                if (this.gameObject.transform.position.x <= gameOBJPos.x)
+                if (this.gameObject.transform.localPosition.x >= objXPos)
                 {
-                    //print("Start Pos");
+                    print("Start Pos");
 
-                    isLeft = false;
+                    if (isLeft == false)
+                    {
+                        isLeft = true;
+                    }
+                    else if (isLeft == true)
+                    {
+                        isLeft = false;
+                    }
+
+                    //isLeft = !isLeft;
                 }
             }
+
+            //changes objects direction Left Right
+            if (leftRight == true)
+            {
+                if (isLeft == true)
+                {
+                    rig.velocity = Vector3.left * Time.fixedDeltaTime * speed;
+                }
+                else
+                {
+                    rig.velocity = Vector3.right * Time.fixedDeltaTime * speed;
+                }
+            }
+         
         }
+       
 
         //Up Down
         if (upDown == true)
         {
-            if (this.gameObject.transform.localPosition.y >= changeDis)
+            if (this.gameObject.transform.position.y >= yChangePosition)
             {
                 isUp = false;
 
@@ -97,11 +110,20 @@ public class MovingPlatform : MonoBehaviour
 
             if (started == false)
             {
-                if (this.gameObject.transform.localPosition.y <= gameOBJPos.y)
+                if (this.gameObject.transform.position.y <= objYPos)
                 {
                     isUp = true;
                 }
 
+            }
+
+            if (isUp == true)
+            {
+                rig.velocity = Vector3.up * Time.fixedDeltaTime * speed;
+            }
+            else
+            {
+                rig.velocity = Vector3.down * Time.fixedDeltaTime * speed;
             }
         }
 
