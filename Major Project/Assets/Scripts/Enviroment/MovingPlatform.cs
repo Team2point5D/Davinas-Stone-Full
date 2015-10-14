@@ -67,7 +67,7 @@ public class MovingPlatform : MonoBehaviour
             {
                 if (this.gameObject.transform.localPosition.x >= objXPos)
                 {
-                    print("Start Pos");
+                    // print("Start Pos");
 
                     if (isLeft == false)
                     {
@@ -94,16 +94,23 @@ public class MovingPlatform : MonoBehaviour
                     rig.velocity = Vector3.right * Time.fixedDeltaTime * speed;
                 }
             }
-         
+
         }
-       
+
 
         //Up Down
         if (upDown == true)
         {
             if (this.gameObject.transform.position.y >= yChangePosition)
             {
-                isUp = false;
+                if (isUp == false)
+                {
+                    isUp = true;
+                }
+                else if (isUp == true)
+                {
+                    isUp = false;
+                }
 
                 started = false;
             }
@@ -112,7 +119,14 @@ public class MovingPlatform : MonoBehaviour
             {
                 if (this.gameObject.transform.position.y <= objYPos)
                 {
-                    isUp = true;
+                    if (isUp == false)
+                    {
+                        isUp = true;
+                    }
+                    else if (isUp == true)
+                    {
+                        isUp = false;
+                    }
                 }
 
             }
