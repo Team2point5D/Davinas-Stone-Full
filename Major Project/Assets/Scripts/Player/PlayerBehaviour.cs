@@ -58,8 +58,11 @@ public class PlayerBehaviour : MonoBehaviour
     public float scaleUpSize;
     public float scaleDownSize;
 
-    public bool isUpScale;
-    bool canUseMagic;
+    public bool bIsUpScale;
+    bool bCanUseMagic;
+    public bool bCanUseMass;
+    public bool bCanUseSonar;
+    public bool bCanUseScale;
     bool bIsMass;
     bool bIsSonar;
     bool bIsScale;
@@ -111,7 +114,7 @@ public class PlayerBehaviour : MonoBehaviour
         myRigidBody.AddForce(extraGravityForce);
 
         //Allows player to use magic once they pick up the crystal
-        if (canUseMagic == true)
+        if (bCanUseMagic == true)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -130,15 +133,6 @@ public class PlayerBehaviour : MonoBehaviour
                 aSource.clip = shootSound;
                 aSource.Play();
 
-            }
-
-            if (Input.GetMouseButtonDown(1))
-            {
-                if (bIsMass)
-                {
-                    bIsHeavySelected = !bIsHeavySelected;
-                    UIHandler.SwitchMassUI();
-                }
             }
         }
 
@@ -229,17 +223,17 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
             {
-                if (canUseMagic == false)
+                if (bCanUseMagic == false)
                 {
                     CompanionnOBJ.SetActive(false);
-                    canUseMagic = true;
+                    bCanUseMagic = true;
                 }
             }
         }
 
 
         //Allows use of abilities once crystal is picked up
-        if (canUseMagic == true)
+        if (bCanUseMagic == true)
         {
             // Flip Gravity
             if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -258,31 +252,74 @@ public class PlayerBehaviour : MonoBehaviour
                 }
             }
 
-
-            if (Input.GetKeyDown(KeyCode.Mouse3))
+            //Switching ability modes (mass up to mass down, scaling x up-down to scaling y up-down)
+            float d = Input.GetAxis("Mouse ScrollWheel");
+            if (d > 0f)
             {
-                Debug.Log("UP");
+                if (bIsMass)
+                {
+                    bIsHeavySelected = !bIsHeavySelected;
+                    UIHandler.SwitchMassUI();
+                }
+                else if (bIsScale)
+                {
+                    bIsUpScale = !bIsUpScale;
+                }
+            }
+            else if (d < 0f)
+            {
+                if (bIsMass)
+                {
+                    bIsHeavySelected = !bIsHeavySelected;
+                    UIHandler.SwitchMassUI();
+                }
+                else if (bIsScale)
+                {
+                    bIsUpScale = !bIsUpScale;
+                }
             }
 
-            //Mass change
-            if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown("1"))
+            //Changing between abilities using the right mouse click
+            if (Input.GetMouseButtonDown(1))
             {
-                ChangeStateToMass();
+                if (bCanUseMass)
+                {
+                    ChangeStateToMass();
+                }
+                else if (bCanUseMass && bCanUseSonar)
+                {
+                    if (bIsMass)
+                    {
+                        ChangeStateToSonar();
+                    }
+                    else if (bIsSonar)
+                    {
+                        ChangeStateToMass();
+                    }
+                }
+                else if (bCanUseMass && bCanUseSonar && bCanUseScale)
+                {
+                    if (bIsMass)
+                    {
+                        ChangeStateToSonar();
+                    }
+                    else if (bIsSonar)
+                    {
+                        ChangeStateToScale();
+                    }
+                    else if (bIsScale)
+                    {
+                        ChangeStateToMass();
+                    }
+                }
             }
 
-            //Sonar Shoot
-            if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
-            {
-                ChangeStateToSonar();
-                GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
-            }
-
-            //Shoot Scale
-            if (Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown("3"))
-            {
-                ChangeStateToScale();
-                isUpScale = !isUpScale;
-            }
+            ////Sonar Shoot
+            //if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
+            //{
+            //    ChangeStateToSonar();
+            //    //GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
+            //}
         }
     }
 
