@@ -6,22 +6,8 @@ using System.Collections;
 //David
 public class PlayerBehaviour : MonoBehaviour
 {
-
-    [Header("Powers")]
-    public bool bIsHeavySelected = false;
-    public bool bIsGravityReversed = false;
-    private bool onCompanion;
-    private bool inMagic;
-    private float fFlipTimer = 0f;
-    private bool bPlayerReversed = false;
-    //public bool onCrate;
-
-    [Header("Shooting")]
-    public float shootSpeed;
-    public Transform shotSpot;
-    public GameObject shotBullet;
-    private bool canShoot;
-    public AudioClip shootSound;
+    [Header("User Interface")]
+    public UIHandler UIHandler;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -33,12 +19,28 @@ public class PlayerBehaviour : MonoBehaviour
     public Animator playerAnimator;
     public float fGroundRayDetectionDistance = 1.5f;
 
+    [Header("Shooting")]
+    public float shootSpeed;
+    public Transform shotSpot;
+    public GameObject shotBullet;
+    private bool canShoot;
+    public AudioClip shootSound;
+
     bool isFacingRight = true;
     float flipMove;
 
     [Range(1f, 100f)]
     [SerializeField]
     float gravityForce;
+
+    [Header("Powers")]
+    public bool bIsHeavySelected = false;
+    public bool bIsGravityReversed = false;
+    private bool onCompanion;
+    private bool inMagic;
+    private float fFlipTimer = 0f;
+    private bool bPlayerReversed = false;
+    //public bool onCrate;
 
     [Header("Sonar")]
     public GameObject sonarBull;
@@ -57,26 +59,10 @@ public class PlayerBehaviour : MonoBehaviour
     public float scaleDownSize;
 
     public bool isUpScale;
-
-
-
-    [Header("User Interface")]
-    public Texture2D texCursor;
-    public Vector2 hotSpot = Vector2.zero;
-    public CursorMode cursorMode = CursorMode.Auto;
-    public RectTransform rectCanvas;
-    public Image rectAimerFollow;
-    public Image imAimer;
-    public Text teSelectedAbility;
-    public Image imAbilityType;
-    public Sprite sMassUp;
-    public Sprite sMassDown;
-
-    [Header("Checks")]
-    public bool canUseMagic;
-    public bool bIsMass;
-    public bool bIsSonar;
-    public bool bIsScale;
+    bool canUseMagic;
+    bool bIsMass;
+    bool bIsSonar;
+    bool bIsScale;
     public bool doorExited;
     public bool doorEntered;
     bool pressed;
@@ -91,17 +77,10 @@ public class PlayerBehaviour : MonoBehaviour
         myRigidBody = this.gameObject.GetComponent<Rigidbody>();
         shotParent = GameObject.Find("Magic Shots");
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
-        Cursor.SetCursor(texCursor, hotSpot, cursorMode);
     }
 
     void Update()
     {
-        //Sets the aim cursor to mouse's current position on screen
-        Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3(0f, 0f, 0f));
-        rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
-        imAimer.rectTransform.position = cursorPosition;
-        Cursor.visible = false;
 
         //Flips Player on its x axis when gravity is switched up and down
         if (bPlayerReversed)
@@ -125,12 +104,6 @@ public class PlayerBehaviour : MonoBehaviour
         //Temporary fix to gravity till we fix issues
         Vector3 extraGravityForce = (Physics.gravity * gravityForce);
         myRigidBody.AddForce(extraGravityForce);
-
-        //Clamps used to prevent values going out of desired bounds
-        fFlipTimer = Mathf.Clamp(fFlipTimer, 0, 1);
-        float clampedY = Mathf.Clamp(0, 0, 0);
-        float clampedZ = Mathf.Clamp(0, 0, 0);
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, clampedY, clampedZ);
 
         //Allows player to use magic once they pick up the crystal
         if (canUseMagic == true)
@@ -159,17 +132,7 @@ public class PlayerBehaviour : MonoBehaviour
                 if (bIsMass)
                 {
                     bIsHeavySelected = !bIsHeavySelected;
-
-                    if (bIsHeavySelected)
-                    {
-                        imAbilityType.overrideSprite = sMassUp;
-                        //FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass up", transform.position);
-                    }
-                    else
-                    {
-                        imAbilityType.overrideSprite = sMassDown;
-                       // FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass down", transform.position);
-                    }
+                    UIHandler.SwitchMassUI();
                 }
             }
         }
@@ -334,26 +297,26 @@ public class PlayerBehaviour : MonoBehaviour
     {
         ResetStates();
         bIsMass = true;
-        teSelectedAbility.text = "Mass";
+        UIHandler.teSelectedAbility.text = "Mass";
     }
 
     void ChangeStateToScale()
     {
         ResetStates();
         bIsScale = true;
-        teSelectedAbility.text = "Scale";
+        UIHandler.teSelectedAbility.text = "Scale";
     }
 
     void ChangeStateToSonar()
     {
         ResetStates();
         bIsSonar = true;
-        teSelectedAbility.text = "Sonar";
+        UIHandler.teSelectedAbility.text = "Sonar";
     }
 
     //Sounds
 
-    public void Footstep (float volume)
+    public void Footstep(float volume)
     {
         FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
     }
