@@ -1,15 +1,14 @@
-﻿Shader "ToonOutline" {
+﻿Shader "Toon Shaders/ToonOutline" {
    Properties {
       _Color ("Diffuse Color", Color) = (1,1,1,1) 
       _UnlitColor ("Unlit Diffuse Color", Color) = (0.5,0.5,0.5,1) 
-      _DiffuseThreshold ("Threshold for Diffuse Colors", Range(0,1)) 
-         = 0.1 
+      _DiffuseThreshold ("Threshold for Diffuse Colors", Range(0,1)) = 0.1 
       _OutlineColor ("Outline Color", Color) = (0,0,0,1)
       _LitOutlineThickness ("Lit Outline Thickness", Range(0,1)) = 0.1
-      _UnlitOutlineThickness ("Unlit Outline Thickness", Range(0,1)) 
-         = 0.4
+      _UnlitOutlineThickness ("Unlit Outline Thickness", Range(0,1)) = 0.4
       _SpecColor ("Specular Color", Color) = (1,1,1,1) 
       _Shininess ("Shininess", Float) = 10
+      
    }
    SubShader {
       Pass {      
@@ -75,8 +74,7 @@
             } 
             else // point or spot light
             {
-               float3 vertexToLightSource = 
-                  _WorldSpaceLightPos0.xyz - input.posWorld.xyz;
+               float3 vertexToLightSource = _WorldSpaceLightPos0.xyz - input.posWorld.xyz;
                float distance = length(vertexToLightSource);
                attenuation = 1.0 / distance; // linear attenuation 
                lightDirection = normalize(vertexToLightSource);
@@ -94,9 +92,7 @@
             }
  
             // higher priority: outline
-            if (dot(viewDirection, normalDirection) 
-               < lerp(_UnlitOutlineThickness, _LitOutlineThickness, 
-               max(0.0, dot(normalDirection, lightDirection))))
+            if (dot(viewDirection, normalDirection) < lerp(_UnlitOutlineThickness, _LitOutlineThickness, max(0.0, dot(normalDirection, lightDirection))))
             {
                fragmentColor = _LightColor0.rgb * _OutlineColor.rgb; 
             }
