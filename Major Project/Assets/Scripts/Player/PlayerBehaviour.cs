@@ -280,13 +280,14 @@ public class PlayerBehaviour : MonoBehaviour
             }
 
             //Changing between abilities using the right mouse click
+            if (bCanUseMass && !bCanUseSonar)
+            {
+                ChangeStateToMass();
+            }
+
             if (Input.GetMouseButtonDown(1))
             {
-                if (bCanUseMass)
-                {
-                    ChangeStateToMass();
-                }
-                else if (bCanUseMass && bCanUseSonar)
+                if (bCanUseMass && bCanUseSonar && !bCanUseScale)
                 {
                     if (bIsMass)
                     {
@@ -299,16 +300,20 @@ public class PlayerBehaviour : MonoBehaviour
                 }
                 else if (bCanUseMass && bCanUseSonar && bCanUseScale)
                 {
+                    Debug.Log("Can Use all 3 states");
                     if (bIsMass)
                     {
+                        Debug.Log("entering Sonar state");
                         ChangeStateToSonar();
                     }
                     else if (bIsSonar)
                     {
+                        Debug.Log("entering Scale state");
                         ChangeStateToScale();
                     }
                     else if (bIsScale)
                     {
+                        Debug.Log("entering Mass state");
                         ChangeStateToMass();
                     }
                 }

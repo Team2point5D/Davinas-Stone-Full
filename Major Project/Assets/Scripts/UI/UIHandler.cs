@@ -15,6 +15,7 @@ public class UIHandler : MonoBehaviour {
     [Header("Abilities")]
     public Text teSelectedAbility;
     public Image imAbilityType;
+    public Sprite sTransparent;
     public Sprite sMassUp;
     public Sprite sMassDown;
 
@@ -22,6 +23,8 @@ public class UIHandler : MonoBehaviour {
 	void Start () 
     {
         Cursor.SetCursor(texCursor, hotSpot, cursorMode);
+        teSelectedAbility.text = "";
+        imAbilityType.overrideSprite = sTransparent;
 	}
 	
 	// Update is called once per frame

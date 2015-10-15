@@ -38,17 +38,15 @@ public class Crate : MonoBehaviour {
             ChangeStateToRegular();
         }
 
-		if(bIsObjectZeroMass)
+		if(bIsObjectZeroMass && !bIsObjectLight && !bIsObjectHeavy)
 		{
             ChangeStateToZeroMass();
 		}
-
-        if (bIsObjectHeavy)
+        else if (bIsObjectHeavy && !bIsObjectLight)
         {
             ChangeStateToHeavy();
         }
-
-        if(bIsObjectLight)
+        else if(bIsObjectLight && !bIsObjectHeavy)
         {
             ChangeStateToLight();
         }
