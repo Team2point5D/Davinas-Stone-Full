@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Rigidbody))]
+
 // Created: Marcus
 public class MovingPlatform : MonoBehaviour
 {
@@ -30,7 +32,13 @@ public class MovingPlatform : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //gets Rigibody compnent
         rig = GetComponent<Rigidbody>();
+
+        rig.useGravity = false;
+
+        rig.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        //
 
         objXPos = gameObject.transform.localPosition.x;
 
@@ -44,23 +52,68 @@ public class MovingPlatform : MonoBehaviour
         //Change to make all positive values
         if (leftRight == true)
         {
-            if (this.gameObject.transform.localPosition.x <= xChangePosition)
+            if (isLeft == true)
             {
-                print("CHANGE");
+                rig.velocity = Vector3.left * Time.fixedDeltaTime * speed;
+            }
+            else if (isLeft == false)
+            {
+                rig.velocity = Vector3.right * Time.fixedDeltaTime * speed;
+            }
 
-                //isLeft = !isLeft;
-
-                if (isLeft == false)
+            if (isLeft == true)
+            {
+                if (this.gameObject.transform.localPosition.x <= xChangePosition)
                 {
+                    //print("CHANGE");
+
+                    //isLeft = !isLeft;
+
+
+
+
+                    if (this.gameObject.transform.localPosition.x <= xChangePosition)
+                    {
+                        //print("CHANGE");
+
+                        //isLeft = !isLeft;
+
+                        if (isLeft == false)
+                        {
+                            isLeft = true;
+                        }
+                        else if (isLeft == true)
+                        {
+                            isLeft = false;
+                        }
+
+                        //The object has moved from its start position
+                        started = false;
+                    } isLeft = false;
+
+
+                    //The object has moved from its start position
+                    started = false;
+                }
+            }
+            else
+            {
+
+                if (this.gameObject.transform.localPosition.x >= xChangePosition)
+                {
+                    print("CHANGE");
+
+                    //isLeft = !isLeft;
+
+
+
                     isLeft = true;
-                }
-                else if (isLeft == true)
-                {
-                    isLeft = false;
-                }
 
-                //The object has moved from its start position
-                started = false;
+
+
+                    //The object has moved from its start position
+                    started = false;
+                }
             }
 
             if (started == false)
@@ -79,19 +132,6 @@ public class MovingPlatform : MonoBehaviour
                     }
 
                     //isLeft = !isLeft;
-                }
-            }
-
-            //changes objects direction Left Right
-            if (leftRight == true)
-            {
-                if (isLeft == true)
-                {
-                    rig.velocity = Vector3.left * Time.fixedDeltaTime * speed;
-                }
-                else
-                {
-                    rig.velocity = Vector3.right * Time.fixedDeltaTime * speed;
                 }
             }
 
