@@ -2,6 +2,7 @@
 using System.Collections;
 
 // Created: Marcus
+[RequireComponent(typeof (Rigidbody))]
 public class MovingPlatform : MonoBehaviour
 {
     // Public Variables that set the speed of the platform and the distance in which to change
