@@ -15,7 +15,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float jumpIncrease;
     public float pushPullForce;
     private float jumpIncreaseTime;
-    private bool bIsGrounded = true;
+    public bool bIsGrounded = true;
     public Animator playerAnimator;
     public float fGroundRayDetectionDistance = 1.5f;
 
@@ -81,6 +81,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+        Jump();
+
+        Magic();
 
         //Flips Player on its x axis when gravity is switched up and down
         if (bPlayerReversed)
@@ -101,6 +104,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+        Controls();
+
         //Temporary fix to gravity till we fix issues
         Vector3 extraGravityForce = (Physics.gravity * gravityForce);
         myRigidBody.AddForce(extraGravityForce);
@@ -161,12 +166,6 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
 
-        Controls();
-
-        Jump();
-
-        Magic();
-
         //Flips player left and right
         if (flipMove < 0 && !isFacingRight)
         {
@@ -204,27 +203,31 @@ public class PlayerBehaviour : MonoBehaviour
     void Jump()
     {
         //If the player is on the ground or the ceilling
-        if (bIsGravityReversed == false)
+        if ((Input.GetButtonDown("Jump")) && bIsGrounded == true)
         {
-            if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")) && bIsGrounded == true)
-            {
-                myRigidBody.velocity = (Vector3.up * jumpHeight);
-            }
+            myRigidBody.velocity = (Vector3.up * jumpHeight);
         }
-        else
-        {
-            if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("A")) && bIsGrounded == true)
-            {
-                myRigidBody.velocity = (Vector3.down * jumpHeight);
-            }
-        }
+        //if (bIsGravityReversed == false)
+        //{
+        //    if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")) && bIsGrounded == true)
+        //    {
+        //        myRigidBody.velocity = (Vector3.up * jumpHeight);
+        //    }
+        //}
+        //else
+        //{
+        //    if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("A")) && bIsGrounded == true)
+        //    {
+        //        myRigidBody.velocity = (Vector3.down * jumpHeight);
+        //    }
+        //}
     }
 
     void Magic()
     {
         if (inMagic == true)
         {
-            if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
             {
                 if (canUseMagic == false)
                 {
@@ -239,7 +242,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (canUseMagic == true)
         {
             // Flip Gravity
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 if (bIsGravityReversed == false)
                 {
@@ -253,6 +256,12 @@ public class PlayerBehaviour : MonoBehaviour
                     bPlayerReversed = false;
                     Physics.gravity = new Vector3(0, -9.81f, 0);
                 }
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.Mouse3))
+            {
+                Debug.Log("UP");
             }
 
             //Mass change
