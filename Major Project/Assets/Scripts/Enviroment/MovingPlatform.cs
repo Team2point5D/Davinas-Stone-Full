@@ -36,7 +36,7 @@ public class MovingPlatform : MonoBehaviour
 
         rig.useGravity = false;
 
-        rig.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        //rig.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         //
 
         objXPos = gameObject.transform.localPosition.x;

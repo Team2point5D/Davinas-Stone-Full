@@ -27,12 +27,10 @@ public class CameraMove : MonoBehaviour
     [Space(10)]
     public int startingCamLocation;
 
-
-    int camNum;
-
     // The camera location
     Vector3 camLocation;
 
+    int camNum;
 
 
     Vector3 playerPos;
