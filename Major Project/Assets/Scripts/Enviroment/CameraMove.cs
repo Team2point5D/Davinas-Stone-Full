@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Serialization;
 
-//Marcus
 public class CameraMove : MonoBehaviour
 {
     public PlayerBehaviour player;
 
     // Public variables that can be changed
-    //The distance the camera is from the player character   
+    //The distance the camera is from the player character 
+    [SerializeField]
     [Header("Distance")]
     public float distanceX;
 
@@ -17,11 +18,15 @@ public class CameraMove : MonoBehaviour
 
     public float speed;
 
+
+
     //The set locations of the camera where the puzzles are
     [Header("Camera Location")]
     public Transform[] cameraLocations;
 
+    [Space(10)]
     public int startingCamLocation;
+
 
     int camNum;
 
@@ -55,6 +60,7 @@ public class CameraMove : MonoBehaviour
 
     void FixedUpdate()
     {
+
         camLocation = mainCam.transform.position;
 
         playerPos = player.gameObject.transform.position;

@@ -53,7 +53,7 @@ public class MovingPlatform : MonoBehaviour
         {
             if (this.gameObject.transform.localPosition.x <= xChangePosition)
             {
-                print("CHANGE");
+                //print("CHANGE");
 
                 //isLeft = !isLeft;
 
@@ -74,7 +74,7 @@ public class MovingPlatform : MonoBehaviour
             {
                 if (this.gameObject.transform.localPosition.x >= objXPos)
                 {
-                    print("Start Pos");
+                   // print("Start Pos");
 
                     if (isLeft == false)
                     {
