@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
+//Marcus
 public class UIHandler : MonoBehaviour {
 
     [Header("Player")]
@@ -15,7 +16,7 @@ public class UIHandler : MonoBehaviour {
     [Header("Abilities")]
     public Text teSelectedAbility;
     public Image imAbilityType;
-    public Sprite sTransparent;
+   // public Sprite sTransparent;
     public Sprite sMassUp;
     public Sprite sMassDown;
 
@@ -24,7 +25,8 @@ public class UIHandler : MonoBehaviour {
     {
         Cursor.SetCursor(texCursor, hotSpot, cursorMode);
         teSelectedAbility.text = "";
-        imAbilityType.overrideSprite = sTransparent;
+
+        //imAbilityType.overrideSprite = sTransparent;
 	}
 	
 	// Update is called once per frame
