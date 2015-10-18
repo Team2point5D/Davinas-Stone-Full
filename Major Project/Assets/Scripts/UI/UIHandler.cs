@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 //Marcus
-public class UIHandler : MonoBehaviour {
+public class UIHandler : MonoBehaviour
+{
 
     [Header("Player")]
     public PlayerBehaviour Player;
@@ -16,35 +17,64 @@ public class UIHandler : MonoBehaviour {
     [Header("Abilities")]
     public Text teSelectedAbility;
     public Image imAbilityType;
-   // public Sprite sTransparent;
+    // public Sprite sTransparent;
     public Sprite sMassUp;
     public Sprite sMassDown;
+    public Sprite sSonar;
+    [Space(10)]
+    public Sprite sScaleXUp;
+    public Sprite sScaleXDown;
+    public Sprite sScaleYUp;
+    public Sprite sScaleYDown;
+    public Sprite sScaleUp;
 
-	// Use this for initialization
-	void Start () 
+
+    // Use this for initialization
+    void Start()
     {
         Cursor.SetCursor(texCursor, hotSpot, cursorMode);
         teSelectedAbility.text = "";
 
         //imAbilityType.overrideSprite = sTransparent;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void SwitchMassUI()
     {
         if (Player.bIsHeavySelected)
         {
             imAbilityType.overrideSprite = sMassUp;
-            //FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass up", transform.position);
+
         }
         else
         {
             imAbilityType.overrideSprite = sMassDown;
-            // FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass down", transform.position);
         }
+    }
+
+    public void SwitchSonarUI()
+    {
+        if (Player.bCanUseSonar)
+        {
+            imAbilityType.overrideSprite = sSonar;
+
+        }
+
+
+    }
+
+    public void SwitchScaleUI()
+    {
+        if (Player.bCanUseScale)
+        {
+            imAbilityType.overrideSprite = sScaleXUp;
+        }
+
+
     }
 }
