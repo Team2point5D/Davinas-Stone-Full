@@ -41,6 +41,23 @@ public class UIHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Player.bIsHeavySelected)
+        {
+            teSelectedAbility.text = "Mass";
+        }
+
+        if (Player.bCanUseSonar)
+        {
+            teSelectedAbility.text = "Sonar";
+
+        }
+
+        if (Player.bCanUseScale)
+        {
+            teSelectedAbility.text = "Scale";
+        }
+
+
 
     }
 
@@ -55,6 +72,8 @@ public class UIHandler : MonoBehaviour
         {
             imAbilityType.overrideSprite = sMassDown;
         }
+
+        //teSelectedAbility.text = "Mass";
     }
 
     public void SwitchSonarUI()
@@ -64,6 +83,8 @@ public class UIHandler : MonoBehaviour
             imAbilityType.overrideSprite = sSonar;
 
         }
+
+        teSelectedAbility.text = "Sonar";
 
 
     }
@@ -75,6 +96,6 @@ public class UIHandler : MonoBehaviour
             imAbilityType.overrideSprite = sScaleXUp;
         }
 
-
+        teSelectedAbility.text = "Scale";
     }
 }
