@@ -19,6 +19,9 @@ public class PlayerBehaviour : MonoBehaviour
     public Animator playerAnimator;
     public float fGroundRayDetectionDistance = 1.5f;
 
+    [Header("Interaction")]
+    public Crate nearbyCrate;
+
     [Header("Shooting")]
     public float shootSpeed;
     public Transform shotSpot;
@@ -87,6 +90,14 @@ public class PlayerBehaviour : MonoBehaviour
         Jump();
 
         Magic();
+
+        if (nearbyCrate)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                nearbyCrate.bIsPickedUp = !nearbyCrate.bIsPickedUp;
+            }
+        }
 
         //Flips Player on its x axis when gravity is switched up and down
         if (bPlayerReversed)
@@ -374,23 +385,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     //Collisisions
 
-    void OnCollisionEnter(Collision col)
-    {
-        //Picking up crate
-        if (col.gameObject.tag == "Crate")
-        {
-            if (Input.GetKeyDown(KeyCode.LeftControl))
-            {
-                col.gameObject.transform.position = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z);
-
-                col.gameObject.GetComponent<Rigidbody>().useGravity = false;
-            }
-            else if (Input.GetKeyUp(KeyCode.LeftControl))
-            {
-                col.gameObject.GetComponent<Rigidbody>().useGravity = true;
-            }
-        }
-    }
     void OnCollisionExit(Collision col)
     {
         if (col.gameObject.tag == "Pushable")
@@ -401,6 +395,14 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
+        if (col.gameObject.tag == "Crate")
+        {
+            //if (Input.GetKeyDown(KeyCode.LeftShift))
+            //{
+            //    col.gameObject.GetComponentInParent<Crate>().bIsPickedUp = !col.gameObject.GetComponentInParent<Crate>().bIsPickedUp;
+            //}
+        }
+
         if (col.gameObject.tag == "Magic Area")
         {
             CompanionnOBJ = GameObject.FindWithTag("Companion");
@@ -426,6 +428,15 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerStay(Collider col)
     {
+        if (col.gameObject.tag == "Crate")
+        {
+            nearbyCrate = col.gameObject.GetComponentInParent<Crate>();
+            //if (Input.GetKeyDown(KeyCode.LeftShift))
+            //{
+            //    col.gameObject.GetComponentInParent<Crate>().bIsPickedUp = !col.gameObject.GetComponentInParent<Crate>().bIsPickedUp;
+            //}
+        }
+
         if (col.gameObject.tag == "Magic Area")
         {
             inMagic = true;
@@ -454,6 +465,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
+        if (col.gameObject.tag == "Crate")
+        {
+            nearbyCrate = null;
+        }
+
         if (col.gameObject.tag == "Magic Area")
         {
             //print("Im OUT magic");

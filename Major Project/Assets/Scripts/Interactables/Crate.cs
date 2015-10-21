@@ -6,6 +6,9 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 public class Crate : MonoBehaviour {
 
+    [Header("Interaction")]
+    public bool bIsPickedUp = false;
+
     [Header("Mass")]
 	public bool bIsObjectLight = false;
 	public bool bIsObjectHeavy = false;
@@ -19,10 +22,14 @@ public class Crate : MonoBehaviour {
     public float scaleSSize = 1;
 
 	private PlayerBehaviour PlayerBehaviour;
+    public Transform PlayerHolder;
+    private Rigidbody myRigidBody;
 
 	void Start ()
 	{
 		PlayerBehaviour = GameObject.FindWithTag ("Player").GetComponent<PlayerBehaviour>();
+        //PlayerHolder = GameObject.FindWithTag("Holder").GetComponent<Transform>();
+        myRigidBody = this.gameObject.GetComponent<Rigidbody>();
 
         scaleUSize = PlayerBehaviour.scaleUpSize;
 
@@ -32,6 +39,17 @@ public class Crate : MonoBehaviour {
 	void Update () 
 	{
 		fScaleTimer = Mathf.Clamp (fScaleTimer, 0, 1);
+
+        if (bIsPickedUp)
+        {
+            myRigidBody.useGravity = false;
+            gameObject.transform.position = PlayerHolder.position;
+        }
+        else
+        {
+            myRigidBody.useGravity = true;
+            gameObject.transform.parent = null;
+        }
 
         if (!bIsObjectHeavy && !bIsObjectLight)
         {
