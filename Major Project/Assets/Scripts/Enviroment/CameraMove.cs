@@ -32,6 +32,7 @@ public class CameraMove : MonoBehaviour
 
     int camNum;
 
+    public bool starting;
 
     Vector3 playerPos;
 
@@ -44,13 +45,13 @@ public class CameraMove : MonoBehaviour
         mainCam = Camera.main;
 
         //The main camera does not have a parent as the player starts in a puzzle
-        mainCam.transform.parent = null;
+
 
         // Sets the first camera in the public array as the starting camera location
-        for (int i = 0; i < cameraLocations.Length; i++)
-        {
-            mainCam.transform.position = cameraLocations[startingCamLocation].transform.position;
-        }
+        //for (int i = 0; i < cameraLocations.Length; i++)
+        //{
+        //    mainCam.transform.position = cameraLocations[startingCamLocation].transform.position;
+        //}
 
 
     }
@@ -66,12 +67,19 @@ public class CameraMove : MonoBehaviour
         playerPos = new Vector3(playerPos.x + distanceX, playerPos.y + distanceY, -distanceZ);
 
 
+        if (starting)
+        {
+            mainCam.transform.position = playerPos;
+        }
+
         // Get the player behaviour and check a bool within
         // If that bool is true than move the camera to the player
         if (player.doorExited == true)
         {
             // Lerp the camera to set player position 
             mainCam.transform.position = Vector3.Lerp(camLocation, playerPos, speed * Time.fixedDeltaTime);
+
+            mainCam.transform.parent = player.transform;
 
             //Move camera 
             if (mainCam.transform.position == playerPos)
