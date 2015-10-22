@@ -15,7 +15,8 @@ public class Crate : MonoBehaviour {
 	public bool bIsObjectZeroMass = false;
 
     [Header("Scale")]
-    public bool bIsBig;
+    public bool bIsExpand;
+    public bool bChangeSize;
 
 	public float fScaleTimer = 0;
     public float scaleUSize = 1;
@@ -43,11 +44,13 @@ public class Crate : MonoBehaviour {
         if (bIsPickedUp)
         {
             myRigidBody.useGravity = false;
+            myRigidBody.isKinematic = true;
             gameObject.transform.position = PlayerHolder.position;
         }
         else
         {
             myRigidBody.useGravity = true;
+            myRigidBody.isKinematic = false;
             gameObject.transform.parent = null;
         }
 
@@ -70,7 +73,7 @@ public class Crate : MonoBehaviour {
         }
 	}
 
-	void ChangeMass ()
+	public void ChangeMass ()
 	{
 		if(!bIsObjectZeroMass)
 		{
@@ -85,21 +88,21 @@ public class Crate : MonoBehaviour {
 		}
 	}
 
-    void ChangeScale()
+    public void ChangeScale()
     {
 
         transform.localScale = Vector3.Lerp (new Vector3(scaleUSize, transform.localScale.y, transform.localScale.z),
                                              new Vector3(scaleSSize, transform.localScale.y, transform.localScale.z),
                                              fScaleTimer);
-        if (bIsBig == true)
+        if (bIsExpand == true)
         {
             fScaleTimer -= 5 * Time.deltaTime;
-            gameObject.GetComponent<Renderer>().material.color = Color.red;
+            gameObject.GetComponent<Renderer>().material.color = Color.green;
         }
         else
         {
             fScaleTimer += 5 * Time.deltaTime;
-            gameObject.GetComponent<Renderer>().material.color = Color.blue;
+            gameObject.GetComponent<Renderer>().material.color = Color.yellow;
         }
     }
 
@@ -141,18 +144,4 @@ public class Crate : MonoBehaviour {
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         gameObject.GetComponent<Renderer>().material.color = Color.black;
     }
-
-	void OnTriggerEnter(Collider col)
-	{
-		if(col.gameObject.tag == "Bullet")
-		{
-			ChangeMass();
-		}
-
-        if (col.gameObject.tag == "Scale Bullet")
-        {
-            bIsBig = !bIsBig;
-        }
-	}
-
 }

@@ -44,6 +44,8 @@ public class CameraMove : MonoBehaviour
         // Sets maincam to be the main camera
         mainCam = Camera.main;
 
+        starting = true;
+
         //The main camera does not have a parent as the player starts in a puzzle
 
 
@@ -60,6 +62,7 @@ public class CameraMove : MonoBehaviour
     void FixedUpdate()
     {
 
+
         camLocation = mainCam.transform.position;
 
         playerPos = player.gameObject.transform.position;
@@ -71,6 +74,8 @@ public class CameraMove : MonoBehaviour
         {
             mainCam.transform.position = playerPos;
         }
+
+        
 
         // Get the player behaviour and check a bool within
         // If that bool is true than move the camera to the player
@@ -87,10 +92,16 @@ public class CameraMove : MonoBehaviour
                 mainCam.transform.position = playerPos;
             }
 
+            // To use gravity
+            player.bCanUseGravity = false;
 
         }
         else if (player.doorEntered == true)
         {
+            player.bCanUseGravity = true;
+
+            starting = false;
+
             // If the player has exited a door
             // Set camera to the next cam location
 
@@ -106,38 +117,22 @@ public class CameraMove : MonoBehaviour
             switch (camNum)
             {
                 case 1:
-
-                    mainCam.transform.position = cameraLocations[1].transform.position;
-
-
-
+                    mainCam.transform.position = Vector3.Lerp(playerPos, cameraLocations[0].transform.position, speed * Time.fixedDeltaTime);
                     break;
                 case 2:
-
-                    mainCam.transform.position = cameraLocations[2].transform.position;
-
-
-
+                    mainCam.transform.position = Vector3.Lerp(playerPos, cameraLocations[1].transform.position, speed * Time.fixedDeltaTime);
                     break;
                 case 3:
-
-                    mainCam.transform.position = cameraLocations[3].transform.position;
-
-
-
+                    mainCam.transform.position = Vector3.Lerp(playerPos, cameraLocations[2].transform.position, speed * Time.fixedDeltaTime);
                     break;
                 case 4:
-
-
-                    mainCam.transform.position = cameraLocations[4].transform.position;
-
-
-
+                    mainCam.transform.position = Vector3.Lerp(playerPos, cameraLocations[3].transform.position, speed * Time.fixedDeltaTime);
                     break;
                 case 5:
-
-                    mainCam.transform.position = cameraLocations[5].transform.position;
-
+                    mainCam.transform.position = Vector3.Lerp(playerPos, cameraLocations[4].transform.position, speed * Time.fixedDeltaTime);
+                    break;
+                case 6:
+                    mainCam.transform.position = Vector3.Lerp(playerPos, cameraLocations[5].transform.position, speed * Time.fixedDeltaTime);
                     break;
                 default:
                     print("Error");
