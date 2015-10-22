@@ -125,29 +125,6 @@ public class PlayerBehaviour : MonoBehaviour
         Vector3 extraGravityForce = (Physics.gravity * gravityForce);
         myRigidBody.AddForce(extraGravityForce);
 
-        //Allows player to use magic once they pick up the crystal
-        if (bCanUseMagic == true)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                print("Press");
-
-                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
-
-
-                projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
-
-                projectile.tag = "Bullet";
-
-                aSource.clip = shootSound;
-                aSource.Play();
-
-            }
-        }
-
         // Make a raycast that checks player is on ground or ceilling
         if (bIsGravityReversed == false)
         {
@@ -209,24 +186,20 @@ public class PlayerBehaviour : MonoBehaviour
     void Jump()
     {
         //If the player is on the ground or the ceilling
-        if ((Input.GetButtonDown("Jump")) && bIsGrounded == true)
+        if (bIsGravityReversed == false)
         {
-            myRigidBody.velocity = (Vector3.up * jumpHeight);
+            if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")) && bIsGrounded == true)
+            {
+                myRigidBody.velocity = (Vector3.up * jumpHeight);
+            }
         }
-        //if (bIsGravityReversed == false)
-        //{
-        //    if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")) && bIsGrounded == true)
-        //    {
-        //        myRigidBody.velocity = (Vector3.up * jumpHeight);
-        //    }
-        //}
-        //else
-        //{
-        //    if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("A")) && bIsGrounded == true)
-        //    {
-        //        myRigidBody.velocity = (Vector3.down * jumpHeight);
-        //    }
-        //}
+        else
+        {
+            if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("A")) && bIsGrounded == true)
+            {
+                myRigidBody.velocity = (Vector3.down * jumpHeight);
+            }
+        }
     }
 
     void Magic()
@@ -265,6 +238,44 @@ public class PlayerBehaviour : MonoBehaviour
                         bPlayerReversed = false;
                         Physics.gravity = new Vector3(0, -9.81f, 0);
                     }
+                }
+            }
+
+            //Allows player to use shoot mass, sonar and scale magic
+            if (bCanUseMagic == true)
+            {
+                if (bIsMass)
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Debug.Log("Shoot Mass");
+
+                        Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                        Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                        Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+                        GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+
+
+                        projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+
+                        projectile.tag = "Bullet";
+
+                        aSource.clip = shootSound;
+                        aSource.Play();
+
+                    }
+                }
+                else if (bIsSonar)
+                {
+                    Debug.Log("Shoot Sonar");
+
+                    GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
+                }
+                else if (bIsScale)
+                {
+                    Debug.Log("Shoot Scale");
+
+
                 }
             }
 
@@ -334,15 +345,10 @@ public class PlayerBehaviour : MonoBehaviour
                     }
                 }
             }
-
-            ////Sonar Shoot
-            //if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
-            //{
-            //    ChangeStateToSonar();
-            //    //GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
-            //}
         }
     }
+
+    //Function used to flip player to where they are walking
 
     void Flip()
     {
@@ -353,6 +359,7 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     //States used to switch between abilities
+
     void ResetStates()
     {
         bIsMass = false;
@@ -388,37 +395,10 @@ public class PlayerBehaviour : MonoBehaviour
         FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
     }
 
-    //Collisisions
-
-    //void OnCollisionExit(Collision col)
-    //{
-    //    if (col.gameObject.tag == "Pushable")
-    //    {
-    //        moveSpeed = 15;
-    //    }
-    //}
+    //Collisision and Trigger Events
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "Crate")
-        {
-            //if (Input.GetKeyDown(KeyCode.LeftShift))
-            //{
-            //    col.gameObject.GetComponentInParent<Crate>().bIsPickedUp = !col.gameObject.GetComponentInParent<Crate>().bIsPickedUp;
-            //}
-        }
-
-        //if (col.gameObject.tag == "Magic Area")
-        //{
-        //    CompanionnOBJ = GameObject.FindWithTag("Companion");
-        //    onCompanion = true;
-        //}
-        //else if (col.gameObject.tag != "Magic Area")
-        //{
-        //    CompanionnOBJ = null;
-        //    onCompanion = false;
-        //}
-
         if (col.gameObject.tag == "Door Exit")
         {
             doorExited = true;
@@ -443,22 +423,6 @@ public class PlayerBehaviour : MonoBehaviour
             CompanionnOBJ = GameObject.FindWithTag("Companion");
             inMagic = true;
         }
-
-        //if (col.gameObject.tag == "Climeable")
-        //{
-        //    if (Input.GetKey(KeyCode.Q))
-        //    {
-        //        transform.Translate(0f, 0.5f, 0f);
-        //    }
-        //}
-
-        //if (col.gameObject.tag == "Lever")
-        //{
-        //    if (Input.GetKeyDown(KeyCode.E))
-        //    {
-
-        //    }
-        //}
     }
 
     void OnTriggerExit(Collider col)
