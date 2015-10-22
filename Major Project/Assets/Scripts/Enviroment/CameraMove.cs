@@ -87,6 +87,9 @@ public class CameraMove : MonoBehaviour
                 mainCam.transform.position = playerPos;
             }
 
+            // To use gravity
+            //player.gra
+
 
         }
         else if (player.doorEntered == true)
@@ -107,36 +110,29 @@ public class CameraMove : MonoBehaviour
             {
                 case 1:
 
-                    mainCam.transform.position = cameraLocations[1].transform.position;
+                   // mainCam.transform.position = cameraLocations[1].transform.position;
 
-
+                    mainCam.transform.position = Vector3.Lerp(cameraLocations[1].transform.position, playerPos, speed * Time.fixedDeltaTime);
 
                     break;
                 case 2:
 
-                    mainCam.transform.position = cameraLocations[2].transform.position;
-
-
+                    mainCam.transform.position = Vector3.Lerp(cameraLocations[2].transform.position, playerPos, speed * Time.fixedDeltaTime);
 
                     break;
                 case 3:
 
-                    mainCam.transform.position = cameraLocations[3].transform.position;
-
-
+                    mainCam.transform.position = Vector3.Lerp(cameraLocations[3].transform.position, playerPos, speed * Time.fixedDeltaTime);
 
                     break;
                 case 4:
 
-
-                    mainCam.transform.position = cameraLocations[4].transform.position;
-
-
+                    mainCam.transform.position = Vector3.Lerp(cameraLocations[4].transform.position, playerPos, speed * Time.fixedDeltaTime);
 
                     break;
                 case 5:
 
-                    mainCam.transform.position = cameraLocations[5].transform.position;
+                    mainCam.transform.position = Vector3.Lerp(cameraLocations[5].transform.position, playerPos, speed * Time.fixedDeltaTime);
 
                     break;
                 default:
