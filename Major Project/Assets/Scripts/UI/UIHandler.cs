@@ -34,28 +34,26 @@ public class UIHandler : MonoBehaviour
     {
         Cursor.SetCursor(texCursor, hotSpot, cursorMode);
         teSelectedAbility.text = "";
-
-        //imAbilityType.overrideSprite = sTransparent;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Player.bIsHeavySelected)
-        {
-            teSelectedAbility.text = "Mass";
-        }
+        //if (Player.bCanUseMass)
+        //{
+        //    teSelectedAbility.text = "Mass";
+        //}
 
-        if (Player.bCanUseSonar)
-        {
-            teSelectedAbility.text = "Sonar";
+        //if (Player.bCanUseSonar)
+        //{
+        //    teSelectedAbility.text = "Sonar";
 
-        }
+        //}
 
-        if (Player.bCanUseScale)
-        {
-            teSelectedAbility.text = "Scale";
-        }
+        //if (Player.bCanUseScale)
+        //{
+        //    teSelectedAbility.text = "Scale";
+        //}
 
 
 

@@ -62,7 +62,8 @@ public class PlayerBehaviour : MonoBehaviour
     public float scaleDownSize;
 
     public bool bIsUpScale;
-    bool bCanUseMagic;
+    public bool bCanUseMagic;
+    public bool bCanUseGravity;
     public bool bCanUseMass;
     public bool bCanUseSonar;
     public bool bCanUseScale;
@@ -238,6 +239,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     CompanionnOBJ.SetActive(false);
                     bCanUseMagic = true;
+                    bCanUseGravity = true;
                 }
             }
         }
@@ -247,19 +249,22 @@ public class PlayerBehaviour : MonoBehaviour
         if (bCanUseMagic == true)
         {
             // Flip Gravity
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (bCanUseGravity)
             {
-                if (bIsGravityReversed == false)
+                if (Input.GetKeyDown(KeyCode.LeftControl))
                 {
-                    bIsGravityReversed = true;
-                    bPlayerReversed = true;
-                    Physics.gravity = new Vector3(0, 9.81f, 0);
-                }
-                else if (bIsGravityReversed == true)
-                {
-                    bIsGravityReversed = false;
-                    bPlayerReversed = false;
-                    Physics.gravity = new Vector3(0, -9.81f, 0);
+                    if (bIsGravityReversed == false)
+                    {
+                        bIsGravityReversed = true;
+                        bPlayerReversed = true;
+                        Physics.gravity = new Vector3(0, 9.81f, 0);
+                    }
+                    else if (bIsGravityReversed == true)
+                    {
+                        bIsGravityReversed = false;
+                        bPlayerReversed = false;
+                        Physics.gravity = new Vector3(0, -9.81f, 0);
+                    }
                 }
             }
 
@@ -385,13 +390,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     //Collisisions
 
-    void OnCollisionExit(Collision col)
-    {
-        if (col.gameObject.tag == "Pushable")
-        {
-            moveSpeed = 15;
-        }
-    }
+    //void OnCollisionExit(Collision col)
+    //{
+    //    if (col.gameObject.tag == "Pushable")
+    //    {
+    //        moveSpeed = 15;
+    //    }
+    //}
 
     void OnTriggerEnter(Collider col)
     {
@@ -403,16 +408,16 @@ public class PlayerBehaviour : MonoBehaviour
             //}
         }
 
-        if (col.gameObject.tag == "Magic Area")
-        {
-            CompanionnOBJ = GameObject.FindWithTag("Companion");
-            onCompanion = true;
-        }
-        else if (col.gameObject.tag != "Magic Area")
-        {
-            CompanionnOBJ = null;
-            onCompanion = false;
-        }
+        //if (col.gameObject.tag == "Magic Area")
+        //{
+        //    CompanionnOBJ = GameObject.FindWithTag("Companion");
+        //    onCompanion = true;
+        //}
+        //else if (col.gameObject.tag != "Magic Area")
+        //{
+        //    CompanionnOBJ = null;
+        //    onCompanion = false;
+        //}
 
         if (col.gameObject.tag == "Door Exit")
         {
@@ -431,36 +436,29 @@ public class PlayerBehaviour : MonoBehaviour
         if (col.gameObject.tag == "Crate")
         {
             nearbyCrate = col.gameObject.GetComponentInParent<Crate>();
-            //if (Input.GetKeyDown(KeyCode.LeftShift))
-            //{
-            //    col.gameObject.GetComponentInParent<Crate>().bIsPickedUp = !col.gameObject.GetComponentInParent<Crate>().bIsPickedUp;
-            //}
         }
 
         if (col.gameObject.tag == "Magic Area")
         {
+            CompanionnOBJ = GameObject.FindWithTag("Companion");
             inMagic = true;
         }
 
-        if (col.gameObject.tag == "Climeable")
-        {
-            //print("Ladder");
+        //if (col.gameObject.tag == "Climeable")
+        //{
+        //    if (Input.GetKey(KeyCode.Q))
+        //    {
+        //        transform.Translate(0f, 0.5f, 0f);
+        //    }
+        //}
 
-            if (Input.GetKey(KeyCode.Q))
-            {
-                transform.Translate(0f, 0.5f, 0f);
-            }
-        }
+        //if (col.gameObject.tag == "Lever")
+        //{
+        //    if (Input.GetKeyDown(KeyCode.E))
+        //    {
 
-        if (col.gameObject.tag == "Lever")
-        {
-            //print("Lever");
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                // print("Lever Switch");
-            }
-        }
+        //    }
+        //}
     }
 
     void OnTriggerExit(Collider col)
@@ -472,8 +470,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (col.gameObject.tag == "Magic Area")
         {
-            //print("Im OUT magic");
-
+            CompanionnOBJ = null;
             inMagic = false;
         }
     }
