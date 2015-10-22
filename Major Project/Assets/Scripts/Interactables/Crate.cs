@@ -43,11 +43,13 @@ public class Crate : MonoBehaviour {
         if (bIsPickedUp)
         {
             myRigidBody.useGravity = false;
+            myRigidBody.isKinematic = true;
             gameObject.transform.position = PlayerHolder.position;
         }
         else
         {
             myRigidBody.useGravity = true;
+            myRigidBody.isKinematic = false;
             gameObject.transform.parent = null;
         }
 
