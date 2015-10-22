@@ -248,17 +248,13 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        Debug.Log("Shoot Mass");
-
                         Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
                         Vector3 direction = (Input.mousePosition - screenpoint).normalized;
                         Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
                         GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
 
-
                         projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
-
-                        projectile.tag = "Bullet";
+                        projectile.tag = "Mass Bullet";
 
                         aSource.clip = shootSound;
                         aSource.Play();
@@ -267,15 +263,26 @@ public class PlayerBehaviour : MonoBehaviour
                 }
                 else if (bIsSonar)
                 {
-                    Debug.Log("Shoot Sonar");
-
-                    GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        //GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
+                    }
                 }
                 else if (bIsScale)
                 {
-                    Debug.Log("Shoot Scale");
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                        Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                        Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+                        GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
 
+                        projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                        projectile.tag = "Scale Bullet";
 
+                        aSource.clip = shootSound;
+                        aSource.Play();
+                    }
                 }
             }
 
@@ -327,20 +334,16 @@ public class PlayerBehaviour : MonoBehaviour
                 }
                 else if (bCanUseMass && bCanUseSonar && bCanUseScale)
                 {
-                    Debug.Log("Can Use all 3 states");
                     if (bIsMass)
                     {
-                        Debug.Log("entering Sonar state");
                         ChangeStateToSonar();
                     }
                     else if (bIsSonar)
                     {
-                        Debug.Log("entering Scale state");
                         ChangeStateToScale();
                     }
                     else if (bIsScale)
                     {
-                        Debug.Log("entering Mass state");
                         ChangeStateToMass();
                     }
                 }
@@ -413,7 +416,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerStay(Collider col)
     {
-        if (col.gameObject.tag == "Crate")
+        if (col.gameObject.tag == "Crate Detection")
         {
             nearbyCrate = col.gameObject.GetComponentInParent<Crate>();
         }
@@ -427,7 +430,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.tag == "Crate")
+        if (col.gameObject.tag == "Crate Detection")
         {
             nearbyCrate = null;
         }

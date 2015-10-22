@@ -2,7 +2,6 @@
 using System.Collections;
 
 // Created: Marcus
-[RequireComponent(typeof(Rigidbody))]
 public class MovingPlatformLeftRight : MonoBehaviour
 {
     // Public Variables that set the speed of the platform and the distance in which to change
@@ -20,13 +19,11 @@ public class MovingPlatformLeftRight : MonoBehaviour
 
     bool started = true;
 
-    Rigidbody rig;
-
     // Use this for initialization
     void Start()
     {
         //gets Rigibody compnent
-        rig = GetComponent<Rigidbody>();
+        //rig = GetComponent<Rigidbody>();
 
         //rig.useGravity = false;
 
@@ -84,11 +81,11 @@ public class MovingPlatformLeftRight : MonoBehaviour
 
         if (isLeft == true)
         {
-            rig.velocity = Vector3.left * Time.fixedDeltaTime * speed;
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(xChangePosition, transform.position.y, transform.position.z), speed);
         }
         else
         {
-            rig.velocity = Vector3.right * Time.fixedDeltaTime * speed;
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(objXPos, transform.position.y, transform.position.z), speed);
         }
 
 
