@@ -4,8 +4,8 @@
       _UnlitColor ("Unlit Diffuse Color", Color) = (0.5,0.5,0.5,1) 
       _DiffuseThreshold ("Threshold for Diffuse Colors", Range(0,1)) = 0.1 
       _OutlineColor ("Outline Color", Color) = (0,0,0,1)
-      _LitOutlineThickness ("Lit Outline Thickness", Range(0,1)) = 0.1
-      _UnlitOutlineThickness ("Unlit Outline Thickness", Range(0,1)) = 0.4
+      _LitOutlineThickness ("Lit Outline Thickness", Range(-.5,1)) = 0.1
+      _UnlitOutlineThickness ("Unlit Outline Thickness", Range(-.5,1)) = 0.4
       _SpecColor ("Specular Color", Color) = (1,1,1,1) 
       _Shininess ("Shininess", Float) = 10
       
@@ -63,7 +63,7 @@
             float3 normalDirection = normalize(input.normalDir);
  
             float3 viewDirection = normalize(
-               _WorldSpaceCameraPos - input.posWorld.xyz);
+               input.posWorld.xyz);
             float3 lightDirection;
             float attenuation;
  
@@ -168,7 +168,7 @@
             float3 normalDirection = normalize(input.normalDir);
  
             float3 viewDirection = normalize(
-               _WorldSpaceCameraPos - input.posWorld.rgb);
+               input.posWorld.rgb);
             float3 lightDirection;
             float attenuation;
  

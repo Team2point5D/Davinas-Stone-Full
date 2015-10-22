@@ -2,7 +2,9 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class UIHandler : MonoBehaviour {
+//Marcus
+public class UIHandler : MonoBehaviour
+{
 
     [Header("Player")]
     public PlayerBehaviour Player;
@@ -15,34 +17,83 @@ public class UIHandler : MonoBehaviour {
     [Header("Abilities")]
     public Text teSelectedAbility;
     public Image imAbilityType;
-    public Sprite sTransparent;
+    // public Sprite sTransparent;
     public Sprite sMassUp;
     public Sprite sMassDown;
+    public Sprite sSonar;
+    [Space(10)]
+    public Sprite sScaleXUp;
+    public Sprite sScaleXDown;
+    public Sprite sScaleYUp;
+    public Sprite sScaleYDown;
+    public Sprite sScaleUp;
 
-	// Use this for initialization
-	void Start () 
+
+    // Use this for initialization
+    void Start()
     {
         Cursor.SetCursor(texCursor, hotSpot, cursorMode);
         teSelectedAbility.text = "";
-        imAbilityType.overrideSprite = sTransparent;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //if (Player.bCanUseMass)
+        //{
+        //    teSelectedAbility.text = "Mass";
+        //}
+
+        //if (Player.bCanUseSonar)
+        //{
+        //    teSelectedAbility.text = "Sonar";
+
+        //}
+
+        //if (Player.bCanUseScale)
+        //{
+        //    teSelectedAbility.text = "Scale";
+        //}
+
+
+
+    }
 
     public void SwitchMassUI()
     {
         if (Player.bIsHeavySelected)
         {
             imAbilityType.overrideSprite = sMassUp;
-            //FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass up", transform.position);
+
         }
         else
         {
             imAbilityType.overrideSprite = sMassDown;
-            // FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/Mass down", transform.position);
         }
+
+        //teSelectedAbility.text = "Mass";
+    }
+
+    public void SwitchSonarUI()
+    {
+        if (Player.bCanUseSonar)
+        {
+            imAbilityType.overrideSprite = sSonar;
+
+        }
+
+        teSelectedAbility.text = "Sonar";
+
+
+    }
+
+    public void SwitchScaleUI()
+    {
+        if (Player.bCanUseScale)
+        {
+            imAbilityType.overrideSprite = sScaleXUp;
+        }
+
+        teSelectedAbility.text = "Scale";
     }
 }
