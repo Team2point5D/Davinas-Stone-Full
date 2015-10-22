@@ -125,7 +125,7 @@ public class Crate : MonoBehaviour {
     {
         ResetStates();
         bIsObjectLight = true;
-        gameObject.GetComponent<Rigidbody>().mass = 1;
+        gameObject.GetComponent<Rigidbody>().mass = 2.5f;
         gameObject.GetComponent<Renderer>().material.color = Color.blue;
     }
 

@@ -21,6 +21,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("Interaction")]
     public Crate nearbyCrate;
+    private bool bHoldingCrate;
 
     [Header("Shooting")]
     public float shootSpeed;
@@ -61,6 +62,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float scaleUpSize;
     public float scaleDownSize;
 
+   // public OBJECT_STATE 
     public bool bIsUpScale;
     public bool bCanUseMagic;
     public bool bCanUseGravity;
@@ -97,6 +99,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 nearbyCrate.bIsPickedUp = !nearbyCrate.bIsPickedUp;
+                bHoldingCrate = !bHoldingCrate;
             }
         }
 
@@ -244,14 +247,14 @@ public class PlayerBehaviour : MonoBehaviour
             //Allows player to use shoot mass, sonar and scale magic
             if (bCanUseMagic == true)
             {
-                if (bIsMass)
+                if (bIsMass && !bHoldingCrate)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
                         Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
                         Vector3 direction = (Input.mousePosition - screenpoint).normalized;
                         Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                        GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+                        GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, shotSpot.rotation);
 
                         projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
                         projectile.tag = "Mass Bullet";
@@ -261,14 +264,14 @@ public class PlayerBehaviour : MonoBehaviour
 
                     }
                 }
-                else if (bIsSonar)
+                else if (bIsSonar && !bHoldingCrate)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
                         //GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
                     }
                 }
-                else if (bIsScale)
+                else if (bIsScale && !bHoldingCrate)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -282,6 +285,31 @@ public class PlayerBehaviour : MonoBehaviour
 
                         aSource.clip = shootSound;
                         aSource.Play();
+                    }
+                }
+                else if (bHoldingCrate)
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Debug.Log("Throw");
+                        nearbyCrate.bIsPickedUp = false;
+                        nearbyCrate.GetComponent<Rigidbody>().isKinematic = false;
+                        if (flipMove < 0)
+                        {
+                            if (nearbyCrate.bIsObjectHeavy)
+                            {
+                                nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(15f, -25f, 0f), ForceMode.Impulse);
+                            }
+                            else
+                            {
+                                nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(30f, 30f, 0f), ForceMode.Impulse);
+                            }
+                        }
+                        else if (flipMove > 0)
+                        {
+                            nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(-30f, 30f, 0f), ForceMode.Impulse);
+                        }
+                        bHoldingCrate = false;
                     }
                 }
             }
