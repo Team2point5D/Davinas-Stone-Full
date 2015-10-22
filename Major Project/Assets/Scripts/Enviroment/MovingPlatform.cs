@@ -1,38 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class MoveX : MonoBehaviour {
+//David
+public class MovingPlatform : MonoBehaviour {
 
     [Header("Positions")]
     public float fSpeed;
-    public float fEndPosX;
-    private bool bIsMovingToEnd;
-    private float fStartPosX;
-    private float fCurrentPosX;
+    private bool bIsMovingToEnd = true;
+    public Transform tStart;
+    public Transform tEnd;
+    private Vector3 vStart;
+    private Vector3 vEnd;
     private float fMoveTimer = 0f;
-
-	// Use this for initialization
-	void Start () 
-    {
-        fStartPosX = gameObject.transform.localPosition.x;
-	}
 	
-	// Update is called once per frame
+    void Start ()
+    {
+        vStart = tStart.position;
+        vEnd = tEnd.position;
+        transform.position = vStart;
+    }
+
 	void Update () 
     {
         fMoveTimer = Mathf.Clamp(fMoveTimer, 0, 1);
-        fCurrentPosX = gameObject.transform.localPosition.x;
-
-        if (fCurrentPosX == fStartPosX)
-        {
-            bIsMovingToEnd = true;
-        }
 
         if (bIsMovingToEnd)
         {
             fMoveTimer += fSpeed * Time.deltaTime;
-            transform.position = Vector3.Lerp(new Vector3(fStartPosX, transform.position.y, transform.position.z),
-                                              new Vector3(fEndPosX, transform.position.y, transform.position.z),
+            transform.position = Vector3.Lerp(vStart,
+                                              vEnd,
                                               fMoveTimer);
 
             if (fMoveTimer >= 1f)
@@ -43,8 +38,8 @@ public class MoveX : MonoBehaviour {
         else
         {
             fMoveTimer -= fSpeed * Time.deltaTime;
-            transform.position = Vector3.Lerp(new Vector3(fStartPosX, transform.position.y, transform.position.z),
-                                              new Vector3(fEndPosX, transform.position.y, transform.position.z),
+            transform.position = Vector3.Lerp(vStart,
+                                              vEnd,
                                               fMoveTimer);
             if (fMoveTimer <= 0f)
             {
