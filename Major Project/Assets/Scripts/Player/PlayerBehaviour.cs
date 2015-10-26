@@ -14,6 +14,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float jumpHeight;
     public float jumpIncrease;
     public float pushPullForce;
+    public float fRotateSpeed = 3f;
     private float jumpIncreaseTime;
     public bool bIsGrounded = true;
     public Animator playerAnimator;
@@ -27,6 +28,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float shootSpeed;
     public Transform shotSpot;
     public GameObject shotBullet;
+    public GameObject sonarBullet;
     private bool canShoot;
     public AudioClip shootSound;
 
@@ -42,8 +44,8 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bIsGravityReversed = false;
     private bool onCompanion;
     private bool inMagic;
-    private float fFlipTimer = 0f;
-    private bool bPlayerReversed = false;
+    public float fFlipTimer = 0f;
+    public bool bPlayerReversed = false;
     //public bool onCrate;
 
     [Header("Sonar")]
@@ -90,6 +92,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+        fFlipTimer = Mathf.Clamp(fFlipTimer, 0, 1);
+
         Jump();
 
         Magic();
@@ -106,14 +110,14 @@ public class PlayerBehaviour : MonoBehaviour
         //Flips Player on its x axis when gravity is switched up and down
         if (bPlayerReversed)
         {
-            fFlipTimer += 3 * Time.deltaTime;
+            fFlipTimer += fRotateSpeed * Time.deltaTime;
             transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
                                             new Vector3(180, 0, 0),
                                             fFlipTimer);
         }
         else
         {
-            fFlipTimer -= 3 * Time.deltaTime;
+            fFlipTimer -= fRotateSpeed * Time.deltaTime;
             transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
                                                   new Vector3(180, 0, 0),
                                                   fFlipTimer);
@@ -268,7 +272,16 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        //GameObject sonarShoot = (GameObject)Instantiate(sonarBull, new Vector3(playerPos.x + sonarDisFromPlayer, playerPos.y + 2, playerPos.z), Quaternion.identity);
+                        Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                        Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                        Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+                        GameObject projectile = (GameObject)Instantiate(sonarBullet, shotSpot.position, rotation);
+
+                        projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                        projectile.tag = "Sonar Bullet";
+
+                        aSource.clip = shootSound;
+                        aSource.Play();
                     }
                 }
                 else if (bIsScale && !bHoldingCrate)

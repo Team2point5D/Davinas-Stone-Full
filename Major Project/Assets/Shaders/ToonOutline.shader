@@ -61,7 +61,9 @@
          float4 frag(vertexOutput input) : COLOR
          {
             float3 normalDirection = normalize(input.normalDir);
- 
+			
+			/*float3 viewDirection = normalize(
+				_WorldSpaceCameraPos - input.posWorld.xyz);*/
             float3 viewDirection = normalize(
                input.posWorld.xyz);
             float3 lightDirection;
