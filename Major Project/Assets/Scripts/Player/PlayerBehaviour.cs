@@ -33,7 +33,7 @@ public class PlayerBehaviour : MonoBehaviour
     public AudioClip shootSound;
 
     bool isFacingRight = true;
-    float flipMove;
+    public float flipMove;
 
     [Range(1f, 100f)]
     [SerializeField]
@@ -100,7 +100,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (nearbyCrate)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetButtonDown("X"))
             {
                 nearbyCrate.bIsPickedUp = !nearbyCrate.bIsPickedUp;
                 bHoldingCrate = !bHoldingCrate;
@@ -171,7 +171,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Controls()
     {
-        // Player move input
+        // Player computer move input
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             Vector3 moveQuantity = new Vector3(-moveSpeed, 0, 0);
@@ -185,8 +185,16 @@ public class PlayerBehaviour : MonoBehaviour
             flipMove = -1;
         }
 
-        // Xbox move input
+        // Player xbox controller move input
         transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * moveSpeed * Time.deltaTime);
+        if (Input.GetAxis("LeftThumbstickX") > 0)
+        {
+            flipMove = -1;
+        }
+        else if (Input.GetAxis("LeftThumbstickX") < 0)
+        {
+            flipMove = 1;
+        }
 
     }
 
@@ -195,14 +203,14 @@ public class PlayerBehaviour : MonoBehaviour
         //If the player is on the ground or the ceilling
         if (bIsGravityReversed == false)
         {
-            if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("Joystick A")) && bIsGrounded == true)
+            if (Input.GetButtonDown("A") && bIsGrounded == true)
             {
                 myRigidBody.velocity = (Vector3.up * jumpHeight);
             }
         }
         else
         {
-            if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("A")) && bIsGrounded == true)
+            if (Input.GetButtonDown("A") && bIsGrounded == true)
             {
                 myRigidBody.velocity = (Vector3.down * jumpHeight);
             }
@@ -213,7 +221,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (inMagic == true)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+            if (Input.GetButtonDown("X"))
             {
                 if (bCanUseMagic == false)
                 {
@@ -224,6 +232,80 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
 
+        //Allows player to use shoot mass, sonar and scale magic
+        if (bCanUseMagic && bIsMass && !bHoldingCrate)
+        {
+            if (Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1)
+            {
+                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+                GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, shotSpot.rotation);
+
+                projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                projectile.tag = "Mass Bullet";
+
+                aSource.clip = shootSound;
+                aSource.Play();
+
+            }
+        }
+        else if (bCanUseMagic && bIsSonar && !bHoldingCrate)
+        {
+            if (Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1)
+            {
+                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+                GameObject projectile = (GameObject)Instantiate(sonarBullet, shotSpot.position, rotation);
+
+                projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                projectile.tag = "Sonar Bullet";
+
+                aSource.clip = shootSound;
+                aSource.Play();
+            }
+        }
+        else if (bCanUseMagic && bIsScale && !bHoldingCrate)
+        {
+            if (Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1)
+            {
+                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+                GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+
+                projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                projectile.tag = "Scale Bullet";
+
+                aSource.clip = shootSound;
+                aSource.Play();
+            }
+        }
+        else if (bHoldingCrate)
+        {
+            if (Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1)
+            {
+                nearbyCrate.bIsPickedUp = false;
+                nearbyCrate.GetComponent<Rigidbody>().isKinematic = false;
+                if (flipMove < 0)
+                {
+                    if (nearbyCrate.bIsObjectHeavy)
+                    {
+                        nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(15f, -25f, 0f), ForceMode.Impulse);
+                    }
+                    else
+                    {
+                        nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(30f, 30f, 0f), ForceMode.Impulse);
+                    }
+                }
+                else if (flipMove > 0)
+                {
+                    nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(-30f, 30f, 0f), ForceMode.Impulse);
+                }
+                bHoldingCrate = false;
+            }
+        }
 
         //Allows use of abilities once crystal is picked up
         if (bCanUseMagic == true)
@@ -231,7 +313,7 @@ public class PlayerBehaviour : MonoBehaviour
             // Flip Gravity
             if (bCanUseGravity)
             {
-                if (Input.GetKeyDown(KeyCode.LeftControl))
+                if (Input.GetButtonDown("Y"))
                 {
                     if (bIsGravityReversed == false)
                     {
@@ -244,85 +326,6 @@ public class PlayerBehaviour : MonoBehaviour
                         bIsGravityReversed = false;
                         bPlayerReversed = false;
                         Physics.gravity = new Vector3(0, -9.81f, 0);
-                    }
-                }
-            }
-
-            //Allows player to use shoot mass, sonar and scale magic
-            if (bCanUseMagic == true)
-            {
-                if (bIsMass && !bHoldingCrate)
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                        Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                        Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                        GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, shotSpot.rotation);
-
-                        projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
-                        projectile.tag = "Mass Bullet";
-
-                        aSource.clip = shootSound;
-                        aSource.Play();
-
-                    }
-                }
-                else if (bIsSonar && !bHoldingCrate)
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                        Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                        Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                        GameObject projectile = (GameObject)Instantiate(sonarBullet, shotSpot.position, rotation);
-
-                        projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
-                        projectile.tag = "Sonar Bullet";
-
-                        aSource.clip = shootSound;
-                        aSource.Play();
-                    }
-                }
-                else if (bIsScale && !bHoldingCrate)
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                        Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                        Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                        GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
-
-                        projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
-                        projectile.tag = "Scale Bullet";
-
-                        aSource.clip = shootSound;
-                        aSource.Play();
-                    }
-                }
-                else if (bHoldingCrate)
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        Debug.Log("Throw");
-                        nearbyCrate.bIsPickedUp = false;
-                        nearbyCrate.GetComponent<Rigidbody>().isKinematic = false;
-                        if (flipMove < 0)
-                        {
-                            if (nearbyCrate.bIsObjectHeavy)
-                            {
-                                nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(15f, -25f, 0f), ForceMode.Impulse);
-                            }
-                            else
-                            {
-                                nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(30f, 30f, 0f), ForceMode.Impulse);
-                            }
-                        }
-                        else if (flipMove > 0)
-                        {
-                            nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(-30f, 30f, 0f), ForceMode.Impulse);
-                        }
-                        bHoldingCrate = false;
                     }
                 }
             }

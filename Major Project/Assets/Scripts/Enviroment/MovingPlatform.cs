@@ -52,7 +52,7 @@ public class MovingPlatform : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player")
         {
-            //Parents the platfrom to the player so they both move
+            //Parents the player to the platform so they both move
             col.transform.parent = gameObject.transform;
         }
 
@@ -65,8 +65,16 @@ public class MovingPlatform : MonoBehaviour {
         if (col.gameObject.tag == "Player")
         {
 
-            //The player so no longer a child of the platform
+            //The player is no longer a child of the platform
             col.transform.parent = null;
+            if (col.gameObject.GetComponent<PlayerBehaviour>().flipMove == 1)
+            {
+                col.transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else
+            {
+                col.transform.localScale = new Vector3(1, 1, 1);
+            }
         }
 
     }
