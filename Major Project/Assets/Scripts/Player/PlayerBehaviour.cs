@@ -29,7 +29,10 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform shotSpot;
     public GameObject shotBullet;
     public GameObject sonarBullet;
+    public float fShootCooldown = 1.5f;
+    private float fShootCooldownReset;
     private bool canShoot;
+    private bool bJustShot;
     public AudioClip shootSound;
 
     bool isFacingRight = true;
@@ -65,6 +68,8 @@ public class PlayerBehaviour : MonoBehaviour
     public float scaleDownSize;
 
    // public OBJECT_STATE 
+
+    [Header("Checks")]
     public bool bIsUpScale;
     public bool bCanUseMagic;
     public bool bCanUseGravity;
@@ -88,6 +93,7 @@ public class PlayerBehaviour : MonoBehaviour
         myRigidBody = this.gameObject.GetComponent<Rigidbody>();
         shotParent = GameObject.Find("Magic Shots");
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
+        fShootCooldownReset = fShootCooldown;
     }
 
     void Update()
@@ -97,6 +103,17 @@ public class PlayerBehaviour : MonoBehaviour
         Jump();
 
         Magic();
+
+        if (bJustShot)
+        {
+            fShootCooldown -= Time.deltaTime;
+
+            if (fShootCooldown <= 0)
+            {
+                fShootCooldown = fShootCooldownReset;
+                bJustShot = false;
+            }
+        }
 
         if (nearbyCrate)
         {
@@ -235,7 +252,7 @@ public class PlayerBehaviour : MonoBehaviour
         //Allows player to use shoot mass, sonar and scale magic
         if (bCanUseMagic && bIsMass && !bHoldingCrate)
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1)
+            if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
             {
                 Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
                 Vector3 direction = (Input.mousePosition - screenpoint).normalized;
@@ -244,6 +261,7 @@ public class PlayerBehaviour : MonoBehaviour
 
                 projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
                 projectile.tag = "Mass Bullet";
+                bJustShot = true;
 
                 aSource.clip = shootSound;
                 aSource.Play();
@@ -252,7 +270,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else if (bCanUseMagic && bIsSonar && !bHoldingCrate)
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1)
+            if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
             {
                 Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
                 Vector3 direction = (Input.mousePosition - screenpoint).normalized;
@@ -261,6 +279,7 @@ public class PlayerBehaviour : MonoBehaviour
 
                 projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
                 projectile.tag = "Sonar Bullet";
+                bJustShot = true;
 
                 aSource.clip = shootSound;
                 aSource.Play();
@@ -268,7 +287,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else if (bCanUseMagic && bIsScale && !bHoldingCrate)
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1)
+            if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
             {
                 Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
                 Vector3 direction = (Input.mousePosition - screenpoint).normalized;
@@ -277,6 +296,7 @@ public class PlayerBehaviour : MonoBehaviour
 
                 projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
                 projectile.tag = "Scale Bullet";
+                bJustShot = true;
 
                 aSource.clip = shootSound;
                 aSource.Play();
@@ -284,7 +304,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else if (bHoldingCrate)
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1)
+            if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
             {
                 nearbyCrate.bIsPickedUp = false;
                 nearbyCrate.GetComponent<Rigidbody>().isKinematic = false;
@@ -304,6 +324,7 @@ public class PlayerBehaviour : MonoBehaviour
                     nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(-30f, 30f, 0f), ForceMode.Impulse);
                 }
                 bHoldingCrate = false;
+                bJustShot = true;
             }
         }
 
