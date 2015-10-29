@@ -14,6 +14,8 @@ public class FadeInOutMusic : MonoBehaviour
 
     public bool startFade;
 
+    public bool playMusic;
+
     bool fadeIn;
 
     bool fadeOut;
@@ -22,13 +24,17 @@ public class FadeInOutMusic : MonoBehaviour
 
     AudioSource aSource;
 
+
+
     // Use this for initialization
     void Start()
     {
         aSource = GetComponent<AudioSource>();
 
-        aSource.clip = song1;
 
+
+        aSource.Play();
+        aSource.clip = song1;
         aSource.Play();
 
     }
@@ -38,42 +44,61 @@ public class FadeInOutMusic : MonoBehaviour
     {
 
 
-        if (startFade == true)
+
+        if (playMusic)
         {
-            fadeOut = true;
+
+            if (startFade == true)
+            {
+                fadeOut = true;
+            }
+
+            if (aSource.volume <= 0.15f)
+            {
+                //print("Fade Up");
+
+                fadeOut = false;
+
+                startFade = false;
+            }
+
+            if (fadeOut)
+            {
+                aSource.volume -= Time.deltaTime * fadeTime;
+
+            }
+            else if (!fadeOut)
+            {
+                print("Play");
+
+                aSource.volume += Time.deltaTime * fadeTime;
+
+                aSource.Play();
+                aSource.clip = song2;
+                aSource.Play();
+
+
+                playMusic = false;
+
+            }
+
+
+
         }
 
-        if (aSource.volume <= 0.15f)
+        if (!playMusic)
         {
-            //print("Fade Up");
 
-            fadeOut = false;
-
-            startFade = false;
-        }
-
-        if (fadeOut)
-        {
-            aSource.volume -= Time.deltaTime * fadeTime;
-
-        }
-        else if (!fadeOut)
-        {
             aSource.volume += Time.deltaTime * fadeTime;
 
-            aSource.clip = song2;
-
-            // To fix
-            aSource.PlayOneShot(aSource.clip);
+            if (aSource.volume >= 0.6f)
+            {
+                print("Stop");
+            }
         }
 
 
-        if (aSource.volume == 1)
-        {
-            startFade = false;
-        }
 
-       
 
 
 
