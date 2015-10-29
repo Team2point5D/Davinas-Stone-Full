@@ -23,6 +23,7 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Interaction")]
     public Crate nearbyCrate;
     private bool bHoldingCrate;
+    public bool bCanClimb;
 
     [Header("Shooting")]
     public float shootSpeed;
@@ -146,8 +147,8 @@ public class PlayerBehaviour : MonoBehaviour
         Controls();
 
         //Temporary fix to gravity till we fix issues
-        Vector3 extraGravityForce = (Physics.gravity * gravityForce);
-        myRigidBody.AddForce(extraGravityForce);
+        //Vector3 extraGravityForce = (Physics.gravity * gravityForce);
+        //myRigidBody.AddForce(extraGravityForce);
 
         // Make a raycast that checks player is on ground or ceilling
         if (bIsGravityReversed == false)
@@ -200,6 +201,27 @@ public class PlayerBehaviour : MonoBehaviour
             Vector3 moveQuantity = new Vector3(moveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
             flipMove = -1;
+        }
+        if (bCanClimb)
+        {
+            myRigidBody.useGravity = false;
+
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            {
+                Vector3 moveQuantity = new Vector3(0, moveSpeed, 0);
+                myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, moveQuantity.y, myRigidBody.velocity.z);
+            }
+            if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            {
+                Vector3 moveQuantity = new Vector3(0, -moveSpeed, 0);
+                myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, moveQuantity.y, myRigidBody.velocity.z);
+            }
+
+            transform.Translate(Vector3.down * Input.GetAxis("LeftThumbstickY") * moveSpeed * Time.deltaTime);
+        }
+        else
+        {
+            myRigidBody.useGravity = true;
         }
 
         // Player xbox controller move input
@@ -340,13 +362,13 @@ public class PlayerBehaviour : MonoBehaviour
                     {
                         bIsGravityReversed = true;
                         bPlayerReversed = true;
-                        Physics.gravity = new Vector3(0, 9.81f, 0);
+                        Physics.gravity = new Vector3(0, 78.48f, 0);
                     }
                     else if (bIsGravityReversed == true)
                     {
                         bIsGravityReversed = false;
                         bPlayerReversed = false;
-                        Physics.gravity = new Vector3(0, -9.81f, 0);
+                        Physics.gravity = new Vector3(0, -78.48f, 0);
                     }
                 }
             }
@@ -384,7 +406,7 @@ public class PlayerBehaviour : MonoBehaviour
                 ChangeStateToMass();
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("B"))
             {
                 if (bCanUseMass && bCanUseSonar && !bCanUseScale)
                 {
@@ -491,6 +513,11 @@ public class PlayerBehaviour : MonoBehaviour
             CompanionnOBJ = GameObject.FindWithTag("Companion");
             inMagic = true;
         }
+
+        if (col.gameObject.tag == "Climable")
+        {
+            bCanClimb = true;
+        }
     }
 
     void OnTriggerExit(Collider col)
@@ -504,6 +531,11 @@ public class PlayerBehaviour : MonoBehaviour
         {
             CompanionnOBJ = null;
             inMagic = false;
+        }
+
+        if (col.gameObject.tag == "Climable")
+        {
+            bCanClimb = false;
         }
     }
 }
