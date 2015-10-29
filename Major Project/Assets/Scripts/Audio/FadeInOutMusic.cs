@@ -88,12 +88,19 @@ public class FadeInOutMusic : MonoBehaviour
 
         if (!playMusic)
         {
+            bool increaseVol = true;
 
             aSource.volume += Time.deltaTime * fadeTime;
 
-            if (aSource.volume >= 0.6f)
+            if (increaseVol)
             {
-                print("Stop");
+
+                if (aSource.volume >= 0.6f)
+                {
+                    //print("Stop");
+
+                    increaseVol = false;
+                }
             }
         }
 
