@@ -7,15 +7,13 @@ public class CameraMove : MonoBehaviour
     // Public variables that can be changed
     [Header("Variables")]
     public float fDampTime = 0.15f;
+    private float fDampTimeStarting;
     public float fHorzMargin = 6.3f;
     public float fVertMargin = 6.3f;
     public PlayerBehaviour player;
     private Vector3 velocity = Vector3.zero;
     public Transform target;
     private Transform tPlayer;
-    public float fZoomIn = 30f;
-    private bool bIsZoomedIn;
-    private bool bIsZoomedOut;
 
     //The set locations of the camera where the puzzles are
     [Header("Camera Locations")]
@@ -27,46 +25,18 @@ public class CameraMove : MonoBehaviour
         // Sets maincam to be the main camera
         //mainCam = Camera.main;
         tPlayer = target;
+        fDampTimeStarting = fDampTime;
         target = cameraLocations[0].transform;
-        bIsZoomedOut = true;
     }
 
     void Update()
     {
         if (target != null)
         {
-            if (bIsZoomedIn)
-            {
-                Vector3 point = GetComponent<Camera>().WorldToViewportPoint(target.position);
-                Vector3 delta = target.position - GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.5f, 0.5f, point.z));
-                Vector3 destination = transform.position + delta;
-                transform.position = Vector3.SmoothDamp(transform.position, new Vector3(destination.x, destination.y, destination.z + fZoomIn), ref velocity, fDampTime);
-                bIsZoomedIn = false;
-            }
-            else
-            {
-                Vector3 point = GetComponent<Camera>().WorldToViewportPoint(target.position);
-                Vector3 delta = target.position - GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.5f, 0.5f, point.z));
-                Vector3 destination = transform.position + delta;
-                transform.position = Vector3.SmoothDamp(transform.position, new Vector3(destination.x, destination.y, destination.z), ref velocity, fDampTime);
-            }
-
-
-            if (bIsZoomedOut)
-            {
-                Vector3 point = GetComponent<Camera>().WorldToViewportPoint(target.position);
-                Vector3 delta = target.position - GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.5f, 0.5f, point.z));
-                Vector3 destination = transform.position + delta;
-                transform.position = Vector3.SmoothDamp(transform.position, new Vector3(destination.x, destination.y, destination.z - fZoomIn), ref velocity, fDampTime);
-                bIsZoomedOut = false;
-            }
-            else
-            {
-                Vector3 point = GetComponent<Camera>().WorldToViewportPoint(target.position);
-                Vector3 delta = target.position - GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.5f, 0.5f, point.z));
-                Vector3 destination = transform.position + delta;
-                transform.position = Vector3.SmoothDamp(transform.position, new Vector3(destination.x, destination.y, destination.z), ref velocity, fDampTime);
-            }
+            Vector3 point = GetComponent<Camera>().WorldToViewportPoint(target.position);
+            Vector3 delta = target.position - GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.5f, 0.5f, point.z));
+            Vector3 destination = transform.position + delta;
+            transform.position = Vector3.SmoothDamp(transform.position, destination, ref velocity, fDampTime);
         }
 
         if (this.transform.position.x < fHorzMargin)
@@ -83,7 +53,8 @@ public class CameraMove : MonoBehaviour
         {
             target = tPlayer;
             player.bCanUseGravity = false;
-            bIsZoomedIn = true;
+            fDampTime = 0f;
+            gameObject.GetComponent<Camera>().fieldOfView = 20;
 
             if (player.bIsGravityReversed)
             {
@@ -91,13 +62,13 @@ public class CameraMove : MonoBehaviour
                 player.bPlayerReversed = false;
                 Physics.gravity = new Vector3(0, -78.48f, 0);
             }
-
         }
         else if (player.doorEntered == true)
         {
             player.bCanUseGravity = true;
             player.doorEntered = false;
-            bIsZoomedOut = true;
+            fDampTime = fDampTimeStarting;
+            gameObject.GetComponent<Camera>().fieldOfView = 40;
 
             //Based on the number of the camNum int, move the camera to the locations in the public array
             camNum++;
