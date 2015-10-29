@@ -4,7 +4,7 @@ using System.Collections;
 // Marcus
 public class WindAnimate : MonoBehaviour {
 
-    float speed;
+    public float speed;
 
 	// Use this for initialization
 	void Start () {
@@ -14,7 +14,7 @@ public class WindAnimate : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-
+        //transform.Rotate(0, speed, 0, 0);
 	
 	}
 }
