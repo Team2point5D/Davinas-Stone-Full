@@ -375,7 +375,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             //Switching ability modes (mass up to mass down, scaling x up-down to scaling y up-down)
             float d = Input.GetAxis("Mouse ScrollWheel");
-            if (d > 0f)
+            if ((d > 0f) || Input.GetButtonDown("RB"))
             {
                 if (bIsMass)
                 {
@@ -387,7 +387,7 @@ public class PlayerBehaviour : MonoBehaviour
                     bIsUpScale = !bIsUpScale;
                 }
             }
-            else if (d < 0f)
+            else if ((d < 0f) || Input.GetButtonDown("LB"))
             {
                 if (bIsMass)
                 {
@@ -522,6 +522,15 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
+        if (col.gameObject.tag == "Door Exit")
+        {
+            doorExited = false;
+        }
+        else if (col.gameObject.tag == "Door Enter")
+        {
+            doorEntered = false;
+        }
+
         if (col.gameObject.tag == "Crate Detection")
         {
             nearbyCrate = null;
