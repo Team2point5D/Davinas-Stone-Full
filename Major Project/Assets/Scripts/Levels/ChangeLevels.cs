@@ -6,32 +6,23 @@ public class ChangeLevels : MonoBehaviour
 {
 
 
-
-    // Use this for initialization
-    void Start()
+    void OnTriggerEnter(Collider col)
     {
-        //sprint(Application.loadedLevel);
+        switch (Application.loadedLevel)
+        {
+            case 1:
+                Application.LoadLevel(2);
+                break;
+            case 2:
+                Application.LoadLevel(3);
+                break;
+            case 3:
+                Application.LoadLevel(4);
+                break;
+            default:
+                print("Error");
+                break;
 
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
-        //switch (Application.loadedLevel)
-        //{
-        //    case 1:
-        //        Application.LoadLevel(2);
-        //        break;
-
-        //    default:
-        //        print("Error");
-        //        break;
-
-        //}
-
-
+        }
     }
 }
