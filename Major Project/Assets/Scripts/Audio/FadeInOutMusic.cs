@@ -4,23 +4,37 @@ using System.Collections;
 // Marcus
 public class FadeInOutMusic : MonoBehaviour
 {
-
+    [Header("Songs")]
     public AudioClip song1;
 
     public AudioClip song2;
 
+    [Space(5)]
+
+    [Header("Volume")]
+    [Range(0, 1)]
+    public float maxVolume;
+
+    [Range(0, 1)]
+    public float minVolume;
+
+
+
+    [Space(5)]
+
+    [Header("Time")]
     [Range(0, 1)]
     public float fadeTime;
 
+    [Space(5)]
+
+    [Header("Checks")]
+
+    public bool fadeOut;
+
+    public bool fadeIn;
+
     public bool startFade;
-
-    public bool playMusic;
-
-    bool fadeIn;
-
-    bool fadeOut;
-
-    //float timer;
 
     AudioSource aSource;
 
@@ -31,8 +45,6 @@ public class FadeInOutMusic : MonoBehaviour
     {
         aSource = GetComponent<AudioSource>();
 
-
-
         aSource.Play();
         aSource.clip = song1;
         aSource.Play();
@@ -42,72 +54,52 @@ public class FadeInOutMusic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-
-        if (playMusic)
+        if (startFade)
         {
-
-            if (startFade == true)
-            {
-                fadeOut = true;
-            }
-
-            if (aSource.volume <= 0.15f)
-            {
-                //print("Fade Up");
-
-                fadeOut = false;
-
-                startFade = false;
-            }
 
             if (fadeOut)
             {
                 aSource.volume -= Time.deltaTime * fadeTime;
 
-            }
-            else if (!fadeOut)
-            {
-                print("Play");
+                if (aSource.volume <= minVolume)
+                {
+                    fadeOut = false;
 
-                aSource.volume += Time.deltaTime * fadeTime;
+                    fadeIn = true;
+                }
+            }
+
+            if (fadeIn)
+            {
+                // print("Play");
 
                 aSource.Play();
                 aSource.clip = song2;
                 aSource.Play();
 
+                aSource.volume += Time.deltaTime * fadeTime;
 
-                playMusic = false;
-
-            }
-
-
-
-        }
-
-        if (!playMusic)
-        {
-            bool increaseVol = true;
-
-            aSource.volume += Time.deltaTime * fadeTime;
-
-            if (increaseVol)
-            {
-
-                if (aSource.volume >= 0.6f)
+                if (aSource.volume >= maxVolume)
                 {
-                    //print("Stop");
+                    fadeIn = false;
 
-                    increaseVol = false;
+                    startFade = false;
                 }
+
             }
         }
-
-
-
-
 
 
     }
+
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Fade")
+        {
+            startFade = true;
+        }
+    }
+
 }
+
