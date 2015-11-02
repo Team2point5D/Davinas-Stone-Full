@@ -7,16 +7,20 @@ public class CameraMove : MonoBehaviour
     // Public variables that can be changed
     [Header("Variables")]
     public float fDampTime = 0.15f;
+    private bool bDampDecreasing = false;
+    public bool bDampLimit = false;
     private float fDampTimeStarting;
     public float fHorzMargin = 6.3f;
     public float fVertMargin = 6.3f;
     public PlayerBehaviour player;
-    private Vector3 velocity = Vector3.zero;
     public Transform target;
-    private Transform tPlayer;
+    private Vector3 velocity = Vector3.zero;
 
     //The set locations of the camera where the puzzles are
     [Header("Camera Locations")]
+    private Camera MainCam;
+    public float fCameraZoomedIn = 20f;
+    public float fCameraZoomedOut = 40f;
     public Transform[] cameraLocations;
     int camNum = 1;
 
@@ -24,14 +28,52 @@ public class CameraMove : MonoBehaviour
     {
         // Sets maincam to be the main camera
         //mainCam = Camera.main;
-        tPlayer = target;
-        //fDampTimeStarting = fDampTime;
+        fDampTimeStarting = fDampTime;
         target = cameraLocations[0].transform;
+        MainCam = gameObject.GetComponent<Camera>();
     }
 
     void Update()
     {
-        //fHorzMargin = target.position.x + 0.1f;
+        fDampTime = Mathf.Clamp(fDampTime, 0, fDampTimeStarting);
+        MainCam.fieldOfView = Mathf.Clamp(MainCam.fieldOfView, fCameraZoomedIn, fCameraZoomedOut);
+
+        if (bDampDecreasing)
+        {
+            if (!bDampLimit)
+            {
+                fDampTime -= (1f * fDampTimeStarting) * Time.deltaTime;
+                MainCam.fieldOfView -= (1f * (fCameraZoomedOut - fCameraZoomedIn)) * Time.deltaTime;
+
+                if (fDampTime <= 0)
+                {
+                    bDampLimit = true;
+                }
+            }
+            else
+            {
+                fDampTime = 0;
+                MainCam.fieldOfView = fCameraZoomedIn;
+                fHorzMargin = target.position.x + 0.1f;
+            }
+        }
+        else
+        {
+            if (!bDampLimit)
+            {
+                MainCam.fieldOfView += (1f * (fCameraZoomedOut - fCameraZoomedIn)) * Time.deltaTime;
+
+                if (MainCam.fieldOfView >= fCameraZoomedOut)
+                {
+                    bDampLimit = true;
+                }
+            }
+            else
+            {
+                fDampTime = fDampTimeStarting;
+                MainCam.fieldOfView = fCameraZoomedOut;
+            }
+        }
 
         if (target != null)
         {
@@ -53,10 +95,10 @@ public class CameraMove : MonoBehaviour
 
         if (player.doorExited == true)
         {
-            target = tPlayer;
+            target = player.transform;
             player.bCanUseGravity = false;
-            //fDampTime = 0f;
-            //gameObject.GetComponent<Camera>().fieldOfView = 20;
+            bDampDecreasing = true;
+            bDampLimit = false;
 
             if (player.bIsGravityReversed)
             {
@@ -69,8 +111,9 @@ public class CameraMove : MonoBehaviour
         {
             player.bCanUseGravity = true;
             player.doorEntered = false;
-            //fDampTime = fDampTimeStarting;
-            //gameObject.GetComponent<Camera>().fieldOfView = 40;
+            bDampDecreasing = false;
+            bDampLimit = false;
+            fDampTime = 0.4f;
 
             //Based on the number of the camNum int, move the camera to the locations in the public array
             camNum++;
