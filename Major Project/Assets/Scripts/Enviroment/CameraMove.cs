@@ -25,12 +25,14 @@ public class CameraMove : MonoBehaviour
         // Sets maincam to be the main camera
         //mainCam = Camera.main;
         tPlayer = target;
-        fDampTimeStarting = fDampTime;
+        //fDampTimeStarting = fDampTime;
         target = cameraLocations[0].transform;
     }
 
     void Update()
     {
+        //fHorzMargin = target.position.x + 0.1f;
+
         if (target != null)
         {
             Vector3 point = GetComponent<Camera>().WorldToViewportPoint(target.position);
@@ -53,8 +55,8 @@ public class CameraMove : MonoBehaviour
         {
             target = tPlayer;
             player.bCanUseGravity = false;
-            fDampTime = 0f;
-            gameObject.GetComponent<Camera>().fieldOfView = 20;
+            //fDampTime = 0f;
+            //gameObject.GetComponent<Camera>().fieldOfView = 20;
 
             if (player.bIsGravityReversed)
             {
@@ -67,8 +69,8 @@ public class CameraMove : MonoBehaviour
         {
             player.bCanUseGravity = true;
             player.doorEntered = false;
-            fDampTime = fDampTimeStarting;
-            gameObject.GetComponent<Camera>().fieldOfView = 40;
+            //fDampTime = fDampTimeStarting;
+            //gameObject.GetComponent<Camera>().fieldOfView = 40;
 
             //Based on the number of the camNum int, move the camera to the locations in the public array
             camNum++;

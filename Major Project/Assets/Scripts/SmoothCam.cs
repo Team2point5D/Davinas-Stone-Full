@@ -27,5 +27,7 @@ public class SmoothCam : MonoBehaviour {
 		if (this.transform.position.y < fVertMargin) {
 			this.transform.position = new Vector3(this.transform.position.x, fVertMargin, this.transform.position.z);
 		}
+
+
 	}
 }
