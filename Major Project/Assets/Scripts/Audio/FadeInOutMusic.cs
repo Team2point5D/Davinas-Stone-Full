@@ -34,14 +34,7 @@ public class FadeInOutMusic : MonoBehaviour
 
     public bool fadeIn;
 
-    // public bool startFade;
-
-
-    // bool fadeIn;
-
-    // bool fadeOut;
-
-    //float timer;
+    public bool startFade;
 
     AudioSource aSource;
 
@@ -61,41 +54,52 @@ public class FadeInOutMusic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (fadeOut)
+        if (startFade)
         {
-            aSource.volume -= Time.deltaTime * fadeTime;
 
-            if (aSource.volume <= minVolume)
+            if (fadeOut)
             {
-                fadeOut = false;
+                aSource.volume -= Time.deltaTime * fadeTime;
 
-                fadeIn = true;
-            }
-        }
+                if (aSource.volume <= minVolume)
+                {
+                    fadeOut = false;
 
-        if (fadeIn)
-        {
-            // print("Play");
-
-            aSource.Play();
-            aSource.clip = song2;
-            aSource.Play();
-
-            aSource.volume += Time.deltaTime * fadeTime;
-
-            if (aSource.volume >= maxVolume)
-            {
-                fadeIn = false;
+                    fadeIn = true;
+                }
             }
 
+            if (fadeIn)
+            {
+                // print("Play");
+
+                aSource.Play();
+                aSource.clip = song2;
+                aSource.Play();
+
+                aSource.volume += Time.deltaTime * fadeTime;
+
+                if (aSource.volume >= maxVolume)
+                {
+                    fadeIn = false;
+
+                    startFade = false;
+                }
+
+            }
         }
-
-
-
-
 
 
     }
+
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Fade")
+        {
+            startFade = true;
+        }
+    }
+
 }
 
