@@ -16,11 +16,11 @@ public class InvertedGravity : MonoBehaviour {
     {
         if (Physics.gravity.y > 0f)
         {
-            myRigidBody.AddForce(new Vector3(0, -10, 0));
+            myRigidBody.AddForce(new Vector3(0, -78.48f, 0));
         }
         else if (Physics.gravity.y < 0f)
         {
-            myRigidBody.AddForce(new Vector3(0, 10, 0));
+            myRigidBody.AddForce(new Vector3(0, 78.48f, 0));
         }
     }
 }
