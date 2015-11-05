@@ -67,7 +67,7 @@ public class MovingPlatform : MonoBehaviour {
 
             //The player is no longer a child of the platform
             col.transform.parent = null;
-            if (col.gameObject.GetComponent<PlayerBehaviour>().flipMove == 1)
+            if (col.gameObject.GetComponent<PlayerBehaviour>().fFlipMove == 1)
             {
                 col.transform.localScale = new Vector3(-1, 1, 1);
             }

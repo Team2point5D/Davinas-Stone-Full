@@ -80,12 +80,10 @@ public class Crate : MonoBehaviour {
 
         if (bIsObjectContracted && !bIsObjectExpanded && bIsChangingScale)
         {
-            Debug.Log("Contracting");
             ChangeStateToContracted();
         }
         else if (bIsObjectExpanded && !bIsObjectContracted && bIsChangingScale)
         {
-            Debug.Log("Expanding");
             ChangeStateToExpanded();
         }
 
@@ -131,14 +129,12 @@ public class Crate : MonoBehaviour {
             bIsObjectExpanded = !bIsObjectExpanded;
             bIsObjectContracted = false;
             bIsChangingScale = true;
-            Debug.Log("Expand");
         }
         else
         {
             bIsObjectContracted = !bIsObjectContracted;
             bIsObjectExpanded = false;
             bIsChangingScale = true;
-            Debug.Log("Contract");
         }
     }
 
@@ -201,6 +197,21 @@ public class Crate : MonoBehaviour {
         bIsChangingScale = false;
         vEndingSize = new Vector3(fScaleDownSize, transform.localScale.y, transform.localScale.z);
         gameObject.GetComponent<Renderer>().material.color = Color.yellow;
+    }
+
+    void OnTriggerEnter (Collider col)
+    {
+        if (col.gameObject.tag == "Mass Bullet")
+        {
+            ChangeMass();
+            Destroy(col.gameObject);
+        }
+
+        if (col.gameObject.tag == "Scale Bullet")
+        {
+            ChangeScale();
+            Destroy(col.gameObject);
+        }
     }
 
 }

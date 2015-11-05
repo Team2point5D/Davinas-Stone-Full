@@ -10,66 +10,50 @@ public class PlayerBehaviour : MonoBehaviour
     public UIHandler UIHandler;
 
     [Header("Movement")]
-    public float moveSpeed;
-    public float jumpHeight;
-    public float jumpIncrease;
-    public float pushPullForce;
+    public float fMoveSpeed;
+    public float fJumpHeight;
+    public float fJumpIncrease;
+    public float fPushPullForce;
     public float fRotateSpeed = 3f;
-    private float jumpIncreaseTime;
-    public bool bIsGrounded = true;
+    private bool bIsGrounded = true;
     public Animator playerAnimator;
-    public float fGroundRayDetectionDistance = 1.5f;
+    private float fGroundRayDetectionDistance = 1.5f;
+    private bool bIsFacingRight = true;
+    public float fFlipMove;
 
     [Header("Interaction")]
-    public Crate nearbyCrate;
+    private Crate nearbyCrate;
     private bool bHoldingCrate;
-    public bool bCanClimb;
+    private bool bCanClimb;
+    private Rigidbody myRigidBody;
+    private GameObject CompanionnOBJ;
+    private GameObject thingToPushPull;
+    private GameObject shotParent;
 
     [Header("Shooting")]
-    public float shootSpeed;
-    public Transform shotSpot;
-    public GameObject shotBullet;
-    public GameObject sonarBullet;
+    public float fShootSpeed;
+    public Transform tShotSpot;
+    public GameObject goBullet;
     public float fShootCooldown = 1.5f;
     private float fShootCooldownReset;
     private bool canShoot;
     private bool bJustShot;
-    public AudioClip shootSound;
-
-    bool isFacingRight = true;
-    public float flipMove;
-
-    [Range(1f, 100f)]
-    [SerializeField]
-    float gravityForce;
+    public AudioClip acShootSound;
 
     [Header("Powers")]
     public bool bIsHeavySelected = false;
     public bool bIsGravityReversed = false;
     public bool bIsScalingUp = false;
-    private bool onCompanion;
-    private bool inMagic;
+    private bool bOnCompanion;
+    private bool bInMagic;
     public float fFlipTimer = 0f;
     public bool bPlayerReversed = false;
-    //public bool onCrate;
 
     [Header("Sonar")]
-    public GameObject sonarBull;
-    public float sonarDisFromPlayer;
-
-    private Rigidbody myRigidBody;
-
-    private GameObject CompanionnOBJ;
-    private GameObject thingToPushPull;
-    private GameObject shotParent;
+    public GameObject goSonarBullet;
+    public float fSonarLifeSpan;
 
     AudioSource aSource;
-
-    [Header("Scale")]
-    public float scaleUpSize;
-    public float scaleDownSize;
-
-   // public OBJECT_STATE 
 
     [Header("Checks")]
     public bool bCanUseMagic;
@@ -80,8 +64,8 @@ public class PlayerBehaviour : MonoBehaviour
     bool bIsMass;
     bool bIsSonar;
     bool bIsScale;
-    public bool doorExited;
-    public bool doorEntered;
+    public bool bDoorExited;
+    public bool bDoorEntered;
     bool pressed;
 
 
@@ -146,10 +130,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Controls();
 
-        //Temporary fix to gravity till we fix issues
-        //Vector3 extraGravityForce = (Physics.gravity * gravityForce);
-        //myRigidBody.AddForce(extraGravityForce);
-
         // Make a raycast that checks player is on ground or ceilling
         if (bIsGravityReversed == false)
         {
@@ -175,11 +155,11 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         //Flips player left and right
-        if (flipMove < 0 && !isFacingRight)
+        if (fFlipMove < 0 && !bIsFacingRight)
         {
             Flip();
         }
-        else if (flipMove > 0 && isFacingRight)
+        else if (fFlipMove > 0 && bIsFacingRight)
         {
             Flip();
         }
@@ -192,15 +172,15 @@ public class PlayerBehaviour : MonoBehaviour
         // Player computer move input
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            Vector3 moveQuantity = new Vector3(-moveSpeed, 0, 0);
+            Vector3 moveQuantity = new Vector3(-fMoveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
-            flipMove = 1;
+            fFlipMove = 1;
         }
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            Vector3 moveQuantity = new Vector3(moveSpeed, 0, 0);
+            Vector3 moveQuantity = new Vector3(fMoveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
-            flipMove = -1;
+            fFlipMove = -1;
         }
         if (bCanClimb)
         {
@@ -208,16 +188,16 @@ public class PlayerBehaviour : MonoBehaviour
 
             if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
             {
-                Vector3 moveQuantity = new Vector3(0, moveSpeed, 0);
+                Vector3 moveQuantity = new Vector3(0, fMoveSpeed, 0);
                 myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, moveQuantity.y, myRigidBody.velocity.z);
             }
             if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
             {
-                Vector3 moveQuantity = new Vector3(0, -moveSpeed, 0);
+                Vector3 moveQuantity = new Vector3(0, -fMoveSpeed, 0);
                 myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, moveQuantity.y, myRigidBody.velocity.z);
             }
 
-            transform.Translate(Vector3.down * Input.GetAxis("LeftThumbstickY") * moveSpeed * Time.deltaTime);
+            transform.Translate(Vector3.down * Input.GetAxis("LeftThumbstickY") * fMoveSpeed * Time.deltaTime);
         }
         else
         {
@@ -225,14 +205,14 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         // Player xbox controller move input
-        transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * moveSpeed * Time.deltaTime);
+        transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * fMoveSpeed * Time.deltaTime);
         if (Input.GetAxis("LeftThumbstickX") > 0)
         {
-            flipMove = -1;
+            fFlipMove = -1;
         }
         else if (Input.GetAxis("LeftThumbstickX") < 0)
         {
-            flipMove = 1;
+            fFlipMove = 1;
         }
 
     }
@@ -244,21 +224,21 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (Input.GetButtonDown("A") && bIsGrounded == true)
             {
-                myRigidBody.velocity = (Vector3.up * jumpHeight);
+                myRigidBody.velocity = (Vector3.up * fJumpHeight);
             }
         }
         else
         {
             if (Input.GetButtonDown("A") && bIsGrounded == true)
             {
-                myRigidBody.velocity = (Vector3.down * jumpHeight);
+                myRigidBody.velocity = (Vector3.down * fJumpHeight);
             }
         }
     }
 
     void Magic()
     {
-        if (inMagic == true)
+        if (bInMagic == true)
         {
             if (Input.GetButtonDown("X"))
             {
@@ -279,13 +259,13 @@ public class PlayerBehaviour : MonoBehaviour
                 Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
                 Vector3 direction = (Input.mousePosition - screenpoint).normalized;
                 Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, shotSpot.rotation);
+                GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, tShotSpot.rotation);
 
-                projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                projectile.GetComponent<Rigidbody>().velocity = direction * fShootSpeed;
                 projectile.tag = "Mass Bullet";
                 bJustShot = true;
 
-                aSource.clip = shootSound;
+                aSource.clip = acShootSound;
                 aSource.Play();
 
             }
@@ -294,16 +274,12 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
             {
-                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                GameObject projectile = (GameObject)Instantiate(sonarBullet, shotSpot.position, rotation);
-
-                projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                GameObject projectile = (GameObject)Instantiate(goSonarBullet, transform.position, transform.rotation);
+                Destroy(projectile, fSonarLifeSpan);
                 projectile.tag = "Sonar Bullet";
                 bJustShot = true;
 
-                aSource.clip = shootSound;
+                aSource.clip = acShootSound;
                 aSource.Play();
             }
         }
@@ -314,13 +290,13 @@ public class PlayerBehaviour : MonoBehaviour
                 Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
                 Vector3 direction = (Input.mousePosition - screenpoint).normalized;
                 Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+                GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, tShotSpot.rotation);
 
-                projectile.GetComponent<Rigidbody>().velocity = direction * shootSpeed;
+                projectile.GetComponent<Rigidbody>().velocity = direction * fShootSpeed;
                 projectile.tag = "Scale Bullet";
                 bJustShot = true;
 
-                aSource.clip = shootSound;
+                aSource.clip = acShootSound;
                 aSource.Play();
             }
         }
@@ -330,7 +306,7 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 nearbyCrate.bIsPickedUp = false;
                 nearbyCrate.GetComponent<Rigidbody>().isKinematic = false;
-                if (flipMove < 0)
+                if (fFlipMove < 0)
                 {
                     if (nearbyCrate.bIsObjectHeavy)
                     {
@@ -341,7 +317,7 @@ public class PlayerBehaviour : MonoBehaviour
                         nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(30f, 30f, 0f), ForceMode.Impulse);
                     }
                 }
-                else if (flipMove > 0)
+                else if (fFlipMove > 0)
                 {
                     nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(-30f, 30f, 0f), ForceMode.Impulse);
                 }
@@ -442,7 +418,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Flip()
     {
-        isFacingRight = !isFacingRight;
+        bIsFacingRight = !bIsFacingRight;
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
@@ -491,13 +467,13 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (col.gameObject.tag == "Door Exit")
         {
-            doorExited = true;
-            doorEntered = false;
+            bDoorExited = true;
+            bDoorEntered = false;
         }
         else if (col.gameObject.tag == "Door Enter")
         {
-            doorEntered = true;
-            doorExited = false;
+            bDoorEntered = true;
+            bDoorExited = false;
         }
     }
 
@@ -511,7 +487,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (col.gameObject.tag == "Magic Area")
         {
             CompanionnOBJ = GameObject.FindWithTag("Companion");
-            inMagic = true;
+            bInMagic = true;
         }
 
         if (col.gameObject.tag == "Climable")
@@ -524,11 +500,11 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (col.gameObject.tag == "Door Exit")
         {
-            doorExited = false;
+            bDoorExited = false;
         }
         else if (col.gameObject.tag == "Door Enter")
         {
-            doorEntered = false;
+            bDoorEntered = false;
         }
 
         if (col.gameObject.tag == "Crate Detection")
@@ -539,7 +515,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (col.gameObject.tag == "Magic Area")
         {
             CompanionnOBJ = null;
-            inMagic = false;
+            bInMagic = false;
         }
 
         if (col.gameObject.tag == "Climable")

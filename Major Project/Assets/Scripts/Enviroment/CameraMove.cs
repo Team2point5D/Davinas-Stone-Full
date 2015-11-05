@@ -93,7 +93,7 @@ public class CameraMove : MonoBehaviour
             this.transform.position = new Vector3(this.transform.position.x, fVertMargin, this.transform.position.z);
         }
 
-        if (player.doorExited == true)
+        if (player.bDoorExited == true)
         {
             target = player.transform;
             player.bCanUseGravity = false;
@@ -107,10 +107,10 @@ public class CameraMove : MonoBehaviour
                 Physics.gravity = new Vector3(0, -78.48f, 0);
             }
         }
-        else if (player.doorEntered == true)
+        else if (player.bDoorEntered == true)
         {
             player.bCanUseGravity = true;
-            player.doorEntered = false;
+            player.bDoorEntered = false;
             bDampDecreasing = false;
             bDampLimit = false;
             fDampTime = 0.4f;
