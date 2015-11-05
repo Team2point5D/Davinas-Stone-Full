@@ -46,6 +46,7 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Powers")]
     public bool bIsHeavySelected = false;
     public bool bIsGravityReversed = false;
+    public bool bIsScalingUp = false;
     private bool onCompanion;
     private bool inMagic;
     public float fFlipTimer = 0f;
@@ -71,7 +72,6 @@ public class PlayerBehaviour : MonoBehaviour
    // public OBJECT_STATE 
 
     [Header("Checks")]
-    public bool bIsUpScale;
     public bool bCanUseMagic;
     public bool bCanUseGravity;
     public bool bCanUseMass;
@@ -384,7 +384,7 @@ public class PlayerBehaviour : MonoBehaviour
                 }
                 else if (bIsScale)
                 {
-                    bIsUpScale = !bIsUpScale;
+                    bIsScalingUp = !bIsScalingUp;
                 }
             }
             else if ((d < 0f) || Input.GetButtonDown("LB"))
@@ -396,7 +396,7 @@ public class PlayerBehaviour : MonoBehaviour
                 }
                 else if (bIsScale)
                 {
-                    bIsUpScale = !bIsUpScale;
+                    bIsScalingUp = !bIsScalingUp;
                 }
             }
 
