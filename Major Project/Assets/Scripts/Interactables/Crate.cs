@@ -13,12 +13,14 @@ public class Crate : MonoBehaviour {
 	public bool bIsObjectLight = false;
 	public bool bIsObjectHeavy = false;
 	public bool bIsObjectZeroMass = false;
+    private bool bIsChangingMass = false;
 
     [Header("Scale")]
     public bool bIsObjectExpanded = false;
     public bool bIsObjectContracted = false;
     public bool bIsScaleUp = true;
-    public bool bChangeSize;
+    private bool bIsChangingScale;
+    public float fSpeedScale;
 
 	public float fScaleTimer = 0;
     private bool bIsScaling = false;
@@ -44,20 +46,6 @@ public class Crate : MonoBehaviour {
 	{
 		fScaleTimer = Mathf.Clamp (fScaleTimer, 0, 1);
 
-        if (bIsScaling)
-        {
-            transform.localScale = Vector3.Lerp(transform.localScale,
-                                                vEndingSize,
-                                                fScaleTimer);
-
-            fScaleTimer += Time.deltaTime;
-
-            if (fScaleTimer >= 1f)
-            {
-                bIsScaling = false;
-                fScaleTimer = 0f;
-            }
-        }
 
         if (bIsPickedUp)
         {
@@ -72,31 +60,48 @@ public class Crate : MonoBehaviour {
             gameObject.transform.parent = null;
         }
 
-        if (!bIsObjectHeavy && !bIsObjectLight && !bIsObjectExpanded && !bIsObjectContracted)
-        {
-            ChangeStateToRegular();
-        }
-
 		if(bIsObjectZeroMass && !bIsObjectLight && !bIsObjectHeavy)
 		{
             ChangeStateToZeroMass();
 		}
-        else if (bIsObjectHeavy && !bIsObjectLight)
+
+        if (!bIsObjectHeavy && !bIsObjectLight && !bIsObjectExpanded && !bIsObjectContracted && (bIsChangingMass || bIsChangingScale))
+        {
+            ChangeStateToRegular();
+        }
+        else if (bIsObjectHeavy && bIsChangingMass)
         {
             ChangeStateToHeavy();
         }
-        else if(bIsObjectLight && !bIsObjectHeavy)
+        else if(bIsObjectLight && bIsChangingMass)
         {
             ChangeStateToLight();
         }
 
-        if (bIsObjectContracted && !bIsObjectExpanded)
+        if (bIsObjectContracted && !bIsObjectExpanded && bIsChangingScale)
         {
+            Debug.Log("Contracting");
             ChangeStateToContracted();
         }
-        else if (bIsObjectExpanded && !bIsObjectContracted)
+        else if (bIsObjectExpanded && !bIsObjectContracted && bIsChangingScale)
         {
+            Debug.Log("Expanding");
             ChangeStateToExpanded();
+        }
+
+
+        if (bIsScaling)
+        {
+            fScaleTimer += Time.deltaTime;
+
+            transform.localScale = Vector3.Lerp(transform.localScale,
+                                                vEndingSize,
+                                                fScaleTimer);
+            if (fScaleTimer >= 1f)
+            {
+                bIsScaling = false;
+                fScaleTimer = 0f;
+            }
         }
 	}
 
@@ -107,10 +112,14 @@ public class Crate : MonoBehaviour {
 			if(PlayerBehaviour.bIsHeavySelected)
 			{
                 bIsObjectHeavy = !bIsObjectHeavy;
+                bIsObjectLight = false;
+                bIsChangingMass = true;
 			}
 			else
 			{
                 bIsObjectLight = !bIsObjectLight;
+                bIsObjectHeavy = false;
+                bIsChangingMass = true;
 			}
 		}
 	}
@@ -120,11 +129,15 @@ public class Crate : MonoBehaviour {
         if (PlayerBehaviour.bIsScalingUp)
         {
             bIsObjectExpanded = !bIsObjectExpanded;
+            bIsObjectContracted = false;
+            bIsChangingScale = true;
             Debug.Log("Expand");
         }
         else
         {
             bIsObjectContracted = !bIsObjectContracted;
+            bIsObjectExpanded = false;
+            bIsChangingScale = true;
             Debug.Log("Contract");
         }
     }
@@ -142,6 +155,8 @@ public class Crate : MonoBehaviour {
     {
         bIsScaling = true;
         vEndingSize = vStartingSize;
+        bIsChangingMass = false;
+        bIsChangingScale = false;
         gameObject.GetComponent<Rigidbody>().mass = 5;
         gameObject.GetComponent<Renderer>().material.color = Color.white;
     }
@@ -150,6 +165,7 @@ public class Crate : MonoBehaviour {
     {
         ResetStates();
         bIsObjectLight = true;
+        bIsChangingMass = false;
         gameObject.GetComponent<Rigidbody>().mass = 2.5f;
         gameObject.GetComponent<Renderer>().material.color = Color.blue;
     }
@@ -158,6 +174,7 @@ public class Crate : MonoBehaviour {
     {
         ResetStates();
         bIsObjectHeavy = true;
+        bIsChangingMass = false;
         gameObject.GetComponent<Rigidbody>().mass = 10;
         gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
@@ -166,6 +183,7 @@ public class Crate : MonoBehaviour {
     {
         ResetStates();
         bIsObjectZeroMass = true;
+        bIsChangingMass = false;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         gameObject.GetComponent<Renderer>().material.color = Color.black;
     }
@@ -173,12 +191,14 @@ public class Crate : MonoBehaviour {
     void ChangeStateToExpanded()
     {
         bIsScaling = true;
+        bIsChangingScale = false;
         vEndingSize = new Vector3(fScaleXUpSize, transform.localScale.y, transform.localScale.z);
         gameObject.GetComponent<Renderer>().material.color = Color.green;
     }
     void ChangeStateToContracted()
     {
         bIsScaling = true;
+        bIsChangingScale = false;
         vEndingSize = new Vector3(fScaleDownSize, transform.localScale.y, transform.localScale.z);
         gameObject.GetComponent<Renderer>().material.color = Color.yellow;
     }
