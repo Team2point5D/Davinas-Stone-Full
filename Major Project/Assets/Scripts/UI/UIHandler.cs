@@ -11,7 +11,7 @@ public class UIHandler : MonoBehaviour
 
     [Header("Aimer")]
     public Texture2D texCursor;
-    public Vector2 hotSpot = Vector2.zero;
+    private Vector2 hotSpot;
     public CursorMode cursorMode = CursorMode.Auto;
 
     [Header("Abilities")]
@@ -32,6 +32,7 @@ public class UIHandler : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        hotSpot = new Vector2(16f, 16f);
         Cursor.SetCursor(texCursor, hotSpot, cursorMode);
         teSelectedAbility.text = "";
     }
