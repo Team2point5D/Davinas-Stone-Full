@@ -21,10 +21,11 @@ public class Crate : MonoBehaviour {
     public bool bChangeSize;
 
 	public float fScaleTimer = 0;
-    private bool bIsTimer1;
+    private bool bIsScaling = false;
     private Vector3 vStartingSize;
-    public float scaleXUpSize = 1;
-    public float scaleXDownSize = 1;
+    private Vector3 vEndingSize;
+    public float fScaleXUpSize = 1;
+    public float fScaleDownSize = 1;
 
 	private PlayerBehaviour PlayerBehaviour;
     public Transform PlayerHolder;
@@ -43,13 +44,19 @@ public class Crate : MonoBehaviour {
 	{
 		fScaleTimer = Mathf.Clamp (fScaleTimer, 0, 1);
 
-        if (fScaleTimer >= 1f)
+        if (bIsScaling)
         {
-            bIsTimer1 = true;
-        }
-        else
-        {
-            bIsTimer1 = false;
+            transform.localScale = Vector3.Lerp(transform.localScale,
+                                                vEndingSize,
+                                                fScaleTimer);
+
+            fScaleTimer += Time.deltaTime;
+
+            if (fScaleTimer >= 1f)
+            {
+                bIsScaling = false;
+                fScaleTimer = 0f;
+            }
         }
 
         if (bIsPickedUp)
@@ -110,9 +117,6 @@ public class Crate : MonoBehaviour {
 
     public void ChangeScale()
     {
-        //transform.localScale = Vector3.Lerp (new Vector3(scaleUSize, transform.localScale.y, transform.localScale.z),
-        //                                     new Vector3(scaleSSize, transform.localScale.y, transform.localScale.z),
-        //                                     fScaleTimer);
         if (PlayerBehaviour.bIsScalingUp)
         {
             bIsObjectExpanded = !bIsObjectExpanded;
@@ -123,16 +127,6 @@ public class Crate : MonoBehaviour {
             bIsObjectContracted = !bIsObjectContracted;
             Debug.Log("Contract");
         }
-        //if (bIsScaleUp == true)
-        //{
-        //    //fScaleTimer += 5 * Time.deltaTime;
-        //    ChangeStateToExpanded();
-        //}
-        //else
-        //{
-        //    fScaleTimer += 5 * Time.deltaTime;
-        //    gameObject.GetComponent<Renderer>().material.color = Color.yellow;
-        //}
     }
 
     //Change states based on what is shot at the crate
@@ -146,7 +140,8 @@ public class Crate : MonoBehaviour {
 
     void ChangeStateToRegular ()
     {
-        
+        bIsScaling = true;
+        vEndingSize = vStartingSize;
         gameObject.GetComponent<Rigidbody>().mass = 5;
         gameObject.GetComponent<Renderer>().material.color = Color.white;
     }
@@ -177,15 +172,14 @@ public class Crate : MonoBehaviour {
 
     void ChangeStateToExpanded()
     {
-        
+        bIsScaling = true;
+        vEndingSize = new Vector3(fScaleXUpSize, transform.localScale.y, transform.localScale.z);
         gameObject.GetComponent<Renderer>().material.color = Color.green;
     }
     void ChangeStateToContracted()
     {
-        transform.localScale = Vector3.Lerp(new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z),
-                                             new Vector3(scaleXDownSize, transform.localScale.y, transform.localScale.z),
-                                             fScaleTimer);
-        fScaleTimer += Time.deltaTime;
+        bIsScaling = true;
+        vEndingSize = new Vector3(fScaleDownSize, transform.localScale.y, transform.localScale.z);
         gameObject.GetComponent<Renderer>().material.color = Color.yellow;
     }
 
