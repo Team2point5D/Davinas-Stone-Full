@@ -29,7 +29,7 @@ public class CameraMove : MonoBehaviour
         // Sets maincam to be the main camera
         //mainCam = Camera.main;
         fDampTimeStarting = fDampTime;
-        target = cameraLocations[0].transform;
+        //target = cameraLocations[0].transform;
         MainCam = gameObject.GetComponent<Camera>();
     }
 

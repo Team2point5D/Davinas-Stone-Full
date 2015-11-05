@@ -28,7 +28,7 @@ public class CrumblingPlatform : MonoBehaviour
     // Use this for initialization
     void Start()
     { 
-        platBoxCol = GetComponent<BoxCollider>();
+        //platBoxCol = GetComponent<BoxCollider>();
 
         platMeshRend = GetComponent<MeshRenderer>();
 
@@ -47,7 +47,7 @@ public class CrumblingPlatform : MonoBehaviour
             if (crumbleTimer >= timeTillDestroy)
             {
 
-                platBoxCol.enabled = false;
+               // platBoxCol.enabled = false;
 
                 platMeshRend.enabled = false;
 
@@ -65,7 +65,7 @@ public class CrumblingPlatform : MonoBehaviour
 
             if (respawnTimer >= recoveryTime)
             {
-                platBoxCol.enabled = true;
+                //platBoxCol.enabled = true;
 
                 platMeshRend.enabled = true;
             }
