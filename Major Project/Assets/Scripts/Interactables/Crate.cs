@@ -30,34 +30,52 @@ public class Crate : MonoBehaviour {
     private bool bIsChangingMass = false;
 
     [Header("Scale")]
+    public float fScaleSpeed;
     public bool bIsObjectExpanded = false;
     public bool bIsObjectContracted = false;
-    public bool bIsScaleUp = true;
+    public float fScaleXUpSize = 1;
+    public float fScaleXDownSize = 1;
+    public float fScaleYUpSize = 1;
+    public float fScaleYDownSize = 1;
+    public float fScaleXYUpSize = 1;
+    public float fScaleXYDownSize = 1;
+    private float fLastState = -1f;
+    private float fStartingScaleX;
+    private float fStartingScaleY;
+    private float fStartingScaleZ;
     private bool bIsChangingScale;
-    public float fScaleSpeed;
 	private float fScaleTimer = 0;
     private bool bIsScaling = false;
     private Vector3 vCurrentSize;
     private Vector3 vStartingSize;
     private Vector3 vEndingSize;
-    public float fScaleXUpSize = 1;
-    public float fScaleDownSize = 1;
 
     [Header("References")]
     public Transform PlayerHolder;
-	private PlayerBehaviour PlayerBehaviour;
+	public PlayerBehaviour PlayerBehaviour;
     private Rigidbody myRigidBody;
 
 	void Start ()
 	{
-		PlayerBehaviour = GameObject.FindWithTag ("Player").GetComponent<PlayerBehaviour>();
+		//PlayerBehaviour = GameObject.FindWithTag ("Player").GetComponent<PlayerBehaviour>();
         //PlayerHolder = GameObject.FindWithTag("Holder").GetComponent<Transform>();
         myRigidBody = this.gameObject.GetComponent<Rigidbody>();
 
         vStartingSize = gameObject.transform.localScale;
+        fStartingScaleX = transform.localScale.x;
+        fStartingScaleY = transform.localScale.y;
+        fStartingScaleZ = transform.localScale.z;
         myRenderer = gameObject.GetComponent<Renderer>();
-        mStartingMaterial = mStandard;
-        mEndingMaterial = mStandard;
+        if (bIsObjectZeroMass)
+        {
+            mStartingMaterial = mZeroMass;
+            mEndingMaterial = mZeroMass;
+        }
+        else
+        {
+            mStartingMaterial = mStandard;
+            mEndingMaterial = mStandard;
+        }
 	}
 
 	void Update () 
@@ -78,7 +96,7 @@ public class Crate : MonoBehaviour {
             gameObject.transform.parent = null;
         }
 
-		if(bIsObjectZeroMass && !bIsObjectLight && !bIsObjectHeavy)
+		if(bIsObjectZeroMass)
 		{
             ChangeStateToZeroMass();
 		}
@@ -144,8 +162,9 @@ public class Crate : MonoBehaviour {
 
 	public void ChangeMass ()
 	{
-		if(!bIsObjectZeroMass)
+		if(!bIsObjectZeroMass && !bIsChangingMass)
 		{
+            Debug.Log("Change Mass");
 			if(PlayerBehaviour.bIsHeavySelected)
 			{
                 bIsObjectHeavy = !bIsObjectHeavy;
@@ -163,17 +182,105 @@ public class Crate : MonoBehaviour {
 
     public void ChangeScale()
     {
-        if (PlayerBehaviour.bIsScalingUp)
+        if (!bIsScaling && !bIsChangingScale)
         {
-            bIsObjectExpanded = !bIsObjectExpanded;
-            bIsObjectContracted = false;
-            bIsChangingScale = true;
-        }
-        else
-        {
-            bIsObjectContracted = !bIsObjectContracted;
-            bIsObjectExpanded = false;
-            bIsChangingScale = true;
+            Debug.Log("Change Scale");
+            if (PlayerBehaviour.fScaleState == 1 ||
+                PlayerBehaviour.fScaleState == 3 ||
+                PlayerBehaviour.fScaleState == 5)
+            {
+                if (fLastState == 1)
+                {
+                    if (PlayerBehaviour.fScaleState == 3)
+                    {
+                        bIsChangingScale = true;
+                    }
+                    else if (PlayerBehaviour.fScaleState == 5)
+                    {
+                        bIsChangingScale = true;
+                    }
+
+                }
+                else if (fLastState == 3)
+                {
+                    if (PlayerBehaviour.fScaleState == 1)
+                    {
+                        bIsChangingScale = true;
+                    }
+                    else if (PlayerBehaviour.fScaleState == 5)
+                    {
+                        bIsChangingScale = true;
+                    }
+
+                }
+                if (fLastState == 5)
+                {
+                    if (PlayerBehaviour.fScaleState == 1)
+                    {
+                        bIsChangingScale = true;
+                    }
+                    else if (PlayerBehaviour.fScaleState == 3)
+                    {
+                        bIsChangingScale = true;
+                    }
+
+                }
+                else
+                {
+                    bIsObjectExpanded = !bIsObjectExpanded;
+                    bIsObjectContracted = false;
+                    bIsChangingScale = true;
+                }
+                fLastState = PlayerBehaviour.fScaleState;
+            }
+            else if (PlayerBehaviour.fScaleState == 0 ||
+                     PlayerBehaviour.fScaleState == 2 ||
+                     PlayerBehaviour.fScaleState == 4)
+            {
+                if (fLastState == 0)
+                {
+                    if (PlayerBehaviour.fScaleState == 2)
+                    {
+                        bIsChangingScale = true;
+                    }
+                    else if (PlayerBehaviour.fScaleState == 4)
+                    {
+                        bIsChangingScale = true;
+                    }
+
+                }
+                else if (fLastState == 2)
+                {
+                    if (PlayerBehaviour.fScaleState == 0)
+                    {
+                        bIsChangingScale = true;
+                    }
+                    else if (PlayerBehaviour.fScaleState == 4)
+                    {
+                        bIsChangingScale = true;
+                    }
+
+                }
+                if (fLastState == 4)
+                {
+                    if (PlayerBehaviour.fScaleState == 0)
+                    {
+                        bIsChangingScale = true;
+                    }
+                    else if (PlayerBehaviour.fScaleState == 2)
+                    {
+                        bIsChangingScale = true;
+                    }
+
+                }
+                else
+                {
+                    bIsObjectContracted = !bIsObjectContracted;
+                    bIsObjectExpanded = false;
+                    bIsChangingScale = true;
+                }
+                fLastState = PlayerBehaviour.fScaleState;
+            }
         }
     }
 
@@ -263,7 +370,18 @@ public class Crate : MonoBehaviour {
         bIsChangingMaterial = true;
         bIsChangingScale = false;
         vCurrentSize = transform.localScale;
-        vEndingSize = new Vector3(fScaleXUpSize, transform.localScale.y, transform.localScale.z);
+        if (PlayerBehaviour.fScaleState == 1)
+        {
+            vEndingSize = new Vector3(fScaleXUpSize, fStartingScaleY, fStartingScaleZ);
+        }
+        else if (PlayerBehaviour.fScaleState == 3)
+        {
+            vEndingSize = new Vector3(fStartingScaleX, fScaleYUpSize, fStartingScaleZ);
+        }
+        else if (PlayerBehaviour.fScaleState == 5)
+        {
+            vEndingSize = new Vector3(fScaleXYUpSize, fScaleXYUpSize, fScaleXYUpSize);
+        }
         mEndingMaterial = mExpanded;
     }
     void ChangeStateToContracted()
@@ -272,7 +390,18 @@ public class Crate : MonoBehaviour {
         bIsChangingMaterial = true;
         bIsChangingScale = false;
         vCurrentSize = transform.localScale;
-        vEndingSize = new Vector3(fScaleDownSize, transform.localScale.y, transform.localScale.z);
+        if (PlayerBehaviour.fScaleState == 0)
+        {
+            vEndingSize = new Vector3(fScaleXDownSize, fStartingScaleY, fStartingScaleZ);
+        }
+        else if (PlayerBehaviour.fScaleState == 2)
+        {
+            vEndingSize = new Vector3(fStartingScaleX, fScaleYDownSize, fStartingScaleZ);
+        }
+        else if (PlayerBehaviour.fScaleState == 4)
+        {
+            vEndingSize = new Vector3(fScaleXYDownSize, fScaleXYDownSize, fScaleXYDownSize);
+        }
         mEndingMaterial = mContracted;
     }
 

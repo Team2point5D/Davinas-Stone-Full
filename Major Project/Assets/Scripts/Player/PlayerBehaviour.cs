@@ -43,7 +43,6 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Powers")]
     public bool bIsHeavySelected = false;
     public bool bIsGravityReversed = false;
-    public bool bIsScalingUp = false;
     private bool bOnCompanion;
     private bool bInMagic;
     public float fFlipTimer = 0f;
@@ -61,10 +60,11 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bCanUseMass;
     public bool bCanUseSonar;
     public bool bCanUseScale;
-    bool bIsMass;
-    bool bIsSonar;
-    bool bIsScale;
-    public bool bDoorExited;
+    public float fScaleState = 0;
+    public bool bIsMass;
+    public bool bIsSonar;
+    public bool bIsScale;
+    public bool bDoorExited = true;
     public bool bDoorEntered;
     bool pressed;
 
@@ -356,11 +356,17 @@ public class PlayerBehaviour : MonoBehaviour
                 if (bIsMass)
                 {
                     bIsHeavySelected = !bIsHeavySelected;
-                    UIHandler.SwitchMassUI();
                 }
                 else if (bIsScale)
                 {
-                    bIsScalingUp = !bIsScalingUp;
+                    if (fScaleState == 5)
+                    {
+                        fScaleState = 0;
+                    }
+                    else
+                    {
+                        fScaleState++;
+                    }
                 }
             }
             else if ((d < 0f) || Input.GetButtonDown("LB"))
@@ -368,11 +374,17 @@ public class PlayerBehaviour : MonoBehaviour
                 if (bIsMass)
                 {
                     bIsHeavySelected = !bIsHeavySelected;
-                    UIHandler.SwitchMassUI();
                 }
                 else if (bIsScale)
                 {
-                    bIsScalingUp = !bIsScalingUp;
+                    if (fScaleState == 0)
+                    {
+                        fScaleState = 5;
+                    }
+                    else
+                    {
+                        fScaleState--;
+                    }
                 }
             }
 

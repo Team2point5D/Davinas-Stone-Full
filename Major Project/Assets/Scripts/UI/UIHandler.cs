@@ -26,13 +26,14 @@ public class UIHandler : MonoBehaviour
     public Sprite sScaleXDown;
     public Sprite sScaleYUp;
     public Sprite sScaleYDown;
-    public Sprite sScaleUp;
+    public Sprite sScaleXYUp;
+    public Sprite sScaleXYDown;
 
 
     // Use this for initialization
     void Start()
     {
-        hotSpot = new Vector2(16f, 16f);
+        hotSpot = new Vector2(40f, 40f);
         Cursor.SetCursor(texCursor, hotSpot, cursorMode);
         teSelectedAbility.text = "";
     }
@@ -40,61 +41,45 @@ public class UIHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Player.bCanUseMass)
-        //{
-        //    teSelectedAbility.text = "Mass";
-        //}
-
-        //if (Player.bCanUseSonar)
-        //{
-        //    teSelectedAbility.text = "Sonar";
-
-        //}
-
-        //if (Player.bCanUseScale)
-        //{
-        //    teSelectedAbility.text = "Scale";
-        //}
-
-
-
-    }
-
-    public void SwitchMassUI()
-    {
-        if (Player.bIsHeavySelected)
+        if (Player.bIsMass)
         {
-            imAbilityType.overrideSprite = sMassUp;
+            if (Player.bIsHeavySelected)
+            {
+                imAbilityType.overrideSprite = sMassUp;
 
-        }
-        else
-        {
-            imAbilityType.overrideSprite = sMassDown;
+            }
+            else
+            {
+                imAbilityType.overrideSprite = sMassDown;
+            }
         }
 
-        //teSelectedAbility.text = "Mass";
-    }
-
-    public void SwitchSonarUI()
-    {
-        if (Player.bCanUseSonar)
+        if (Player.bIsScale)
         {
-            imAbilityType.overrideSprite = sSonar;
-
+            if (Player.fScaleState == 0)
+            {
+                imAbilityType.overrideSprite = sScaleXDown;
+            }
+            else if (Player.fScaleState == 1)
+            {
+                imAbilityType.overrideSprite = sScaleXUp;
+            }
+            else if (Player.fScaleState == 2)
+            {
+                imAbilityType.overrideSprite = sScaleYDown;
+            }
+            else if (Player.fScaleState == 3)
+            {
+                imAbilityType.overrideSprite = sScaleYUp;
+            }
+            else if (Player.fScaleState == 4)
+            {
+                imAbilityType.overrideSprite = sScaleXYDown;
+            }
+            else if (Player.fScaleState == 5)
+            {
+                imAbilityType.overrideSprite = sScaleXYUp;
+            }
         }
-
-        teSelectedAbility.text = "Sonar";
-
-
-    }
-
-    public void SwitchScaleUI()
-    {
-        if (Player.bCanUseScale)
-        {
-            imAbilityType.overrideSprite = sScaleXUp;
-        }
-
-        teSelectedAbility.text = "Scale";
     }
 }
