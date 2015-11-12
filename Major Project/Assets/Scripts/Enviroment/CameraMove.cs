@@ -22,7 +22,7 @@ public class CameraMove : MonoBehaviour
     public float fCameraZoomedIn = 20f;
     public float fCameraZoomedOut = 40f;
     public Transform[] cameraLocations;
-    int camNum = 1;
+    int camNum = 0;
 
     void Start()
     {
