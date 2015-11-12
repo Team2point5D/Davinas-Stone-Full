@@ -6,6 +6,7 @@ public class CrumblingPlatform : MonoBehaviour
 {
 
     //public variables that set the times on when platforms will be destroyed and regain
+    [Header("Variables")]
     public float timeTillDestroy;
 
     public float recoveryTime;
@@ -14,6 +15,8 @@ public class CrumblingPlatform : MonoBehaviour
 
     public bool playerIsOn;
 
+    [Header("Volume")]
+    public float volume;
 
     float crumbleTimer;
 
@@ -44,8 +47,11 @@ public class CrumblingPlatform : MonoBehaviour
 
             crumbleTimer += Time.fixedDeltaTime;
 
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
+
             if (crumbleTimer >= timeTillDestroy)
             {
+                FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
 
                // platBoxCol.enabled = false;
 
