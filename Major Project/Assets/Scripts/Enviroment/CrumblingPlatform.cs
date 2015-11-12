@@ -47,13 +47,11 @@ public class CrumblingPlatform : MonoBehaviour
 
             crumbleTimer += Time.fixedDeltaTime;
 
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
+           
 
             if (crumbleTimer >= timeTillDestroy)
             {
-                FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
-
-               // platBoxCol.enabled = false;
+                
 
                 platMeshRend.enabled = false;
 
@@ -63,7 +61,7 @@ public class CrumblingPlatform : MonoBehaviour
         }
         else if (startCrumbling == false)
         {
-            
+           // FMOD_StudioSystem.instance.PlayOneShot("event:/Contact/Platform crumble", transform.position, volume);
 
             crumbleTimer = 0;
 
