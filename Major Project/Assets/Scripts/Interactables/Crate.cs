@@ -9,6 +9,20 @@ public class Crate : MonoBehaviour {
     [Header("Interaction")]
     public bool bIsPickedUp = false;
 
+    [Header("Materials")]
+    public float fMaterialSpeed;
+    public Material mStandard;
+    public Material mZeroMass;
+    public Material mHeavy;
+    public Material mLight;
+    public Material mExpanded;
+    public Material mContracted;
+    private bool bIsChangingMaterial = false;
+    private Renderer myRenderer;
+    private Material mStartingMaterial;
+    private Material mEndingMaterial;
+    private float fMaterialTimer = 0;
+
     [Header("Mass")]
 	public bool bIsObjectLight = false;
 	public bool bIsObjectHeavy = false;
@@ -20,17 +34,18 @@ public class Crate : MonoBehaviour {
     public bool bIsObjectContracted = false;
     public bool bIsScaleUp = true;
     private bool bIsChangingScale;
-    public float fSpeedScale;
-
-	public float fScaleTimer = 0;
+    public float fScaleSpeed;
+	private float fScaleTimer = 0;
     private bool bIsScaling = false;
+    private Vector3 vCurrentSize;
     private Vector3 vStartingSize;
     private Vector3 vEndingSize;
     public float fScaleXUpSize = 1;
     public float fScaleDownSize = 1;
 
-	private PlayerBehaviour PlayerBehaviour;
+    [Header("References")]
     public Transform PlayerHolder;
+	private PlayerBehaviour PlayerBehaviour;
     private Rigidbody myRigidBody;
 
 	void Start ()
@@ -40,12 +55,15 @@ public class Crate : MonoBehaviour {
         myRigidBody = this.gameObject.GetComponent<Rigidbody>();
 
         vStartingSize = gameObject.transform.localScale;
+        myRenderer = gameObject.GetComponent<Renderer>();
+        mStartingMaterial = mStandard;
+        mEndingMaterial = mStandard;
 	}
 
 	void Update () 
 	{
 		fScaleTimer = Mathf.Clamp (fScaleTimer, 0, 1);
-
+        fMaterialTimer = Mathf.Clamp(fMaterialTimer, 0, 1);
 
         if (bIsPickedUp)
         {
@@ -65,10 +83,16 @@ public class Crate : MonoBehaviour {
             ChangeStateToZeroMass();
 		}
 
-        if (!bIsObjectHeavy && !bIsObjectLight && !bIsObjectExpanded && !bIsObjectContracted && (bIsChangingMass || bIsChangingScale))
+        if (!bIsObjectHeavy && !bIsObjectLight && bIsChangingMass)
         {
-            ChangeStateToRegular();
+            ChangeMassToRegular();
         }
+
+        if (!bIsObjectContracted && !bIsObjectExpanded && bIsChangingScale)
+        {
+            ChangeScaleToRegular();
+        }
+
         else if (bIsObjectHeavy && bIsChangingMass)
         {
             ChangeStateToHeavy();
@@ -87,12 +111,27 @@ public class Crate : MonoBehaviour {
             ChangeStateToExpanded();
         }
 
+        if (bIsChangingMaterial)
+        {
+            fMaterialTimer += fMaterialSpeed * Time.deltaTime;
+
+            myRenderer.material.Lerp(mStartingMaterial,
+                                     mEndingMaterial,
+                                     fMaterialTimer);
+
+            if (fMaterialTimer >= 1f)
+            {
+                bIsChangingMaterial = false;
+                mStartingMaterial = mEndingMaterial;
+                fMaterialTimer = 0f;
+            }
+        }
 
         if (bIsScaling)
         {
-            fScaleTimer += Time.deltaTime;
+            fScaleTimer += fScaleSpeed * Time.deltaTime;
 
-            transform.localScale = Vector3.Lerp(transform.localScale,
+            transform.localScale = Vector3.Lerp(vCurrentSize,
                                                 vEndingSize,
                                                 fScaleTimer);
             if (fScaleTimer >= 1f)
@@ -147,14 +186,45 @@ public class Crate : MonoBehaviour {
         bIsObjectZeroMass = false;
     }
 
-    void ChangeStateToRegular ()
+    void ChangeScaleToRegular ()
     {
         bIsScaling = true;
+        bIsChangingMaterial = true;
+        vCurrentSize = transform.localScale;
         vEndingSize = vStartingSize;
-        bIsChangingMass = false;
         bIsChangingScale = false;
+        if (bIsObjectHeavy)
+        {
+            mEndingMaterial = mHeavy;
+        }
+        else if (bIsObjectLight)
+        {
+            mEndingMaterial = mLight;
+        }
+        else
+        {
+            mEndingMaterial = mStandard;
+        }
+    }
+
+    void ChangeMassToRegular()
+    {
+        bIsChangingMass = false;
+        bIsChangingMaterial = true;
         gameObject.GetComponent<Rigidbody>().mass = 5;
-        gameObject.GetComponent<Renderer>().material.color = Color.white;
+        mEndingMaterial = mStandard;
+        if (bIsObjectContracted)
+        {
+            mEndingMaterial = mContracted;
+        }
+        else if (bIsObjectExpanded)
+        {
+            mEndingMaterial = mExpanded;
+        }
+        else
+        {
+            mEndingMaterial = mStandard;
+        }
     }
 
     void ChangeStateToLight ()
@@ -162,8 +232,9 @@ public class Crate : MonoBehaviour {
         ResetStates();
         bIsObjectLight = true;
         bIsChangingMass = false;
+        bIsChangingMaterial = true;
         gameObject.GetComponent<Rigidbody>().mass = 2.5f;
-        gameObject.GetComponent<Renderer>().material.color = Color.blue;
+        mEndingMaterial = mLight;
     }
 
     void ChangeStateToHeavy ()
@@ -171,8 +242,9 @@ public class Crate : MonoBehaviour {
         ResetStates();
         bIsObjectHeavy = true;
         bIsChangingMass = false;
+        bIsChangingMaterial = true;
         gameObject.GetComponent<Rigidbody>().mass = 10;
-        gameObject.GetComponent<Renderer>().material.color = Color.red;
+        mEndingMaterial = mHeavy;
     }
 
     void ChangeStateToZeroMass ()
@@ -180,23 +252,28 @@ public class Crate : MonoBehaviour {
         ResetStates();
         bIsObjectZeroMass = true;
         bIsChangingMass = false;
+        bIsChangingMaterial = true;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
-        gameObject.GetComponent<Renderer>().material.color = Color.black;
+        mEndingMaterial = mZeroMass;
     }
 
     void ChangeStateToExpanded()
     {
         bIsScaling = true;
+        bIsChangingMaterial = true;
         bIsChangingScale = false;
+        vCurrentSize = transform.localScale;
         vEndingSize = new Vector3(fScaleXUpSize, transform.localScale.y, transform.localScale.z);
-        gameObject.GetComponent<Renderer>().material.color = Color.green;
+        mEndingMaterial = mExpanded;
     }
     void ChangeStateToContracted()
     {
         bIsScaling = true;
+        bIsChangingMaterial = true;
         bIsChangingScale = false;
+        vCurrentSize = transform.localScale;
         vEndingSize = new Vector3(fScaleDownSize, transform.localScale.y, transform.localScale.z);
-        gameObject.GetComponent<Renderer>().material.color = Color.yellow;
+        mEndingMaterial = mContracted;
     }
 
     void OnTriggerEnter (Collider col)
