@@ -11,6 +11,7 @@ public class DetailedMainMenu : MonoBehaviour
 
     public Canvas mainMenuCanvas;
     public Canvas levelSelectCanvas;
+    public Canvas settingsCanvas;
 
     [Header("Level Butons")]
     public Button level1Button;
@@ -60,10 +61,39 @@ public class DetailedMainMenu : MonoBehaviour
     }
 
     // Buttons
+
+    public void PlayButton()
+    {
+        Application.LoadLevel(1);
+    }
+
     public void LevelSelectButtonClick()
     {
-        mainMenuCanvas.gameObject.SetActive(false);
-
         levelSelectCanvas.gameObject.SetActive(true);
+
+        mainMenuCanvas.gameObject.SetActive(false);
     }
+
+    public void SettingsButtonClick()
+    {
+        settingsCanvas.gameObject.SetActive(true);
+
+        mainMenuCanvas.gameObject.SetActive(false);
+    }
+
+    public void MainMenuBackClick()
+    {
+        mainMenuCanvas.gameObject.SetActive(true);
+
+        levelSelectCanvas.gameObject.SetActive(false);
+
+        settingsCanvas.gameObject.SetActive(false);
+    }
+
+    public void QuitButton()
+    {
+        Application.Quit();
+    }
+
+
 }
