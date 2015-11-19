@@ -68,7 +68,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bDoorExited = true;
     public bool bDoorEntered;
     bool pressed;
-    public Transform playerGlobal;
+    private Transform playerGlobal;
 
 
     Vector3 playerPos;
@@ -82,8 +82,8 @@ public class PlayerBehaviour : MonoBehaviour
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
         fShootCooldownReset = fShootCooldown;
         playerAnimator = GetComponent<Animator>();
-        playerGlobal = GameObject.Find("CC_Global01").GetComponent<Transform>();
-        playerGlobal.localEulerAngles = new Vector3(0f, 90f, 0f);
+        //playerGlobal = GameObject.Find("CC_Global01").GetComponent<Transform>();
+        //playerGlobal.localEulerAngles = new Vector3(0f, 90f, 0f);
     }
 
     void Update()
@@ -94,7 +94,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         Magic();
 
-        playerGlobal.eulerAngles = new Vector3(0f, 90f, 0f);
+        //playerGlobal.eulerAngles = new Vector3(0f, 90f, 0f);
 
         playerAnimator.SetBool("isWalking", bIsMoving);
         playerAnimator.SetBool("isJumping", !bIsGrounded);
