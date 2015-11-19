@@ -181,7 +181,90 @@ ModelImporter:
     4300010: bag
     4300012: jacket
     7400000: Davina Animation
+    7400002: Davina Animation //// CC_Global01
     9500000: //RootNode
+    11100000: //RootNode
+    11100002: bag
+    11100004: be_l_ankle01
+    11100006: be_l_clavicle01
+    11100008: be_l_hand01
+    11100010: be_r_ankle01
+    11100012: be_r_clavicle01
+    11100014: be_r_hand01
+    11100016: bn_chest01
+    11100018: bn_head01
+    11100020: bn_l_ankle01
+    11100022: bn_l_clavicle01
+    11100024: bn_l_elbow01
+    11100026: bn_l_eye01
+    11100028: bn_l_foot01
+    11100030: bn_l_index_a01
+    11100032: bn_l_index_b01
+    11100034: bn_l_index_c01
+    11100036: bn_l_knee01
+    11100038: bn_l_lowerlid01
+    11100040: bn_l_middle_a01
+    11100042: bn_l_middle_b01
+    11100044: bn_l_middle_c01
+    11100046: bn_l_pinky_a01
+    11100048: bn_l_pinky_b01
+    11100050: bn_l_pinky_c01
+    11100052: bn_l_ring_a01
+    11100054: bn_l_ring_b01
+    11100056: bn_l_ring_c01
+    11100058: bn_l_shoulder01
+    11100060: bn_l_thigh01
+    11100062: bn_l_thumb_a01
+    11100064: bn_l_thumb_b01
+    11100066: bn_l_thumb_c01
+    11100068: bn_l_upperlid01
+    11100070: bn_l_wrist01
+    11100072: bn_lowerjaw01
+    11100074: bn_neck01
+    11100076: bn_pelvis01
+    11100078: bn_r_ankle01
+    11100080: bn_r_clavicle01
+    11100082: bn_r_elbow01
+    11100084: bn_r_eye01
+    11100086: bn_r_foot01
+    11100088: bn_r_index_a01
+    11100090: bn_r_index_b01
+    11100092: bn_r_index_c01
+    11100094: bn_r_knee01
+    11100096: bn_r_lowerlid01
+    11100098: bn_r_middle_a01
+    11100100: bn_r_middle_b01
+    11100102: bn_r_middle_c01
+    11100104: bn_r_pinky_a01
+    11100106: bn_r_pinky_b01
+    11100108: bn_r_pinky_c01
+    11100110: bn_r_ring_a01
+    11100112: bn_r_ring_b01
+    11100114: bn_r_ring_c01
+    11100116: bn_r_shoulder01
+    11100118: bn_r_thigh01
+    11100120: bn_r_thumb_a01
+    11100122: bn_r_thumb_b01
+    11100124: bn_r_thumb_c01
+    11100126: bn_r_upperlid01
+    11100128: bn_r_wrist01
+    11100130: bn_root01
+    11100132: bn_upperjaw01
+    11100134: bn_waist01
+    11100136: CC_Global01
+    11100138: dj_l_lowerlid01
+    11100140: dj_l_upperlid01
+    11100142: dj_r_lowerlid01
+    11100144: dj_r_upperlid01
+    11100146: eyeLeft
+    11100148: eyeRight
+    11100150: Eyes
+    11100152: geo1
+    11100154: hair
+    11100156: jacket
+    11100158: model
+    11100160: pants
+    11100162: Skeleton
     13700000: eyeLeft
     13700002: eyeRight
     13700004: hair
@@ -192,7 +275,7 @@ ModelImporter:
     materialName: 0
     materialSearch: 1
   animations:
-    legacyGenerateAnimations: 4
+    legacyGenerateAnimations: 1
     bakeSimulation: 0
     optimizeGameObjects: 1
     motionNodeName: 
@@ -400,8 +483,8 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
-    meshCompression: 0
+    globalScale: 10
+    meshCompression: 3
     addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
@@ -432,9 +515,9 @@ ModelImporter:
     armStretch: .0500000007
     legStretch: .0500000007
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: geo1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

@@ -16,10 +16,11 @@ public class PlayerBehaviour : MonoBehaviour
     public float fPushPullForce;
     public float fRotateSpeed = 3f;
     private bool bIsGrounded = true;
-    public Animator playerAnimator;
+    private Animator playerAnimator;
     private float fGroundRayDetectionDistance = 1.5f;
     private bool bIsFacingRight = true;
     public float fFlipMove;
+    private bool bIsMoving;
 
     [Header("Interaction")]
     private Crate nearbyCrate;
@@ -67,6 +68,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bDoorExited = true;
     public bool bDoorEntered;
     bool pressed;
+    public Transform playerGlobal;
 
 
     Vector3 playerPos;
@@ -79,6 +81,9 @@ public class PlayerBehaviour : MonoBehaviour
         shotParent = GameObject.Find("Magic Shots");
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
         fShootCooldownReset = fShootCooldown;
+        playerAnimator = GetComponent<Animator>();
+        playerGlobal = GameObject.Find("CC_Global01").GetComponent<Transform>();
+        playerGlobal.localEulerAngles = new Vector3(0f, 90f, 0f);
     }
 
     void Update()
@@ -88,6 +93,25 @@ public class PlayerBehaviour : MonoBehaviour
         Jump();
 
         Magic();
+
+        playerGlobal.eulerAngles = new Vector3(0f, 90f, 0f);
+
+        playerAnimator.SetBool("isWalking", bIsMoving);
+        playerAnimator.SetBool("isJumping", !bIsGrounded);
+
+        if (!bIsMoving)
+        {
+            UIHandler.teAnimationState.text = "Idle";
+        }
+        else
+        {
+            UIHandler.teAnimationState.text = "Moving";
+        }
+
+        if (!bIsGrounded)
+        {
+            UIHandler.teAnimationState.text = "Jumping";
+        }
 
         if (bJustShot)
         {
@@ -175,13 +199,21 @@ public class PlayerBehaviour : MonoBehaviour
             Vector3 moveQuantity = new Vector3(-fMoveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
             fFlipMove = 1;
+            bIsMoving = true;
         }
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             Vector3 moveQuantity = new Vector3(fMoveSpeed, 0, 0);
             myRigidBody.velocity = new Vector3(moveQuantity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
             fFlipMove = -1;
+            bIsMoving = true;
         }
+
+        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.D))
+        {
+            bIsMoving = false;
+        }
+
         if (bCanClimb)
         {
             myRigidBody.useGravity = false;
