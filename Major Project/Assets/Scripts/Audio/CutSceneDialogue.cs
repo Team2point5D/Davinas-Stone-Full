@@ -63,6 +63,8 @@ public class CutSceneDialogue : MonoBehaviour
 
         yield return StartCoroutine("Wait");
 
+        print("Play 2");
+
         aSource.clip = dialogueLines[1];
 
         aSource.Play();
@@ -106,6 +108,7 @@ public class CutSceneDialogue : MonoBehaviour
 
                     aSource.Play();
 
+                    print("Play 1");
 
 
                 }
