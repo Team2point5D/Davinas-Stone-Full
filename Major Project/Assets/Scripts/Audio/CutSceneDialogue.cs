@@ -16,7 +16,19 @@ public class CutSceneDialogue : MonoBehaviour
 
     public bool sceneCompleted;
 
+    [Header("Scenes")]
     public bool startScene;
+    public bool middleScene;
+    public bool endScene;
+
+
+
+    [Space(10)]
+    [Header("Number of lines")]
+    public bool is3Lines;
+    public bool is4Lines;
+    public bool is5Lines;
+
 
     float timer;
 
@@ -34,21 +46,26 @@ public class CutSceneDialogue : MonoBehaviour
 
         if (startScene == true)
         {
-
-
             if (!aSource.isPlaying)
             {
                 timer += Time.deltaTime;
 
+                StartCoroutine("StartDialogue");
 
-                if (!aSource.isPlaying)
-                {
-                    StartCoroutine("StartDialogue");
-                }
+                
+
             }
 
 
 
+        }
+        else if (startScene == false)
+        {
+          //  yield return StartCoroutine("Wait");
+
+            //middleScene = true;
+
+            StartCoroutine("MiddleDialogue");
         }
 
         //print(timer.ToString());
@@ -69,21 +86,32 @@ public class CutSceneDialogue : MonoBehaviour
 
         aSource.Play();
 
+        yield return StartCoroutine("Wait");
 
-        //yield return StartCoroutine("Wait");
+        middleScene = true;
+
+        startScene = false;
+
+
+        //startScene = false;
 
         //aSource.clip = dialogueLines[2];
 
         //aSource.Play();
 
+    }
 
-        //yield return StartCoroutine("Wait");
+    IEnumerator MiddleDialogue()
+    {
+        yield return StartCoroutine("Wait");
 
-        //aSource.clip = dialogueLines[3];
+        aSource.clip = dialogueLines[2];
 
-        //aSource.Play();
+        aSource.Play();
+
 
     }
+
 
     IEnumerator Wait()
     {
