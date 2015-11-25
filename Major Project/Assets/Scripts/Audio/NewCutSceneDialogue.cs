@@ -1,34 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class NewCutSceneDialogue : MonoBehaviour {
+public class NewCutSceneDialogue : MonoBehaviour
+{
 
     public AudioClip[] dialogueLines;
 
     public bool canPlayCutScene;
 
-    int lineNumber;
+    public int lineNumber;
 
     AudioSource aSource;
 
-	// Use this for initialization
-	void Start () 
+    // Use this for initialization
+    void Start()
     {
         aSource = GetComponent<AudioSource>();
-	
-	}
-	
-	// Update is called once per frame
-	void Update () 
+
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         if (canPlayCutScene)
         {
-            PlayCutScene();
+            StartCoroutine("PlayCutScene");
         }
-	
-	}
 
-    void PlayCutScene()
+    }
+
+    IEnumerator PlayCutScene()
     {
         canPlayCutScene = false;
 
@@ -36,16 +37,22 @@ public class NewCutSceneDialogue : MonoBehaviour {
 
         aSource.Play();
 
-        StartCoroutine("Wait");
+        yield return new WaitForSeconds(aSource.clip.length);
+
+        print("Done");
 
         canPlayCutScene = true;
 
         lineNumber++;
 
+        // canPlayCutScene = true;
+
         if (lineNumber == dialogueLines.Length)
         {
             lineNumber = 0;
         }
+
+       // canPlayCutScene = false;
 
     }
 
