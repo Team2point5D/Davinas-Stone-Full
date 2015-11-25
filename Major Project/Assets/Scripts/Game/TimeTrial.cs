@@ -11,6 +11,8 @@ public class TimeTrial : MonoBehaviour
 
     float timer;
 
+    [Space(10)]
+
     public Text timerText;
 
     public bool timerRun = true;
