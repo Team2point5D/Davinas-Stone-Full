@@ -5,7 +5,13 @@ using System.Collections;
 // Marcus
 public class PlayDialogue : MonoBehaviour {
 
-    public AudioClip Dialogue;
+    public AudioClip[] Dialogue;
+
+    [Space(10)]
+
+    public int lineNum;
+
+    public bool canPlay;
 
     AudioSource aSource;
 
@@ -20,17 +26,40 @@ public class PlayDialogue : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
+        if (canPlay)
+        {
+            StartCoroutine("PlayDialogueLine");
+        }
+
 	
 	}
+
+    IEnumerator PlayDialogueLine()
+    {
+        canPlay = false;
+
+        aSource.clip = Dialogue[lineNum];
+
+        aSource.Play();
+
+        yield return new WaitForSeconds(aSource.clip.length);
+
+        lineNum++;
+
+        if (lineNum == Dialogue.Length)
+        {
+            lineNum = 0;
+
+            canPlay = false;
+        }
+
+    }
 
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Player")
         {
-            aSource.clip = Dialogue;
-
-            aSource.Play();
-
+            canPlay = true;
         }
 
     }

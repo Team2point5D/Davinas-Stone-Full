@@ -7,116 +7,79 @@ public class CutSceneDialogue : MonoBehaviour
 
     public AudioClip[] dialogueLines;
 
-    [Space(10)]
+    public PlayerBehaviour playerBehave;
 
-    [Range(0, 2)]
-    public float waitTime;
+    bool canPlayCutScene;
 
-    [Space(5)]
-
-    public bool sceneCompleted;
-
-    public bool startScene;
-
-    float timer;
+    int lineNumber;
 
     AudioSource aSource;
 
     // Use this for initialization
-    void Awake()
+    void Start()
     {
         aSource = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (startScene == true)
+        if (canPlayCutScene)
         {
+            StartCoroutine("PlayCutScene");
 
-
-            if (!aSource.isPlaying)
-            {
-                timer += Time.deltaTime;
-
-
-                if (!aSource.isPlaying)
-                {
-                    StartCoroutine("StartDialogue");
-                }
-            }
-
-
-
+            playerBehave.gameObject.SetActive(false);
         }
-
-        //print(timer.ToString());
 
     }
 
-
-
-    IEnumerator StartDialogue()
+    IEnumerator PlayCutScene()
     {
-        print("Start");
+        canPlayCutScene = false;
 
-        yield return StartCoroutine("Wait");
-
-        print("Play 2");
-
-        aSource.clip = dialogueLines[1];
+        aSource.clip = dialogueLines[lineNumber];
 
         aSource.Play();
 
+        yield return new WaitForSeconds(aSource.clip.length);
 
-        //yield return StartCoroutine("Wait");
+        print("Done");
 
-        //aSource.clip = dialogueLines[2];
+        canPlayCutScene = true;
 
-        //aSource.Play();
+        lineNumber++;
 
+        // canPlayCutScene = true;
 
-        //yield return StartCoroutine("Wait");
+        if (lineNumber == dialogueLines.Length)
+        {
+            lineNumber = 0;
 
-        //aSource.clip = dialogueLines[3];
+            gameObject.SetActive(false);
 
-        //aSource.Play();
+            canPlayCutScene = false;
+
+            playerBehave.gameObject.SetActive(true);
+        }
+
+       // canPlayCutScene = false;
 
     }
 
-    IEnumerator Wait()
-    {
-
-        yield return new WaitForSeconds(waitTime);
-
-        print("Wait done");
-    }
+    //IEnumerator Wait()
+    //{
+    //    yield return new WaitForSeconds(aSource.clip.length);
+    //}
 
     void OnTriggerEnter(Collider col)
     {
-        if (!sceneCompleted)
+        if (col.gameObject.tag == "Player")
         {
-            if (col.gameObject.tag == "Player")
-            {
-                startScene = true;
+            canPlayCutScene = true;
 
-                if (startScene)
-                {
-
-                    aSource.clip = dialogueLines[0];
-
-                    aSource.Play();
-
-                    print("Play 1");
-
-
-                }
-
-            }
+            playerBehave = col.gameObject.GetComponent<PlayerBehaviour>();
         }
+
     }
-
-
-
 }
