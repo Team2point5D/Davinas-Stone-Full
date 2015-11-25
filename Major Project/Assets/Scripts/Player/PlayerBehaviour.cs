@@ -41,6 +41,8 @@ public class PlayerBehaviour : MonoBehaviour
     private float fShootCooldownReset;
     private bool canShoot;
     private bool bJustShot;
+    private bool bJustShotAnim;
+    private float fShotAnimTimer = 0.05f;
     public AudioClip acShootSound;
 
     [Header("Powers")]
@@ -58,6 +60,7 @@ public class PlayerBehaviour : MonoBehaviour
     AudioSource aSource;
 
     [Header("Checks")]
+    public bool bCanDoAnything = true;
     public bool bCanUseMagic;
     public bool bCanUseGravity;
     public bool bCanUseMass;
@@ -92,33 +95,17 @@ public class PlayerBehaviour : MonoBehaviour
     {
         fFlipTimer = Mathf.Clamp(fFlipTimer, 0, 1);
 
-        Jump();
+        if (bCanDoAnything)
+        {
+            Jump();
 
-        Magic();
-
-        //playerGlobal.eulerAngles = new Vector3(0f, 90f, 0f);
+            Magic();
+        }
 
         playerAnimator.SetBool("isWalking", bIsMoving);
         playerAnimator.SetBool("hasJumped", bHasJustJumped);
         playerAnimator.SetBool("hasLanded", bIsGrounded);
-
-        if (!bIsMoving)
-        {
-            UIHandler.teAnimationState.text = "Idle";
-        }
-        else
-        {
-            UIHandler.teAnimationState.text = "Moving";
-        }
-
-        if (bHasJustJumped)
-        {
-            UIHandler.teAnimationState.text = "Jumping";
-        }
-        else if (!bIsGrounded)
-        {
-            UIHandler.teAnimationState.text = "Falling";
-        }
+        playerAnimator.SetBool("hasShot", bJustShotAnim);
 
         if (bHasJustJumped)
         {
@@ -139,6 +126,17 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 fShootCooldown = fShootCooldownReset;
                 bJustShot = false;
+            }
+        }
+
+        if (bJustShotAnim)
+        {
+            fShotAnimTimer -= Time.deltaTime;
+
+            if (fShotAnimTimer <= 0)
+            {
+                bJustShotAnim = false;
+                fShotAnimTimer = 0.05f;
             }
         }
 
@@ -170,7 +168,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        Controls();
+        if (bCanDoAnything)
+        {
+            Controls();
+        }
 
         // Make a raycast that checks player is on ground or ceilling
         if (bIsGravityReversed == false)
@@ -316,6 +317,7 @@ public class PlayerBehaviour : MonoBehaviour
                 projectile.GetComponent<Rigidbody>().velocity = direction * fShootSpeed;
                 projectile.tag = "Mass Bullet";
                 bJustShot = true;
+                bJustShotAnim = true;
 
                 aSource.clip = acShootSound;
                 aSource.Play();
@@ -330,6 +332,7 @@ public class PlayerBehaviour : MonoBehaviour
                 Destroy(projectile, fSonarLifeSpan);
                 projectile.tag = "Sonar Bullet";
                 bJustShot = true;
+                bJustShotAnim = true;
 
                 aSource.clip = acShootSound;
                 aSource.Play();
@@ -347,6 +350,7 @@ public class PlayerBehaviour : MonoBehaviour
                 projectile.GetComponent<Rigidbody>().velocity = direction * fShootSpeed;
                 projectile.tag = "Scale Bullet";
                 bJustShot = true;
+                bJustShotAnim = true;
 
                 aSource.clip = acShootSound;
                 aSource.Play();
@@ -375,6 +379,7 @@ public class PlayerBehaviour : MonoBehaviour
                 }
                 bHoldingCrate = false;
                 bJustShot = true;
+                bJustShotAnim = true;
             }
         }
 
