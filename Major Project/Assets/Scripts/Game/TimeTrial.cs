@@ -11,7 +11,7 @@ public class TimeTrial : MonoBehaviour
 
     float timer;
 
-   // public Text timerText;
+    public Text timerText;
 
     public bool timerRun = true;
 
@@ -32,7 +32,7 @@ public class TimeTrial : MonoBehaviour
         {
             currentTime += Time.deltaTime;
 
-           // timerText.text = "" + minutes + ":" + seconds;
+            timerText.text = "" + minutes + ":" + seconds;
 
             print("" + minutes + ":" + seconds);
 
