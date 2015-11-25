@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 101768707de62b34492d60fbf7ebe45d
-timeCreated: 1448268690
+guid: ee62fe5c99e60fb4398d168a71037023
+timeCreated: 1448259630
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -80,13 +80,11 @@ ModelImporter:
     100144: geo
     100146: hair
     100148: jacket
-    100150: leftEye
-    100152: leftshoe
-    100154: mainbod
-    100156: pants
-    100158: rightEye
-    100160: rightshoe
-    100162: Skeleton
+    100150: leftshoe
+    100152: mainbod
+    100154: pants
+    100156: rightshoe
+    100158: Skeleton
     400000: bag
     400002: be_l_ankle01
     400004: be_l_clavicle01
@@ -162,41 +160,33 @@ ModelImporter:
     400144: geo
     400146: hair
     400148: jacket
-    400150: leftEye
-    400152: leftshoe
-    400154: mainbod
-    400156: pants
-    400158: rightEye
-    400160: rightshoe
-    400162: Skeleton
+    400150: leftshoe
+    400152: mainbod
+    400154: pants
+    400156: rightshoe
+    400158: Skeleton
     2300000: bag
     2300002: jacket
     3300000: bag
     3300002: jacket
-    4300000: rightEye
-    4300002: leftEye
-    4300004: bag
-    4300006: jacket
-    4300008: pants
-    4300010: hair
-    4300012: leftshoe
-    4300014: rightshoe
-    4300016: mainbod
+    4300000: bag
+    4300002: jacket
+    4300004: pants
+    4300006: hair
+    4300008: leftshoe
+    4300010: rightshoe
+    4300012: mainbod
     7400000: Full Animation
     7400002: Walking
     7400004: Jumping
     7400006: Idle
     7400008: Shooting
-    7400010: Falling
-    7400012: Landing
     9500000: //RootNode
     13700000: hair
-    13700002: leftEye
-    13700004: leftshoe
-    13700006: mainbod
-    13700008: pants
-    13700010: rightEye
-    13700012: rightshoe
+    13700002: leftshoe
+    13700004: mainbod
+    13700006: pants
+    13700008: rightshoe
   materials:
     importMaterials: 1
     materialName: 0
@@ -251,15 +241,11 @@ ModelImporter:
         weight: 1
       - path: geo/jacket
         weight: 1
-      - path: geo/leftEye
-        weight: 1
       - path: geo/leftshoe
         weight: 1
       - path: geo/mainbod
         weight: 1
       - path: geo/pants
-        weight: 1
-      - path: geo/rightEye
         weight: 1
       - path: geo/rightshoe
         weight: 1
@@ -441,15 +427,11 @@ ModelImporter:
         weight: 1
       - path: geo/jacket
         weight: 1
-      - path: geo/leftEye
-        weight: 1
       - path: geo/leftshoe
         weight: 1
       - path: geo/mainbod
         weight: 1
       - path: geo/pants
-        weight: 1
-      - path: geo/rightEye
         weight: 1
       - path: geo/rightshoe
         weight: 1
@@ -601,393 +583,13 @@ ModelImporter:
       name: Jumping
       takeName: Take 001
       firstFrame: 26
-      lastFrame: 44
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: geo
-        weight: 1
-      - path: geo/bag
-        weight: 1
-      - path: geo/hair
-        weight: 1
-      - path: geo/jacket
-        weight: 1
-      - path: geo/leftEye
-        weight: 1
-      - path: geo/leftshoe
-        weight: 1
-      - path: geo/mainbod
-        weight: 1
-      - path: geo/pants
-        weight: 1
-      - path: geo/rightEye
-        weight: 1
-      - path: geo/rightshoe
-        weight: 1
-      - path: Skeleton
-        weight: 1
-      - path: Skeleton/bn_root01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_l_thigh01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_l_thigh01/bn_l_knee01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_l_thigh01/bn_l_knee01/be_l_ankle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_l_thigh01/bn_l_knee01/be_l_ankle01/bn_l_ankle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_l_thigh01/bn_l_knee01/be_l_ankle01/bn_l_ankle01/bn_l_foot01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_r_thigh01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_r_thigh01/bn_r_knee01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_r_thigh01/bn_r_knee01/be_r_ankle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_r_thigh01/bn_r_knee01/be_r_ankle01/bn_r_ankle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_r_thigh01/bn_r_knee01/be_r_ankle01/bn_r_ankle01/bn_r_foot01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_index_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_index_a01/bn_l_index_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_index_a01/bn_l_index_b01/bn_l_index_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_middle_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_middle_a01/bn_l_middle_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_middle_a01/bn_l_middle_b01/bn_l_middle_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_pinky_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_pinky_a01/bn_l_pinky_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_pinky_a01/bn_l_pinky_b01/bn_l_pinky_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_ring_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_ring_a01/bn_l_ring_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_ring_a01/bn_l_ring_b01/bn_l_ring_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_thumb_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_thumb_a01/bn_l_thumb_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_thumb_a01/bn_l_thumb_b01/bn_l_thumb_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_lowerjaw01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/bn_l_eye01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/bn_r_eye01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_l_lowerlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_l_lowerlid01/bn_l_lowerlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_l_upperlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_l_upperlid01/bn_l_upperlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_r_lowerlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_r_lowerlid01/bn_r_lowerlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_r_upperlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_r_upperlid01/bn_r_upperlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_index_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_index_a01/bn_r_index_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_index_a01/bn_r_index_b01/bn_r_index_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_middle_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_middle_a01/bn_r_middle_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_middle_a01/bn_r_middle_b01/bn_r_middle_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_pinky_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_pinky_a01/bn_r_pinky_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_pinky_a01/bn_r_pinky_b01/bn_r_pinky_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_ring_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_ring_a01/bn_r_ring_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_ring_a01/bn_r_ring_b01/bn_r_ring_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_thumb_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_thumb_a01/bn_r_thumb_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_thumb_a01/bn_r_thumb_b01/bn_r_thumb_c01
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
-    - serializedVersion: 16
-      name: Falling
-      takeName: Take 001
-      firstFrame: 45
-      lastFrame: 46
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: geo
-        weight: 1
-      - path: geo/bag
-        weight: 1
-      - path: geo/hair
-        weight: 1
-      - path: geo/jacket
-        weight: 1
-      - path: geo/leftEye
-        weight: 1
-      - path: geo/leftshoe
-        weight: 1
-      - path: geo/mainbod
-        weight: 1
-      - path: geo/pants
-        weight: 1
-      - path: geo/rightEye
-        weight: 1
-      - path: geo/rightshoe
-        weight: 1
-      - path: Skeleton
-        weight: 1
-      - path: Skeleton/bn_root01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_l_thigh01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_l_thigh01/bn_l_knee01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_l_thigh01/bn_l_knee01/be_l_ankle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_l_thigh01/bn_l_knee01/be_l_ankle01/bn_l_ankle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_l_thigh01/bn_l_knee01/be_l_ankle01/bn_l_ankle01/bn_l_foot01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_r_thigh01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_r_thigh01/bn_r_knee01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_r_thigh01/bn_r_knee01/be_r_ankle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_r_thigh01/bn_r_knee01/be_r_ankle01/bn_r_ankle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_pelvis01/bn_r_thigh01/bn_r_knee01/be_r_ankle01/bn_r_ankle01/bn_r_foot01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_index_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_index_a01/bn_l_index_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_index_a01/bn_l_index_b01/bn_l_index_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_middle_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_middle_a01/bn_l_middle_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_middle_a01/bn_l_middle_b01/bn_l_middle_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_pinky_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_pinky_a01/bn_l_pinky_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_pinky_a01/bn_l_pinky_b01/bn_l_pinky_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_ring_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_ring_a01/bn_l_ring_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_ring_a01/bn_l_ring_b01/bn_l_ring_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_thumb_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_thumb_a01/bn_l_thumb_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_l_clavicle01/be_l_clavicle01/bn_l_shoulder01/bn_l_elbow01/bn_l_wrist01/be_l_hand01/bn_l_thumb_a01/bn_l_thumb_b01/bn_l_thumb_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_lowerjaw01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/bn_l_eye01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/bn_r_eye01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_l_lowerlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_l_lowerlid01/bn_l_lowerlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_l_upperlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_l_upperlid01/bn_l_upperlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_r_lowerlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_r_lowerlid01/bn_r_lowerlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_r_upperlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_neck01/bn_head01/bn_upperjaw01/dj_r_upperlid01/bn_r_upperlid01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_index_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_index_a01/bn_r_index_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_index_a01/bn_r_index_b01/bn_r_index_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_middle_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_middle_a01/bn_r_middle_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_middle_a01/bn_r_middle_b01/bn_r_middle_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_pinky_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_pinky_a01/bn_r_pinky_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_pinky_a01/bn_r_pinky_b01/bn_r_pinky_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_ring_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_ring_a01/bn_r_ring_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_ring_a01/bn_r_ring_b01/bn_r_ring_c01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_thumb_a01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_thumb_a01/bn_r_thumb_b01
-        weight: 1
-      - path: Skeleton/bn_root01/bn_waist01/bn_chest01/bn_r_clavicle01/be_r_clavicle01/bn_r_shoulder01/bn_r_elbow01/bn_r_wrist01/be_r_hand01/bn_r_thumb_a01/bn_r_thumb_b01/bn_r_thumb_c01
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
-    - serializedVersion: 16
-      name: Landing
-      takeName: Take 001
-      firstFrame: 46
       lastFrame: 49
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -1011,15 +613,11 @@ ModelImporter:
         weight: 1
       - path: geo/jacket
         weight: 1
-      - path: geo/leftEye
-        weight: 1
       - path: geo/leftshoe
         weight: 1
       - path: geo/mainbod
         weight: 1
       - path: geo/pants
-        weight: 1
-      - path: geo/rightEye
         weight: 1
       - path: geo/rightshoe
         weight: 1
@@ -1201,15 +799,11 @@ ModelImporter:
         weight: 1
       - path: geo/jacket
         weight: 1
-      - path: geo/leftEye
-        weight: 1
       - path: geo/leftshoe
         weight: 1
       - path: geo/mainbod
         weight: 1
       - path: geo/pants
-        weight: 1
-      - path: geo/rightEye
         weight: 1
       - path: geo/rightshoe
         weight: 1
@@ -1367,7 +961,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -1391,15 +985,11 @@ ModelImporter:
         weight: 1
       - path: geo/jacket
         weight: 1
-      - path: geo/leftEye
-        weight: 1
       - path: geo/leftshoe
         weight: 1
       - path: geo/mainbod
         weight: 1
       - path: geo/pants
-        weight: 1
-      - path: geo/rightEye
         weight: 1
       - path: geo/rightshoe
         weight: 1

@@ -16,6 +16,8 @@ public class PlayerBehaviour : MonoBehaviour
     public float fPushPullForce;
     public float fRotateSpeed = 3f;
     private bool bIsGrounded = true;
+    private bool bHasJustJumped = false;
+    private float fJumpCheckTimer = 0.05f;
     private Animator playerAnimator;
     private float fGroundRayDetectionDistance = 1.5f;
     private bool bIsFacingRight = true;
@@ -97,7 +99,8 @@ public class PlayerBehaviour : MonoBehaviour
         //playerGlobal.eulerAngles = new Vector3(0f, 90f, 0f);
 
         playerAnimator.SetBool("isWalking", bIsMoving);
-        playerAnimator.SetBool("isJumping", !bIsGrounded);
+        playerAnimator.SetBool("hasJumped", bHasJustJumped);
+        playerAnimator.SetBool("hasLanded", bIsGrounded);
 
         if (!bIsMoving)
         {
@@ -108,9 +111,24 @@ public class PlayerBehaviour : MonoBehaviour
             UIHandler.teAnimationState.text = "Moving";
         }
 
-        if (!bIsGrounded)
+        if (bHasJustJumped)
         {
             UIHandler.teAnimationState.text = "Jumping";
+        }
+        else if (!bIsGrounded)
+        {
+            UIHandler.teAnimationState.text = "Falling";
+        }
+
+        if (bHasJustJumped)
+        {
+            fJumpCheckTimer -= Time.deltaTime;
+
+            if (fJumpCheckTimer <= 0f)
+            {
+                bHasJustJumped = false;
+                fJumpCheckTimer = 0.05f;
+            }
         }
 
         if (bJustShot)
@@ -257,6 +275,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (Input.GetButtonDown("A") && bIsGrounded == true)
             {
                 myRigidBody.velocity = (Vector3.up * fJumpHeight);
+                bHasJustJumped = true;
             }
         }
         else
@@ -264,6 +283,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (Input.GetButtonDown("A") && bIsGrounded == true)
             {
                 myRigidBody.velocity = (Vector3.down * fJumpHeight);
+                bHasJustJumped = true;
             }
         }
     }
