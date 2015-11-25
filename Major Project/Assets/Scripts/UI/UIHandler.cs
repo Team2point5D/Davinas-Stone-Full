@@ -15,7 +15,6 @@ public class UIHandler : MonoBehaviour
     public CursorMode cursorMode = CursorMode.Auto;
 
     [Header("Abilities")]
-    public Text teAnimationState;
     public Text teSelectedAbility;
     public Image imAbilityType;
     // public Sprite sTransparent;
