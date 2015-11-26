@@ -48,6 +48,7 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Powers")]
     public bool bIsHeavySelected = false;
     public bool bIsGravityReversed = false;
+    private bool bHasGravSwitchedOnce = false;
     private bool bOnCompanion;
     private bool bInMagic;
     public float fFlipTimer = 0f;
@@ -179,6 +180,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (Physics.Raycast(transform.position, Vector3.down, fGroundRayDetectionDistance))
             {
                 bIsGrounded = true;
+                bHasGravSwitchedOnce = false;
             }
             else
             {
@@ -190,6 +192,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (Physics.Raycast(transform.position, Vector3.up, fGroundRayDetectionDistance))
             {
                 bIsGrounded = true;
+                bHasGravSwitchedOnce = false;
             }
             else
             {
@@ -260,10 +263,16 @@ public class PlayerBehaviour : MonoBehaviour
         if (Input.GetAxis("LeftThumbstickX") > 0)
         {
             fFlipMove = -1;
+            bIsMoving = true;
         }
         else if (Input.GetAxis("LeftThumbstickX") < 0)
         {
             fFlipMove = 1;
+            bIsMoving = true;
+        }
+        else
+        {
+            bIsMoving = false;
         }
 
     }
@@ -309,12 +318,15 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
             {
-                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, tShotSpot.rotation);
-
-                projectile.GetComponent<Rigidbody>().velocity = direction * fShootSpeed;
+                Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+                //position.z = 0;
+                GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, Quaternion.identity);
+                
+                projectile.transform.LookAt(mousePos, Vector3.up);
+                Debug.Log(mousePos);
+                Debug.DrawLine(transform.position, mousePos);
+                projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * fShootSpeed;
                 projectile.tag = "Mass Bullet";
                 bJustShot = true;
                 bJustShotAnim = true;
@@ -328,7 +340,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
             {
-                GameObject projectile = (GameObject)Instantiate(goSonarBullet, transform.position, transform.rotation);
+                GameObject projectile = (GameObject)Instantiate(goSonarBullet, transform.position, tShotSpot.rotation);
                 Destroy(projectile, fSonarLifeSpan);
                 projectile.tag = "Sonar Bullet";
                 bJustShot = true;
@@ -345,7 +357,7 @@ public class PlayerBehaviour : MonoBehaviour
                 Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
                 Vector3 direction = (Input.mousePosition - screenpoint).normalized;
                 Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, tShotSpot.rotation);
+                GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, rotation);
 
                 projectile.GetComponent<Rigidbody>().velocity = direction * fShootSpeed;
                 projectile.tag = "Scale Bullet";
@@ -391,17 +403,36 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 if (Input.GetButtonDown("Y"))
                 {
-                    if (bIsGravityReversed == false)
+                    if (bIsGrounded)
                     {
-                        bIsGravityReversed = true;
-                        bPlayerReversed = true;
-                        Physics.gravity = new Vector3(0, 78.48f, 0);
+                        if (bIsGravityReversed == false)
+                        {
+                            bIsGravityReversed = true;
+                            bPlayerReversed = true;
+                            Physics.gravity = new Vector3(0, 78.48f, 0);
+                        }
+                        else if (bIsGravityReversed == true)
+                        {
+                            bIsGravityReversed = false;
+                            bPlayerReversed = false;
+                            Physics.gravity = new Vector3(0, -78.48f, 0);
+                        }
                     }
-                    else if (bIsGravityReversed == true)
+                    else if (!bIsGrounded && !bHasGravSwitchedOnce)
                     {
-                        bIsGravityReversed = false;
-                        bPlayerReversed = false;
-                        Physics.gravity = new Vector3(0, -78.48f, 0);
+                        if (bIsGravityReversed == false)
+                        {
+                            bIsGravityReversed = true;
+                            bPlayerReversed = true;
+                            Physics.gravity = new Vector3(0, 78.48f, 0);
+                        }
+                        else if (bIsGravityReversed == true)
+                        {
+                            bIsGravityReversed = false;
+                            bPlayerReversed = false;
+                            Physics.gravity = new Vector3(0, -78.48f, 0);
+                        }
+                        bHasGravSwitchedOnce = true;
                     }
                 }
             }

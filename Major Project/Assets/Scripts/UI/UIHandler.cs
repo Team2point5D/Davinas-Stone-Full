@@ -33,7 +33,7 @@ public class UIHandler : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        hotSpot = new Vector2(40f, 40f);
+        hotSpot = new Vector2(16f, 16f);
         Cursor.SetCursor(texCursor, hotSpot, cursorMode);
         teSelectedAbility.text = "";
     }
