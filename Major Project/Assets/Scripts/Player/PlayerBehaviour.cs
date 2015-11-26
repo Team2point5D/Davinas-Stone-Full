@@ -231,11 +231,6 @@ public class PlayerBehaviour : MonoBehaviour
             bIsMoving = true;
         }
 
-        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.D))
-        {
-            bIsMoving = false;
-        }
-
         if (bCanClimb)
         {
             myRigidBody.useGravity = false;
@@ -270,7 +265,7 @@ public class PlayerBehaviour : MonoBehaviour
             fFlipMove = 1;
             bIsMoving = true;
         }
-        else
+        else if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.D))
         {
             bIsMoving = false;
         }
