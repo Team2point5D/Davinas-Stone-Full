@@ -29,7 +29,9 @@ public class CutSceneDialogue : MonoBehaviour
         {
             StartCoroutine("PlayCutScene");
 
-            playerBehave.gameObject.SetActive(false);
+            //playerBehave.gameObject.SetActive(false);
+
+            playerBehave.bCanDoAnything = false;
         }
 
     }
@@ -60,7 +62,7 @@ public class CutSceneDialogue : MonoBehaviour
 
             canPlayCutScene = false;
 
-            playerBehave.gameObject.SetActive(true);
+            playerBehave.bCanDoAnything = true;
         }
 
        // canPlayCutScene = false;
