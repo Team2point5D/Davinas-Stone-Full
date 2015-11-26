@@ -15,6 +15,8 @@ public class TimeTrial : MonoBehaviour
 
     public Text timerText;
 
+    public Text timeToBeatText;
+
     public bool timerRun = true;
 
     // Use this for initialization
@@ -30,13 +32,22 @@ public class TimeTrial : MonoBehaviour
 
         string minutes = Mathf.Floor(currentTime / 60).ToString("00");
 
+        string tTBSeconds = Mathf.Floor(goalTime % 60).ToString("00");
+
+        string tTBMinutes = Mathf.Floor(goalTime / 60).ToString("00");
+
+
         if (timerRun == true)
         {
             currentTime += Time.deltaTime;
 
-            timerText.text = "" + minutes + ":" + seconds;
+            timerText.text = "Your Time: " + "" + minutes + ":" + seconds;
 
-            print("" + minutes + ":" + seconds);
+            timeToBeatText.text = "Time to beat: " +"" + tTBMinutes + ":" + tTBSeconds;
+
+           
+
+            //print("" + minutes + ":" + seconds);
 
             if (currentTime >= goalTime)
             {
