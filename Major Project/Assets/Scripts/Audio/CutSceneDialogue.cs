@@ -2,6 +2,8 @@
 using System.Collections;
 
 // Marcus
+
+[RequireComponent (typeof(AudioSource))]
 public class CutSceneDialogue : MonoBehaviour
 {
 
@@ -46,7 +48,7 @@ public class CutSceneDialogue : MonoBehaviour
 
         yield return new WaitForSeconds(aSource.clip.length);
 
-        print("Done");
+       // print("Done");
 
         canPlayCutScene = true;
 
@@ -69,18 +71,13 @@ public class CutSceneDialogue : MonoBehaviour
 
     }
 
-    //IEnumerator Wait()
-    //{
-    //    yield return new WaitForSeconds(aSource.clip.length);
-    //}
-
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Player")
         {
             canPlayCutScene = true;
 
-            playerBehave = col.gameObject.GetComponent<PlayerBehaviour>();
+            //playerBehave = col.gameObject.GetComponent<PlayerBehaviour>();
         }
 
     }
