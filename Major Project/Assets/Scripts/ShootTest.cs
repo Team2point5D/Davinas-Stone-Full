@@ -8,12 +8,15 @@ public class ShootTest : MonoBehaviour {
     {
         if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1))
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0;
-            Debug.Log(mousePos);
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10;
+
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            print(mousePos.ToString());
 
             GameObject Cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Cube.transform.position = mousePos;
+            Cube.transform.position = worldPos;
+
         }
 	}
 }
