@@ -2,6 +2,8 @@
 using System.Collections;
 
 // Marcus
+
+[RequireComponent (typeof(AudioSource))]
 public class CutSceneDialogue : MonoBehaviour
 {
 
@@ -29,7 +31,9 @@ public class CutSceneDialogue : MonoBehaviour
         {
             StartCoroutine("PlayCutScene");
 
-            playerBehave.gameObject.SetActive(false);
+            //playerBehave.gameObject.SetActive(false);
+
+            playerBehave.bCanDoAnything = false;
         }
 
     }
@@ -44,7 +48,7 @@ public class CutSceneDialogue : MonoBehaviour
 
         yield return new WaitForSeconds(aSource.clip.length);
 
-        print("Done");
+       // print("Done");
 
         canPlayCutScene = true;
 
@@ -60,17 +64,12 @@ public class CutSceneDialogue : MonoBehaviour
 
             canPlayCutScene = false;
 
-            playerBehave.gameObject.SetActive(true);
+            playerBehave.bCanDoAnything = true;
         }
 
        // canPlayCutScene = false;
 
     }
-
-    //IEnumerator Wait()
-    //{
-    //    yield return new WaitForSeconds(aSource.clip.length);
-    //}
 
     void OnTriggerEnter(Collider col)
     {
@@ -78,7 +77,7 @@ public class CutSceneDialogue : MonoBehaviour
         {
             canPlayCutScene = true;
 
-            playerBehave = col.gameObject.GetComponent<PlayerBehaviour>();
+            //playerBehave = col.gameObject.GetComponent<PlayerBehaviour>();
         }
 
     }

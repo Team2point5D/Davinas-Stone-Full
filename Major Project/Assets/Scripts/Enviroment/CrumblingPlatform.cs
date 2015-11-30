@@ -30,7 +30,7 @@ public class CrumblingPlatform : MonoBehaviour
 
     // Use this for initialization
     void Start()
-    { 
+    {
         //platBoxCol = GetComponent<BoxCollider>();
 
         platMeshRend = GetComponent<MeshRenderer>();
@@ -47,11 +47,11 @@ public class CrumblingPlatform : MonoBehaviour
 
             crumbleTimer += Time.fixedDeltaTime;
 
-           
+
 
             if (crumbleTimer >= timeTillDestroy)
             {
-                
+
 
                 platMeshRend.enabled = false;
 
@@ -61,7 +61,7 @@ public class CrumblingPlatform : MonoBehaviour
         }
         else if (startCrumbling == false)
         {
-           // FMOD_StudioSystem.instance.PlayOneShot("event:/Contact/Platform crumble", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Contact/Platform crumble", transform.position, volume);
 
             crumbleTimer = 0;
 
