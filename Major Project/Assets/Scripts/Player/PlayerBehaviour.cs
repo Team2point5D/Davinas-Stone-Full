@@ -313,15 +313,19 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
             {
-                Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-                //position.z = 0;
+                Vector3 mousePos = Input.mousePosition;
+
+                Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+                worldPos.z = transform.position.z;
+                Debug.Log(worldPos);
+                //GameObject projectile = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                //projectile.transform.position = tShotSpot.position;
+                //projectile.AddComponent<Rigidbody>();
+                //projectile.GetComponent<Rigidbody>().useGravity = false;
                 GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, Quaternion.identity);
                 
-                projectile.transform.LookAt(mousePos, Vector3.up);
-                Debug.Log(mousePos);
-                Debug.DrawLine(transform.position, mousePos);
-                projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * fShootSpeed;
+                projectile.transform.LookAt(worldPos);
+                projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);
                 projectile.tag = "Mass Bullet";
                 bJustShot = true;
                 bJustShotAnim = true;
