@@ -316,12 +316,8 @@ public class PlayerBehaviour : MonoBehaviour
                 Vector3 mousePos = Input.mousePosition;
 
                 Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-                worldPos.z = transform.position.z;
+                worldPos.z = 0;
                 Debug.Log(worldPos);
-                //GameObject projectile = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                //projectile.transform.position = tShotSpot.position;
-                //projectile.AddComponent<Rigidbody>();
-                //projectile.GetComponent<Rigidbody>().useGravity = false;
                 GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, Quaternion.identity);
                 
                 projectile.transform.LookAt(worldPos);
