@@ -25,25 +25,11 @@ public class PlayerBehaviour : MonoBehaviour
     private bool bIsMoving;
 
     [Header("Interaction")]
-    private Crate nearbyCrate;
-    private bool bHoldingCrate;
     private bool bCanClimb;
     private Rigidbody myRigidBody;
     private GameObject CompanionnOBJ;
     private GameObject thingToPushPull;
     private GameObject shotParent;
-
-    [Header("Shooting")]
-    public float fShootSpeed;
-    public Transform tShotSpot;
-    public GameObject goBullet;
-    public float fShootCooldown = 1.5f;
-    private float fShootCooldownReset;
-    private bool canShoot;
-    private bool bJustShot;
-    private bool bJustShotAnim;
-    private float fShotAnimTimer = 0.05f;
-    public AudioClip acShootSound;
 
     [Header("Powers")]
     public bool bIsHeavySelected = false;
@@ -53,10 +39,6 @@ public class PlayerBehaviour : MonoBehaviour
     private bool bInMagic;
     public float fFlipTimer = 0f;
     public bool bPlayerReversed = false;
-
-    [Header("Sonar")]
-    public GameObject goSonarBullet;
-    public float fSonarLifeSpan;
 
     AudioSource aSource;
 
@@ -76,7 +58,7 @@ public class PlayerBehaviour : MonoBehaviour
     bool pressed;
     private Transform playerGlobal;
 
-
+    public Shoot PlayerShoot;
     Vector3 playerPos;
 
 
@@ -86,8 +68,8 @@ public class PlayerBehaviour : MonoBehaviour
         myRigidBody = this.gameObject.GetComponent<Rigidbody>();
         shotParent = GameObject.Find("Magic Shots");
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
-        fShootCooldownReset = fShootCooldown;
         playerAnimator = GetComponent<Animator>();
+        PlayerShoot = gameObject.GetComponent<Shoot>();
         //playerGlobal = GameObject.Find("CC_Global01").GetComponent<Transform>();
         //playerGlobal.localEulerAngles = new Vector3(0f, 90f, 0f);
     }
@@ -106,7 +88,7 @@ public class PlayerBehaviour : MonoBehaviour
         playerAnimator.SetBool("isWalking", bIsMoving);
         playerAnimator.SetBool("hasJumped", bHasJustJumped);
         playerAnimator.SetBool("hasLanded", bIsGrounded);
-        playerAnimator.SetBool("hasShot", bJustShotAnim);
+        playerAnimator.SetBool("hasShot", PlayerShoot.bJustShotAnim);
 
         if (bHasJustJumped)
         {
@@ -116,37 +98,6 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 bHasJustJumped = false;
                 fJumpCheckTimer = 0.05f;
-            }
-        }
-
-        if (bJustShot)
-        {
-            fShootCooldown -= Time.deltaTime;
-
-            if (fShootCooldown <= 0)
-            {
-                fShootCooldown = fShootCooldownReset;
-                bJustShot = false;
-            }
-        }
-
-        if (bJustShotAnim)
-        {
-            fShotAnimTimer -= Time.deltaTime;
-
-            if (fShotAnimTimer <= 0)
-            {
-                bJustShotAnim = false;
-                fShotAnimTimer = 0.05f;
-            }
-        }
-
-        if (nearbyCrate)
-        {
-            if (Input.GetButtonDown("X"))
-            {
-                nearbyCrate.bIsPickedUp = !nearbyCrate.bIsPickedUp;
-                bHoldingCrate = !bHoldingCrate;
             }
         }
 
@@ -309,85 +260,21 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         //Allows player to use shoot mass, sonar and scale magic
-        if (bCanUseMagic && bIsMass && !bHoldingCrate)
+        if (bCanUseMagic && bIsMass && !PlayerShoot.bHoldingCrate)
         {
-            if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
-            {
-                Vector3 mousePos = Input.mousePosition;
-
-                Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-                worldPos.z = 0;
-                Debug.Log(worldPos);
-                GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, Quaternion.identity);
-                
-                projectile.transform.LookAt(worldPos);
-                projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);
-                projectile.tag = "Mass Bullet";
-                bJustShot = true;
-                bJustShotAnim = true;
-
-                aSource.clip = acShootSound;
-                aSource.Play();
-
-            }
+            PlayerShoot.ShootMass();
         }
-        else if (bCanUseMagic && bIsSonar && !bHoldingCrate)
+        else if (bCanUseMagic && bIsSonar && !PlayerShoot.bHoldingCrate)
         {
-            if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
-            {
-                GameObject projectile = (GameObject)Instantiate(goSonarBullet, transform.position, tShotSpot.rotation);
-                Destroy(projectile, fSonarLifeSpan);
-                projectile.tag = "Sonar Bullet";
-                bJustShot = true;
-                bJustShotAnim = true;
-
-                aSource.clip = acShootSound;
-                aSource.Play();
-            }
+            PlayerShoot.ShootSonar();
         }
-        else if (bCanUseMagic && bIsScale && !bHoldingCrate)
+        else if (bCanUseMagic && bIsScale && !PlayerShoot.bHoldingCrate)
         {
-            if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
-            {
-                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, rotation);
-
-                projectile.GetComponent<Rigidbody>().velocity = direction * fShootSpeed;
-                projectile.tag = "Scale Bullet";
-                bJustShot = true;
-                bJustShotAnim = true;
-
-                aSource.clip = acShootSound;
-                aSource.Play();
-            }
+            PlayerShoot.ShootScale();
         }
-        else if (bHoldingCrate)
+        else if (PlayerShoot.bHoldingCrate)
         {
-            if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
-            {
-                nearbyCrate.bIsPickedUp = false;
-                nearbyCrate.GetComponent<Rigidbody>().isKinematic = false;
-                if (fFlipMove < 0)
-                {
-                    if (nearbyCrate.bIsObjectHeavy)
-                    {
-                        nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(15f, -25f, 0f), ForceMode.Impulse);
-                    }
-                    else
-                    {
-                        nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(30f, 30f, 0f), ForceMode.Impulse);
-                    }
-                }
-                else if (fFlipMove > 0)
-                {
-                    nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(-30f, 30f, 0f), ForceMode.Impulse);
-                }
-                bHoldingCrate = false;
-                bJustShot = true;
-                bJustShotAnim = true;
-            }
+            PlayerShoot.ThrowObject();
         }
 
         //Allows use of abilities once crystal is picked up
@@ -576,7 +463,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (col.gameObject.tag == "Crate Detection")
         {
-            nearbyCrate = col.gameObject.GetComponentInParent<Crate>();
+            PlayerShoot.nearbyCrate = col.gameObject.GetComponentInParent<Crate>();
         }
 
         if (col.gameObject.tag == "Magic Area")
@@ -604,7 +491,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (col.gameObject.tag == "Crate Detection")
         {
-            nearbyCrate = null;
+            PlayerShoot.nearbyCrate = null;
         }
 
         if (col.gameObject.tag == "Magic Area")
