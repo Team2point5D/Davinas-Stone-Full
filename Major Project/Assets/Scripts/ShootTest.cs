@@ -14,15 +14,15 @@ public class ShootTest : MonoBehaviour {
             mousePos.z = 10;
 
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-            GameObject Cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            //Cube.AddComponent<Rigidbody>();
-            //Cube.GetComponent<Rigidbody>().useGravity = false;
-            //Cube.GetComponent<BoxCollider>().isTrigger = true;
-            Cube.transform.position = worldPos;
-            //Cube.transform.position = transform.position;
-            //Cube.transform.LookAt(worldPos);
-            //Cube.GetComponent<Rigidbody>().AddForce(Cube.transform.forward * fShootSpeed);
+            Debug.Log(worldPos);
+            GameObject Sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            Sphere.AddComponent<Rigidbody>();
+            Sphere.GetComponent<Rigidbody>().useGravity = false;
+            Sphere.GetComponent<SphereCollider>().isTrigger = true;
+            //Sphere.transform.position = worldPos;
+            Sphere.transform.LookAt(worldPos);
+            Sphere.GetComponent<Rigidbody>().AddForce(Sphere.transform.forward * fShootSpeed);
+            Destroy(Sphere, 2f);
         }
 	}
 }

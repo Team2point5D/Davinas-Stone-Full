@@ -55,10 +55,11 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bIsScale;
     public bool bDoorExited = true;
     public bool bDoorEntered;
+    public GameObject goShadow;
     bool pressed;
     private Transform playerGlobal;
 
-    public Shoot PlayerShoot;
+    private Shoot PlayerShoot;
     Vector3 playerPos;
 
 
@@ -104,6 +105,7 @@ public class PlayerBehaviour : MonoBehaviour
         //Flips Player on its x axis when gravity is switched up and down
         if (bPlayerReversed)
         {
+            goShadow.SetActive(false);
             fFlipTimer += fRotateSpeed * Time.deltaTime;
             transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
                                             new Vector3(180, 0, 0),
@@ -115,6 +117,10 @@ public class PlayerBehaviour : MonoBehaviour
             transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
                                                   new Vector3(180, 0, 0),
                                                   fFlipTimer);
+            if (fFlipTimer <= 0f)
+            {
+                goShadow.SetActive(true);
+            }
         }
     }
 
