@@ -82,8 +82,8 @@ public class Shoot : MonoBehaviour {
             bJustShot = true;
             bJustShotAnim = true;
 
-            aSource.clip = acShootSound;
-            aSource.Play();
+            //aSource.clip = acShootSound;
+            //aSource.Play();
         }
     }
 

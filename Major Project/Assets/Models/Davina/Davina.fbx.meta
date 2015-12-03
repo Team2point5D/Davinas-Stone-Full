@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: 101768707de62b34492d60fbf7ebe45d
-timeCreated: 1448268690
-licenseType: Free
+guid: 2646f09f7748b074db5421dfad72ff67
+timeCreated: 1449108146
+licenseType: Pro
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
@@ -185,10 +185,10 @@ ModelImporter:
     7400000: Full Animation
     7400002: Walking
     7400004: Jumping
-    7400006: Idle
-    7400008: Shooting
-    7400010: Falling
-    7400012: Landing
+    7400006: Falling
+    7400008: Landing
+    7400010: Idle
+    7400012: Shooting
     9500000: //RootNode
     13700000: hair
     13700002: leftEye
@@ -410,7 +410,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Walking
       takeName: Take 001
-      firstFrame: 1
+      firstFrame: 2
       lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0
@@ -429,7 +429,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: .456978947
+        functionName: Footstep
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: .800000012
+        intParameter: 0
+        messageOptions: 0
+      - time: .988527656
+        functionName: Footstep
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: .800000012
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -797,7 +811,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
