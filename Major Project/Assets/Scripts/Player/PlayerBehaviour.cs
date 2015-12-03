@@ -443,6 +443,16 @@ public class PlayerBehaviour : MonoBehaviour
         FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
     }
 
+    public void Landing(float volume)
+    {
+        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Dirt landing", transform.position, volume);
+    }
+
+    public void Jumping(float volume)
+    {
+        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump/Jump grunt", transform.position, volume);
+    }
+
     //Collisision and Trigger Events
 
     void OnTriggerEnter(Collider col)

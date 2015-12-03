@@ -14,9 +14,9 @@ public class CrumblingPlatform : MonoBehaviour
     private bool bHasFullyCrumbled;
     private float fCrumbleTimerReset;
     private float fRespawnTimerReset;
-    public bool bIsShaking;
-    public bool bIsTiltedLeft;
-    public float fShakeTimer = 0;
+    private bool bIsShaking;
+    private bool bIsTiltedLeft;
+    private float fShakeTimer = 0;
     private MeshRenderer[] platform;
     private MeshCollider[] platformCollider;
 
