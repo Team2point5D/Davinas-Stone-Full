@@ -55,16 +55,12 @@ public class MovingPlatform : MonoBehaviour {
             //Parents the player to the platform so they both move
             col.transform.parent = gameObject.transform;
         }
-
-
-
     }
 
     void OnCollisionExit(Collision col)
     {
         if (col.gameObject.tag == "Player")
         {
-
             //The player is no longer a child of the platform
             col.transform.parent = null;
             if (col.gameObject.GetComponent<PlayerBehaviour>().fFlipMove == 1)
