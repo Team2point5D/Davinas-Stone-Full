@@ -9,15 +9,18 @@ public class CrumblingPlatform : MonoBehaviour
     [Header("Timers")]
     public float fCrumbleTimer;
     public float fRespawnTimer;
+    public float fVolume = 1;
     private bool bIsCrumbling;
     private bool bHasFullyCrumbled;
     private float fCrumbleTimerReset;
     private float fRespawnTimerReset;
-    private bool bIsShaking;
-    private bool bIsTiltedLeft;
-    private float fShakeTimer = 0;
+    public bool bIsShaking;
+    public bool bIsTiltedLeft;
+    public float fShakeTimer = 0;
     private MeshRenderer[] platform;
     private MeshCollider[] platformCollider;
+
+    private FMOD_Listener FListener;
 
     // Use this for initialization
     void Start()
@@ -26,6 +29,7 @@ public class CrumblingPlatform : MonoBehaviour
         fRespawnTimerReset = fRespawnTimer;
         platform = GetComponentsInChildren<MeshRenderer>();
         platformCollider = GetComponentsInChildren<MeshCollider>();
+        FListener = Camera.main.GetComponent<FMOD_Listener>();
     }
 
     // Update is called once per frame
@@ -33,35 +37,41 @@ public class CrumblingPlatform : MonoBehaviour
     {
         fShakeTimer = Mathf.Clamp(fShakeTimer, 0, 1);
 
-        //if (bIsShaking)
-        //{
-        //    if (bIsTiltedLeft)
-        //    {
-        //        fShakeTimer += Time.deltaTime;
+        if (bIsShaking)
+        {
+            if (bIsTiltedLeft)
+            {
+                fShakeTimer += 50 * Time.deltaTime;
 
-        //        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles,
-        //                                             new Vector3(0, 0, 5),
-        //                                             fShakeTimer);
+                transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
+                                                     new Vector3(0, 0, 0.5f),
+                                                     fShakeTimer);
 
-        //        if (fShakeTimer >= 1f)
-        //        {
-        //            bIsTiltedLeft = false;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        fShakeTimer -= Time.deltaTime;
+                if (fShakeTimer >= 1f)
+                {
+                    bIsTiltedLeft = false;
+                }
+            }
+            else
+            {
+                fShakeTimer -= 50 * Time.deltaTime;
 
-        //        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles,
-        //                                             new Vector3(0, 0, -5),
-        //                                             fShakeTimer);
+                transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
+                                                     new Vector3(0, 0, -0.5f),
+                                                     fShakeTimer);
 
-        //        if (fShakeTimer <= 0f)
-        //        {
-        //            bIsTiltedLeft = true;
-        //        }
-        //    }
-        //}
+                if (fShakeTimer <= 0f)
+                {
+                    bIsTiltedLeft = true;
+                }
+            }
+        }
+        else
+        {
+            transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
+                                                 new Vector3(0, 0, 0),
+                                                 1f);
+        }
 
         // Starts the crumbling timer and process
         if (bIsCrumbling && !bHasFullyCrumbled)
@@ -71,7 +81,7 @@ public class CrumblingPlatform : MonoBehaviour
 
             if (fCrumbleTimer <= 0f)
             {
-                //FMOD_StudioSystem.instance.PlayOneShot("event:/Contact/Platform crumble", transform.position, volume);
+                Crumble();
 
                 for (int i = 0; i < platform.Length; i++)
                 {
@@ -103,6 +113,11 @@ public class CrumblingPlatform : MonoBehaviour
         }
     }
 
+    void Crumble()
+    {
+        FMOD_StudioSystem.instance.PlayOneShot("event:/Contact/Platform crumble", transform.position, fVolume);
+    }
+
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Player")
@@ -129,6 +144,7 @@ public class CrumblingPlatform : MonoBehaviour
             //The player is no longer a child of the platform
             col.transform.parent = null;
             bIsCrumbling = false;
+            bIsShaking = false;
         }
     }
 }
