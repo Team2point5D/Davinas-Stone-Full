@@ -27,7 +27,9 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Interaction")]
     private bool bCanClimb;
     private Rigidbody myRigidBody;
-    private GameObject CompanionnOBJ;
+    private Companion Companion;
+    private bool bNearCrystal;
+    private string sCrystalType;
     private GameObject thingToPushPull;
     private GameObject shotParent;
 
@@ -35,8 +37,6 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bIsHeavySelected = false;
     public bool bIsGravityReversed = false;
     private bool bHasGravSwitchedOnce = false;
-    private bool bOnCompanion;
-    private bool bInMagic;
     public float fFlipTimer = 0f;
     public bool bPlayerReversed = false;
 
@@ -57,7 +57,6 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bDoorEntered;
     public GameObject goShadow;
     bool pressed;
-    private Transform playerGlobal;
 
     private Shoot PlayerShoot;
     Vector3 playerPos;
@@ -71,8 +70,6 @@ public class PlayerBehaviour : MonoBehaviour
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
         playerAnimator = GetComponent<Animator>();
         PlayerShoot = gameObject.GetComponent<Shoot>();
-        //playerGlobal = GameObject.Find("CC_Global01").GetComponent<Transform>();
-        //playerGlobal.localEulerAngles = new Vector3(0f, 90f, 0f);
     }
 
     void Update()
@@ -252,15 +249,28 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Magic()
     {
-        if (bInMagic == true)
+        if (bNearCrystal == true)
         {
             if (Input.GetButtonDown("X"))
             {
-                if (bCanUseMagic == false)
+                Companion.DestroySelf();
+                bCanUseMagic = true;
+
+                if (sCrystalType == "GravityCrystal")
                 {
-                    CompanionnOBJ.SetActive(false);
-                    bCanUseMagic = true;
                     bCanUseGravity = true;
+                }
+                else if (sCrystalType == "MassCrystal")
+                {
+                    bCanUseMass = true;
+                }
+                else if (sCrystalType == "SonarCrystal")
+                {
+                    bCanUseSonar = true;
+                }
+                else if (sCrystalType == "ScaleCrystal")
+                {
+                    bCanUseScale = true;
                 }
             }
         }
@@ -365,7 +375,7 @@ public class PlayerBehaviour : MonoBehaviour
             }
 
             //Changing between abilities using the right mouse click
-            if (bCanUseMass && !bCanUseSonar)
+            if (bCanUseMass)
             {
                 ChangeStateToMass();
             }
@@ -484,8 +494,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (col.gameObject.tag == "Magic Area")
         {
-            CompanionnOBJ = GameObject.FindWithTag("Companion");
-            bInMagic = true;
+            Companion = col.gameObject.GetComponentInParent<Companion>();
+            bNearCrystal = true;
+            sCrystalType = Companion.gameObject.tag;
         }
 
         if (col.gameObject.tag == "Climable")
@@ -512,8 +523,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (col.gameObject.tag == "Magic Area")
         {
-            CompanionnOBJ = null;
-            bInMagic = false;
+            Companion = null;
+            bNearCrystal = false;
+            sCrystalType = null;
         }
 
         if (col.gameObject.tag == "Climable")
