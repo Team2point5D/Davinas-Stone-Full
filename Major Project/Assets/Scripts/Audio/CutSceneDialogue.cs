@@ -9,6 +9,8 @@ public class CutSceneDialogue : MonoBehaviour
 
     public AudioClip[] dialogueLines;
 
+    [Space(10)]
+
     public PlayerBehaviour playerBehave;
 
     bool canPlayCutScene;
