@@ -55,7 +55,7 @@ public class FadeInOutOneTrack : MonoBehaviour
     {
         if (!aSource.isPlaying)
         {
-            //print("No Play");
+            print("No Play");
 
             startFade = true;
 
@@ -63,11 +63,13 @@ public class FadeInOutOneTrack : MonoBehaviour
             {
                 timer += Time.deltaTime;
 
-                aSource.volume -= Time.deltaTime;
+                //aSource.volume -= Time.deltaTime;
 
                 if (aSource.volume == minVolume)
                 {
                     startFade = false;
+
+
                 }
 
             }
@@ -76,6 +78,8 @@ public class FadeInOutOneTrack : MonoBehaviour
         else
         {
             timer = 0;
+
+            print("Playing");
         }
 
         if (timer >= waitTime)
@@ -85,7 +89,7 @@ public class FadeInOutOneTrack : MonoBehaviour
             startFade = false;
         }
 
-        print(timer.ToString());
+        // print(timer.ToString());
 
     }
 }
