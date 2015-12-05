@@ -149,19 +149,16 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
 			RaycastHit hitPoint;
-            Debug.Log("Is Checking if grounded reversed");
-			if (Physics.Raycast(transform.position, Vector3.down, out hitPoint, fGroundRayDetectionDistance))
+			if (Physics.Raycast(transform.position, Vector3.up, out hitPoint, fGroundRayDetectionDistance))
             {
                 bIsGrounded = true;
                 bHasGravSwitchedOnce = false;
 				sCurrentGround = hitPoint.transform.tag;
-                Debug.Log("Is grounded reversed");
             }
             else
             {
                 bIsGrounded = false;
 				sCurrentGround = null;
-                Debug.Log("Isn't grounded reversed");
             }
         }
 

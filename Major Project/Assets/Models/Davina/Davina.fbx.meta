@@ -190,6 +190,7 @@ ModelImporter:
     7400010: Idle
     7400012: Shooting
     7400014: Jumping
+    7400016: Full Jump
     9500000: //RootNode
     13700000: hair
     13700002: leftEye
@@ -623,7 +624,7 @@ ModelImporter:
       name: Jumping
       takeName: Take 001
       firstFrame: 26
-      lastFrame: 34
+      lastFrame: 45
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -642,7 +643,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: .38623333
+      - time: .102589436
         functionName: Jumping
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -819,8 +820,8 @@ ModelImporter:
     - serializedVersion: 16
       name: Falling
       takeName: Take 001
-      firstFrame: 35
-      lastFrame: 41
+      firstFrame: 45
+      lastFrame: 46
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -1009,7 +1010,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Landing
       takeName: Take 001
-      firstFrame: 42
+      firstFrame: 46
       lastFrame: 49
       wrapMode: 0
       orientationOffsetY: 0
@@ -1584,7 +1585,7 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: Jumping2
+      name: Full Jump
       takeName: Take 001
       firstFrame: 26
       lastFrame: 49
