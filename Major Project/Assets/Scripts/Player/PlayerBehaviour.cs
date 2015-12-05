@@ -19,7 +19,8 @@ public class PlayerBehaviour : MonoBehaviour
     private bool bHasJustJumped = false;
     private float fJumpCheckTimer = 0.05f;
     private Animator playerAnimator;
-    private float fGroundRayDetectionDistance = 1.5f;
+	public string sCurrentGround;
+    private float fGroundRayDetectionDistance = 3f;
     private bool bIsFacingRight = true;
     public float fFlipMove;
     private bool bIsMoving;
@@ -131,26 +132,36 @@ public class PlayerBehaviour : MonoBehaviour
         // Make a raycast that checks player is on ground or ceilling
         if (bIsGravityReversed == false)
         {
-            if (Physics.Raycast(transform.position, Vector3.down, fGroundRayDetectionDistance))
+            RaycastHit hitPoint;
+
+            if (Physics.Raycast(transform.position, Vector3.down, out hitPoint, fGroundRayDetectionDistance))
             {
                 bIsGrounded = true;
                 bHasGravSwitchedOnce = false;
+				sCurrentGround = hitPoint.transform.tag;
             }
             else
             {
                 bIsGrounded = false;
+				sCurrentGround = null;
             }
         }
         else
         {
-            if (Physics.Raycast(transform.position, Vector3.up, fGroundRayDetectionDistance))
+			RaycastHit hitPoint;
+            Debug.Log("Is Checking if grounded reversed");
+			if (Physics.Raycast(transform.position, Vector3.down, out hitPoint, fGroundRayDetectionDistance))
             {
                 bIsGrounded = true;
                 bHasGravSwitchedOnce = false;
+				sCurrentGround = hitPoint.transform.tag;
+                Debug.Log("Is grounded reversed");
             }
             else
             {
                 bIsGrounded = false;
+				sCurrentGround = null;
+                Debug.Log("Isn't grounded reversed");
             }
         }
 
@@ -253,7 +264,10 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (Input.GetButtonDown("X"))
             {
-                Companion.DestroySelf();
+                if(Companion != null)
+                {
+                    Companion.DestroySelf();
+                }
                 bCanUseMagic = true;
 
                 if (sCrystalType == "GravityCrystal")
@@ -456,7 +470,26 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Footstep(float volume)
     {
-        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
+        if (sCurrentGround == "DirtFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
+        }
+        else if (sCurrentGround == "GravelFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Gravel run", transform.position, volume);
+        }
+        else if (sCurrentGround == "StoneFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Stone run", transform.position, volume);
+        }
+        else if (sCurrentGround == "UnevenStoneFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Uneven stone run", transform.position, volume);
+        }
+        else if (sCurrentGround == "WoodFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Wood run", transform.position, volume);
+        }
     }
 
     public void Landing(float volume)
