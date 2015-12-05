@@ -494,7 +494,26 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Landing(float volume)
     {
-        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Dirt landing", transform.position, volume);
+        if (sCurrentGround == "DirtFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Dirt landing", transform.position, volume);
+        }
+        else if (sCurrentGround == "GravelFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Gravel Landing", transform.position, volume);
+        }
+        else if (sCurrentGround == "StoneFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Stone landing", transform.position, volume);
+        }
+        else if (sCurrentGround == "UnevenStoneFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Uneven stone landing", transform.position, volume);
+        }
+        else if (sCurrentGround == "WoodFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Dirt landing", transform.position, volume);
+        }
     }
 
     public void Jumping(float volume)
