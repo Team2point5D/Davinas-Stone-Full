@@ -42,4 +42,9 @@ public class Companion : MonoBehaviour {
 
 
 	}
+
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
 }

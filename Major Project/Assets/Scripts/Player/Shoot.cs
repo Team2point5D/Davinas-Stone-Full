@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Shoot : MonoBehaviour {
+public class Shoot : MonoBehaviour
+{
 
     [Header("Crate")]
     public Crate nearbyCrate;
@@ -23,14 +24,18 @@ public class Shoot : MonoBehaviour {
 
     AudioSource aSource;
 
-	// Use this for initialization
-	void Start () 
+    GameObject player;
+
+    // Use this for initialization
+    void Start()
     {
         fShootCooldownReset = fShootCooldown;
-	}
-	
-	// Update is called once per frame
-	void Update () 
+
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    // Update is called once per frame
+    void Update()
     {
 
         if (nearbyCrate)
@@ -63,27 +68,32 @@ public class Shoot : MonoBehaviour {
                 fShotAnimTimer = 0.05f;
             }
         }
-	}
+
+       // ShootMass();
+
+        
+    }
 
     public void ShootMass()
     {
         if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
         {
             Vector3 mousePos = Input.mousePosition;
-
+            mousePos.z = 10;
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-            worldPos.z = 0;
-            Debug.Log(worldPos);
-            GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, Quaternion.identity);
+            //print(worldPos);
+
+            GameObject projectile = (GameObject)Instantiate(goBullet, transform.position, Quaternion.identity);
 
             projectile.transform.LookAt(worldPos);
             projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);
+
             projectile.tag = "Mass Bullet";
             bJustShot = true;
             bJustShotAnim = true;
 
-            aSource.clip = acShootSound;
-            aSource.Play();
+            //aSource.clip = acShootSound;
+            //aSource.Play();
         }
     }
 

@@ -19,7 +19,8 @@ public class PlayerBehaviour : MonoBehaviour
     private bool bHasJustJumped = false;
     private float fJumpCheckTimer = 0.05f;
     private Animator playerAnimator;
-    private float fGroundRayDetectionDistance = 1.5f;
+	public string sCurrentGround;
+    private float fGroundRayDetectionDistance = 3f;
     private bool bIsFacingRight = true;
     public float fFlipMove;
     private bool bIsMoving;
@@ -27,7 +28,9 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Interaction")]
     private bool bCanClimb;
     private Rigidbody myRigidBody;
-    private GameObject CompanionnOBJ;
+    private Companion Companion;
+    private bool bNearCrystal;
+    private string sCrystalType;
     private GameObject thingToPushPull;
     private GameObject shotParent;
 
@@ -35,8 +38,6 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bIsHeavySelected = false;
     public bool bIsGravityReversed = false;
     private bool bHasGravSwitchedOnce = false;
-    private bool bOnCompanion;
-    private bool bInMagic;
     public float fFlipTimer = 0f;
     public bool bPlayerReversed = false;
 
@@ -55,10 +56,10 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bIsScale;
     public bool bDoorExited = true;
     public bool bDoorEntered;
+    public GameObject goShadow;
     bool pressed;
-    private Transform playerGlobal;
 
-    public Shoot PlayerShoot;
+    private Shoot PlayerShoot;
     Vector3 playerPos;
 
 
@@ -70,8 +71,6 @@ public class PlayerBehaviour : MonoBehaviour
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
         playerAnimator = GetComponent<Animator>();
         PlayerShoot = gameObject.GetComponent<Shoot>();
-        //playerGlobal = GameObject.Find("CC_Global01").GetComponent<Transform>();
-        //playerGlobal.localEulerAngles = new Vector3(0f, 90f, 0f);
     }
 
     void Update()
@@ -104,6 +103,7 @@ public class PlayerBehaviour : MonoBehaviour
         //Flips Player on its x axis when gravity is switched up and down
         if (bPlayerReversed)
         {
+            goShadow.SetActive(false);
             fFlipTimer += fRotateSpeed * Time.deltaTime;
             transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
                                             new Vector3(180, 0, 0),
@@ -115,6 +115,10 @@ public class PlayerBehaviour : MonoBehaviour
             transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
                                                   new Vector3(180, 0, 0),
                                                   fFlipTimer);
+            if (fFlipTimer <= 0f)
+            {
+                goShadow.SetActive(true);
+            }
         }
     }
 
@@ -128,26 +132,33 @@ public class PlayerBehaviour : MonoBehaviour
         // Make a raycast that checks player is on ground or ceilling
         if (bIsGravityReversed == false)
         {
-            if (Physics.Raycast(transform.position, Vector3.down, fGroundRayDetectionDistance))
+            RaycastHit hitPoint;
+
+            if (Physics.Raycast(transform.position, Vector3.down, out hitPoint, fGroundRayDetectionDistance))
             {
                 bIsGrounded = true;
                 bHasGravSwitchedOnce = false;
+				sCurrentGround = hitPoint.transform.tag;
             }
             else
             {
                 bIsGrounded = false;
+				sCurrentGround = null;
             }
         }
         else
         {
-            if (Physics.Raycast(transform.position, Vector3.up, fGroundRayDetectionDistance))
+			RaycastHit hitPoint;
+			if (Physics.Raycast(transform.position, Vector3.up, out hitPoint, fGroundRayDetectionDistance))
             {
                 bIsGrounded = true;
                 bHasGravSwitchedOnce = false;
+				sCurrentGround = hitPoint.transform.tag;
             }
             else
             {
                 bIsGrounded = false;
+				sCurrentGround = null;
             }
         }
 
@@ -246,15 +257,31 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Magic()
     {
-        if (bInMagic == true)
+        if (bNearCrystal == true)
         {
             if (Input.GetButtonDown("X"))
             {
-                if (bCanUseMagic == false)
+                if(Companion != null)
                 {
-                    CompanionnOBJ.SetActive(false);
-                    bCanUseMagic = true;
+                    Companion.DestroySelf();
+                }
+                bCanUseMagic = true;
+
+                if (sCrystalType == "GravityCrystal")
+                {
                     bCanUseGravity = true;
+                }
+                else if (sCrystalType == "MassCrystal")
+                {
+                    bCanUseMass = true;
+                }
+                else if (sCrystalType == "SonarCrystal")
+                {
+                    bCanUseSonar = true;
+                }
+                else if (sCrystalType == "ScaleCrystal")
+                {
+                    bCanUseScale = true;
                 }
             }
         }
@@ -359,7 +386,7 @@ public class PlayerBehaviour : MonoBehaviour
             }
 
             //Changing between abilities using the right mouse click
-            if (bCanUseMass && !bCanUseSonar)
+            if (bCanUseMass)
             {
                 ChangeStateToMass();
             }
@@ -440,7 +467,55 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Footstep(float volume)
     {
-        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
+        if (sCurrentGround == "DirtFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
+        }
+        else if (sCurrentGround == "GravelFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Gravel run", transform.position, volume);
+        }
+        else if (sCurrentGround == "StoneFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Stone run", transform.position, volume);
+        }
+        else if (sCurrentGround == "UnevenStoneFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Uneven stone run", transform.position, volume);
+        }
+        else if (sCurrentGround == "WoodFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Wood run", transform.position, volume);
+        }
+    }
+
+    public void Landing(float volume)
+    {
+        if (sCurrentGround == "DirtFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Dirt landing", transform.position, volume);
+        }
+        else if (sCurrentGround == "GravelFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Gravel Landing", transform.position, volume);
+        }
+        else if (sCurrentGround == "StoneFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Stone landing", transform.position, volume);
+        }
+        else if (sCurrentGround == "UnevenStoneFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Uneven stone landing", transform.position, volume);
+        }
+        else if (sCurrentGround == "WoodFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Dirt landing", transform.position, volume);
+        }
+    }
+
+    public void Jumping(float volume)
+    {
+        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump/Jump grunt", transform.position, volume);
     }
 
     //Collisision and Trigger Events
@@ -468,8 +543,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (col.gameObject.tag == "Magic Area")
         {
-            CompanionnOBJ = GameObject.FindWithTag("Companion");
-            bInMagic = true;
+            Companion = col.gameObject.GetComponentInParent<Companion>();
+            bNearCrystal = true;
+            sCrystalType = Companion.gameObject.tag;
         }
 
         if (col.gameObject.tag == "Climable")
@@ -496,8 +572,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (col.gameObject.tag == "Magic Area")
         {
-            CompanionnOBJ = null;
-            bInMagic = false;
+            Companion = null;
+            bNearCrystal = false;
+            sCrystalType = null;
         }
 
         if (col.gameObject.tag == "Climable")
