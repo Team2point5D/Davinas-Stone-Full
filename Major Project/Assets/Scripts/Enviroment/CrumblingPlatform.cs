@@ -115,7 +115,7 @@ public class CrumblingPlatform : MonoBehaviour
 
     void Crumble()
     {
-        FMOD_StudioSystem.instance.PlayOneShot("event:/Contact/Platform crumble", transform.position, fVolume);
+        FMOD_StudioSystem.instance.PlayOneShot("event:/Contact/platformCrumble", transform.position, fVolume);
     }
 
     void OnCollisionEnter(Collision col)

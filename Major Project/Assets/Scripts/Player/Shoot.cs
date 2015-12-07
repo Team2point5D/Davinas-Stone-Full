@@ -92,8 +92,7 @@ public class Shoot : MonoBehaviour
             bJustShot = true;
             bJustShotAnim = true;
 
-            //aSource.clip = acShootSound;
-            //aSource.Play();
+            gameObject.GetComponent<PlayerBehaviour>().Shooting();
         }
     }
 
@@ -111,8 +110,7 @@ public class Shoot : MonoBehaviour
             bJustShot = true;
             bJustShotAnim = true;
 
-            aSource.clip = acShootSound;
-            aSource.Play();
+            gameObject.GetComponent<PlayerBehaviour>().Shooting();
         }
     }
 
@@ -126,8 +124,7 @@ public class Shoot : MonoBehaviour
             bJustShot = true;
             bJustShotAnim = true;
 
-            aSource.clip = acShootSound;
-            aSource.Play();
+            gameObject.GetComponent<PlayerBehaviour>().Shooting();
         }
     }
 
