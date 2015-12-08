@@ -24,6 +24,7 @@ public class PlayerBehaviour : MonoBehaviour
     private bool bIsFacingRight = true;
     public float fFlipMove;
     private bool bIsMoving;
+    private float fPlayersZaxis;
 
     [Header("Interaction")]
     private bool bCanClimb;
@@ -71,6 +72,7 @@ public class PlayerBehaviour : MonoBehaviour
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
         playerAnimator = GetComponent<Animator>();
         PlayerShoot = gameObject.GetComponent<Shoot>();
+        fPlayersZaxis = transform.position.z;
     }
 
     void Update()
@@ -83,6 +85,10 @@ public class PlayerBehaviour : MonoBehaviour
 
             Magic();
         }
+        else
+        {
+            bIsMoving = false;
+        }
 
         playerAnimator.SetBool("isWalking", bIsMoving);
         playerAnimator.SetBool("hasJumped", bHasJustJumped);
@@ -91,7 +97,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (bIsGrounded)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, 3f);
+            transform.position = new Vector3(transform.position.x, transform.position.y, fPlayersZaxis);
         }
 
         if (bHasJustJumped)
@@ -181,8 +187,6 @@ public class PlayerBehaviour : MonoBehaviour
             Flip();
         }
     }
-
-
 
     void Controls()
     {
@@ -532,7 +536,7 @@ public class PlayerBehaviour : MonoBehaviour
         FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/magicShoot", transform.position, 0.5f);
     }
 
-    //Collisision and Trigger Events
+    //Trigger Events
 
     void OnTriggerEnter(Collider col)
     {
