@@ -19,7 +19,7 @@ public class PlayerBehaviour : MonoBehaviour
     private bool bHasJustJumped = false;
     private float fJumpCheckTimer = 0.05f;
     private Animator playerAnimator;
-	public string sCurrentGround;
+	private string sCurrentGround;
     private float fGroundRayDetectionDistance = 3f;
     private bool bIsFacingRight = true;
     public float fFlipMove;
@@ -29,8 +29,8 @@ public class PlayerBehaviour : MonoBehaviour
     private bool bCanClimb;
     private Rigidbody myRigidBody;
     private Companion Companion;
-    private bool bNearCrystal;
-    private string sCrystalType;
+    private bool bNearCrystal;                                                                                                                  
+    private string sCrystalType;            
     private GameObject thingToPushPull;
     private GameObject shotParent;
 
@@ -89,6 +89,11 @@ public class PlayerBehaviour : MonoBehaviour
         playerAnimator.SetBool("hasLanded", bIsGrounded);
         playerAnimator.SetBool("hasShot", PlayerShoot.bJustShotAnim);
 
+        if (bIsGrounded)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 3f);
+        }
+
         if (bHasJustJumped)
         {
             fJumpCheckTimer -= Time.deltaTime;
@@ -108,6 +113,7 @@ public class PlayerBehaviour : MonoBehaviour
             transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
                                             new Vector3(180, 0, 0),
                                             fFlipTimer);
+            //transform.position = new Vector3(transform.position.x, transform.position.y, 3f);
         }
         else
         {
@@ -115,6 +121,9 @@ public class PlayerBehaviour : MonoBehaviour
             transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
                                                   new Vector3(180, 0, 0),
                                                   fFlipTimer);
+
+            //transform.position = new Vector3(transform.position.x, transform.position.y, 3f);
+
             if (fFlipTimer <= 0f)
             {
                 goShadow.SetActive(true);
@@ -469,23 +478,23 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (sCurrentGround == "DirtFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Dirt run", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Run/dirtRun", transform.position, volume);
         }
         else if (sCurrentGround == "GravelFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Gravel run", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Run/gravelRun", transform.position, volume);
         }
         else if (sCurrentGround == "StoneFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Stone run", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Run/stoneRun", transform.position, volume);
         }
         else if (sCurrentGround == "UnevenStoneFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Uneven stone run", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Run/unevenStoneRun", transform.position, volume);
         }
         else if (sCurrentGround == "WoodFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Walk - run/Run/Wood run", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Run/woodRun", transform.position, volume);
         }
     }
 
@@ -493,29 +502,34 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (sCurrentGround == "DirtFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Dirt landing", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/dirtLanding", transform.position, volume);
         }
         else if (sCurrentGround == "GravelFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Gravel Landing", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/gravelLanding", transform.position, volume);
         }
         else if (sCurrentGround == "StoneFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Stone landing", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/stoneLanding", transform.position, volume);
         }
         else if (sCurrentGround == "UnevenStoneFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Uneven stone landing", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/unevenStoneLanding", transform.position, volume);
         }
         else if (sCurrentGround == "WoodFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump landing/Dirt landing", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/woodLanding", transform.position, volume);
         }
     }
 
     public void Jumping(float volume)
     {
-        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/Jump/Jump grunt", transform.position, volume);
+        FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/jumpGrunt", transform.position, volume);
+    }
+
+    public void Shooting()
+    {
+        FMOD_StudioSystem.instance.PlayOneShot("event:/Sound effects/magicShoot", transform.position, 0.5f);
     }
 
     //Collisision and Trigger Events
