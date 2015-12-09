@@ -25,8 +25,10 @@ public class Shoot : MonoBehaviour
 
     [Space(10)]
 
-    public Texture2D cursorTex;
-    public CursorMode cursMode = CursorMode.Auto;
+    //public Texture2D cursorTex;
+    //public CursorMode cursMode = CursorMode.Auto;
+
+    public UIHandler UIHandler;
 
     AudioSource aSource;
 
@@ -89,9 +91,12 @@ public class Shoot : MonoBehaviour
         float axisY = Input.GetAxis("RightStickY");
 
 
-        Vector3 rightStickPos = new Vector3(axisX, axisY,10);
+        Vector3 rightStickPos = new Vector3(axisX * (1f / 2f) * Screen.width, axisY * (1f / 2f) * Screen.height, 10);
         Vector3 worldPosRightStick = Camera.main.ScreenToWorldPoint(rightStickPos);
 
+        print(rightStickPos.ToString());
+
+        UIHandler.imCursor.GetComponent<RectTransform>().position = rightStickPos;
 
        // Cursor.SetCursor(cursorTex, worldPosRightStick, cursMode);
 
