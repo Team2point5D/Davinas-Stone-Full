@@ -17,6 +17,8 @@ public class CrumblingPlatform : MonoBehaviour
     private bool bIsShaking;
     private bool bIsTiltedLeft;
     private float fShakeTimer = 0;
+    private Vector3 vOriginalRotation;
+    private Vector3 vOriginalPosition;
     private MeshRenderer[] platform;
     private MeshCollider[] platformCollider;
 
@@ -30,6 +32,8 @@ public class CrumblingPlatform : MonoBehaviour
         platform = GetComponentsInChildren<MeshRenderer>();
         platformCollider = GetComponentsInChildren<MeshCollider>();
         FListener = Camera.main.GetComponent<FMOD_Listener>();
+        vOriginalRotation = transform.eulerAngles;
+        vOriginalPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -43,8 +47,8 @@ public class CrumblingPlatform : MonoBehaviour
             {
                 fShakeTimer += 50 * Time.deltaTime;
 
-                transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
-                                                     new Vector3(0, 0, 0.5f),
+                transform.eulerAngles = Vector3.Lerp(vOriginalRotation,
+                                                     vOriginalRotation + new Vector3(0f, 0f, 0.5f),
                                                      fShakeTimer);
 
                 if (fShakeTimer >= 1f)
@@ -56,8 +60,8 @@ public class CrumblingPlatform : MonoBehaviour
             {
                 fShakeTimer -= 50 * Time.deltaTime;
 
-                transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
-                                                     new Vector3(0, 0, -0.5f),
+                transform.eulerAngles = Vector3.Lerp(vOriginalRotation,
+                                                     vOriginalRotation + new Vector3(0f, 0f, -0.5f),
                                                      fShakeTimer);
 
                 if (fShakeTimer <= 0f)
@@ -68,8 +72,8 @@ public class CrumblingPlatform : MonoBehaviour
         }
         else
         {
-            transform.eulerAngles = Vector3.Lerp(new Vector3(0, 0, 0),
-                                                 new Vector3(0, 0, 0),
+            transform.eulerAngles = Vector3.Lerp(vOriginalRotation,
+                                                 vOriginalRotation,
                                                  1f);
         }
 
