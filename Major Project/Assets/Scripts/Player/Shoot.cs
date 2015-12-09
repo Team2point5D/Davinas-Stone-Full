@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Marcus
 public class Shoot : MonoBehaviour
 {
 
@@ -22,6 +23,11 @@ public class Shoot : MonoBehaviour
     public AudioClip acShootSound;
     public float fSonarLifeSpan;
 
+    [Space(10)]
+
+    public Texture2D cursorTex;
+    public CursorMode cursMode = CursorMode.Auto;
+
     AudioSource aSource;
 
     GameObject player;
@@ -37,6 +43,8 @@ public class Shoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        RightStick();
 
         if (nearbyCrate)
         {
@@ -69,9 +77,25 @@ public class Shoot : MonoBehaviour
             }
         }
 
-       // ShootMass();
+        // ShootMass();
 
-        
+
+    }
+
+    void RightStick()
+    {
+
+        float axisX = Input.GetAxis("RightStickX");
+        float axisY = Input.GetAxis("RightStickY");
+
+
+        Vector3 rightStickPos = new Vector3(axisX, axisY,10);
+        Vector3 worldPosRightStick = Camera.main.ScreenToWorldPoint(rightStickPos);
+
+
+       // Cursor.SetCursor(cursorTex, worldPosRightStick, cursMode);
+
+
     }
 
     public void ShootMass()
