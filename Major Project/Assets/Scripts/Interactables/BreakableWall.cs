@@ -8,6 +8,7 @@ public class BreakableWall : MonoBehaviour {
 	{
 		if(col.gameObject.tag == "Crate")
 		{
+            Debug.Log(col.relativeVelocity.y * col.rigidbody.mass);
 			if(col.relativeVelocity.y * col.rigidbody.mass >= 100f)
 			{
 				Destroy (gameObject);
