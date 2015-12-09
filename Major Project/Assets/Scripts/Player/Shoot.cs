@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Marcus
 public class Shoot : MonoBehaviour
 {
 
@@ -38,6 +39,8 @@ public class Shoot : MonoBehaviour
     void Update()
     {
 
+        RightStick();
+
         if (nearbyCrate)
         {
             if (Input.GetButtonDown("X"))
@@ -69,9 +72,24 @@ public class Shoot : MonoBehaviour
             }
         }
 
-       // ShootMass();
+        // ShootMass();
 
-        
+
+    }
+
+    void RightStick()
+    {
+
+        float axisX = Input.GetAxis("RightStickX");
+        float axisY = Input.GetAxis("RightStickY");
+
+
+        Vector3 rightStickPos = new Vector3(axisX, axisY,10);
+        Vector3 worldPosRightStick = Camera.main.ScreenToWorldPoint(rightStickPos);
+
+
+
+
     }
 
     public void ShootMass()
