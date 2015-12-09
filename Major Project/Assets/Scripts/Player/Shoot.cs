@@ -23,6 +23,11 @@ public class Shoot : MonoBehaviour
     public AudioClip acShootSound;
     public float fSonarLifeSpan;
 
+    [Space(10)]
+
+    public Texture2D cursorTex;
+    public CursorMode cursMode = CursorMode.Auto;
+
     AudioSource aSource;
 
     GameObject player;
@@ -88,6 +93,7 @@ public class Shoot : MonoBehaviour
         Vector3 worldPosRightStick = Camera.main.ScreenToWorldPoint(rightStickPos);
 
 
+       // Cursor.SetCursor(cursorTex, worldPosRightStick, cursMode);
 
 
     }
