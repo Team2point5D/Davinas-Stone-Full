@@ -179,8 +179,6 @@ public class Shoot : MonoBehaviour
                 nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(-30f, 30f, 0f), ForceMode.Impulse);
             }
             bHoldingCrate = false;
-            bJustShot = true;
-            bJustShotAnim = true;
         }
     }
 }
