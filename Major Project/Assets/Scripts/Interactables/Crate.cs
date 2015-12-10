@@ -91,7 +91,21 @@ public class Crate : MonoBehaviour {
 
         if (bIsGrounded)
         {
+            print("Grounded");
+
             transform.position = new Vector3(transform.position.x, transform.position.y, fCratesZAxis);
+
+            myRigidBody.constraints = RigidbodyConstraints.FreezePositionX;
+            myRigidBody.constraints = RigidbodyConstraints.FreezePositionZ;
+            myRigidBody.constraints = RigidbodyConstraints.FreezeRotationX;
+            myRigidBody.constraints = RigidbodyConstraints.FreezeRotationY;
+            myRigidBody.constraints = RigidbodyConstraints.FreezeRotationZ;
+        }
+        else
+        {
+            myRigidBody.constraints = RigidbodyConstraints.None;
+            myRigidBody.constraints = RigidbodyConstraints.FreezePositionZ;
+            myRigidBody.constraints = RigidbodyConstraints.FreezeRotationZ;
         }
 
         if (bIsPickedUp)

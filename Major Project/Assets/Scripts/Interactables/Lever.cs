@@ -10,7 +10,7 @@ public class Lever : MonoBehaviour
     public bool isOpen;
 
 
-    GameObject leverOBJ;
+    public GameObject leverOBJ;
 
     Quaternion leverRot;
 
@@ -20,7 +20,7 @@ public class Lever : MonoBehaviour
         // Sets the affected door to start 
         affectedDoor.SetActive(true);
 
-        leverOBJ = GameObject.Find("Lever");
+      //  leverOBJ = GameObject.Find("Lever");
 
         leverRot = leverOBJ.transform.rotation;
 
@@ -35,7 +35,7 @@ public class Lever : MonoBehaviour
             affectedDoor.SetActive(false);
 
             // To fix
-            leverOBJ.transform.rotation = new Quaternion(0, 5, 0, 0);  
+            leverOBJ.transform.rotation = new Quaternion(0, 5, 0, 0);
         }
         else
         {
