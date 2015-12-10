@@ -9,7 +9,7 @@ public class Crate : MonoBehaviour {
     [Header("Interaction")]
     public bool bIsPickedUp = false;
     private string sCurrentGround;
-    private float fGroundRayDetectionDistance = 3f;
+    private float fGroundRayDetectionDistance = 1f;
     private bool bIsGrounded;
     private float fCratesZAxis;
 
@@ -95,17 +95,11 @@ public class Crate : MonoBehaviour {
 
             transform.position = new Vector3(transform.position.x, transform.position.y, fCratesZAxis);
 
-            myRigidBody.constraints = RigidbodyConstraints.FreezePositionX;
-            myRigidBody.constraints = RigidbodyConstraints.FreezePositionZ;
-            myRigidBody.constraints = RigidbodyConstraints.FreezeRotationX;
-            myRigidBody.constraints = RigidbodyConstraints.FreezeRotationY;
-            myRigidBody.constraints = RigidbodyConstraints.FreezeRotationZ;
+            myRigidBody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX;
         }
         else
         {
-            myRigidBody.constraints = RigidbodyConstraints.None;
-            myRigidBody.constraints = RigidbodyConstraints.FreezePositionZ;
-            myRigidBody.constraints = RigidbodyConstraints.FreezeRotationZ;
+            myRigidBody.constraints = RigidbodyConstraints.FreezeRotation;
         }
 
         if (bIsPickedUp)

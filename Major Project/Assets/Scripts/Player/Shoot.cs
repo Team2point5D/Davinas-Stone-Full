@@ -22,6 +22,8 @@ public class Shoot : MonoBehaviour
     private float fShotAnimTimer = 0.05f;
     public AudioClip acShootSound;
     public float fSonarLifeSpan;
+    private int iPlayerDirection;
+    private int iPlayerReversed;
 
     [Space(10)]
 
@@ -32,14 +34,14 @@ public class Shoot : MonoBehaviour
 
     AudioSource aSource;
 
-    GameObject player;
+    PlayerBehaviour playerBehaviour;
 
     // Use this for initialization
     void Start()
     {
         fShootCooldownReset = fShootCooldown;
 
-        player = GameObject.FindGameObjectWithTag("Player");
+        playerBehaviour = gameObject.GetComponent<PlayerBehaviour>();
     }
 
     // Update is called once per frame
@@ -121,7 +123,7 @@ public class Shoot : MonoBehaviour
             bJustShot = true;
             bJustShotAnim = true;
 
-            gameObject.GetComponent<PlayerBehaviour>().Shooting();
+            playerBehaviour.Shooting();
         }
     }
 
@@ -139,7 +141,7 @@ public class Shoot : MonoBehaviour
             bJustShot = true;
             bJustShotAnim = true;
 
-            gameObject.GetComponent<PlayerBehaviour>().Shooting();
+            playerBehaviour.Shooting();
         }
     }
 
@@ -153,30 +155,52 @@ public class Shoot : MonoBehaviour
             bJustShot = true;
             bJustShotAnim = true;
 
-            gameObject.GetComponent<PlayerBehaviour>().Shooting();
+            playerBehaviour.Shooting();
         }
     }
 
+    //Throws crate if currently holding one as oppose to shooting.
     public void ThrowObject()
     {
         if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
         {
             nearbyCrate.bIsPickedUp = false;
-            nearbyCrate.GetComponent<Rigidbody>().isKinematic = false;
-            if (gameObject.GetComponent<PlayerBehaviour>().fFlipMove < 0)
+            Rigidbody nearbyCrateRigidbody = nearbyCrate.GetComponent<Rigidbody>();
+
+            nearbyCrateRigidbody.isKinematic = false;
+
+            //Account for which direction the player is looking.
+            if(playerBehaviour.fFlipMove < 0)
             {
-                if (nearbyCrate.bIsObjectHeavy)
-                {
-                    nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(15f, -25f, 0f), ForceMode.Impulse);
-                }
-                else
-                {
-                    nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(30f, 30f, 0f), ForceMode.Impulse);
-                }
+                iPlayerDirection = 1;
             }
-            else if (gameObject.GetComponent<PlayerBehaviour>().fFlipMove > 0)
+            else
             {
-                nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(-30f, 30f, 0f), ForceMode.Impulse);
+                iPlayerDirection = -1;
+            }
+
+            //Accounts for whether player is upside down or on ground.
+            if(!playerBehaviour.bIsGravityReversed)
+            {
+                iPlayerReversed = 1;
+            }
+            else
+            {
+                iPlayerReversed = -1;
+            }
+
+            //Applies Force in impluse mode to simulate a throw using the above variables to account for different scenarios.
+            if (nearbyCrate.bIsObjectHeavy)
+            {
+                nearbyCrateRigidbody.AddForce(new Vector3(15f * iPlayerDirection, 15f * iPlayerReversed, 0f), ForceMode.Impulse);
+            }
+            else if (nearbyCrate.bIsObjectLight)
+            {
+                nearbyCrateRigidbody.AddForce(new Vector3(45f * iPlayerDirection, 40f * iPlayerReversed, 0f), ForceMode.Impulse);
+            }
+            else
+            {
+                nearbyCrateRigidbody.AddForce(new Vector3(35f * iPlayerDirection, 55f * iPlayerReversed, 0f), ForceMode.Impulse);
             }
             bHoldingCrate = false;
         }
