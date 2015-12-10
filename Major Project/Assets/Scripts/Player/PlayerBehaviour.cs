@@ -24,7 +24,7 @@ public class PlayerBehaviour : MonoBehaviour
     private bool bIsFacingRight = true;
     public float fFlipMove;
     private bool bIsMoving;
-    private float fPlayersZaxis;
+    private float fPlayersZAxis;
 
     [Header("Interaction")]
     private bool bCanClimb;
@@ -72,7 +72,7 @@ public class PlayerBehaviour : MonoBehaviour
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
         playerAnimator = GetComponent<Animator>();
         PlayerShoot = gameObject.GetComponent<Shoot>();
-        fPlayersZaxis = transform.position.z;
+        fPlayersZAxis = transform.position.z;
     }
 
     void Update()
@@ -97,7 +97,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (bIsGrounded)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, fPlayersZaxis);
+            transform.position = new Vector3(transform.position.x, transform.position.y, fPlayersZAxis);
         }
 
         if (bHasJustJumped)
@@ -522,7 +522,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else if (sCurrentGround == "WoodFloor")
         {
-            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/woodLanding", transform.position, volume);
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/dirtLanding", transform.position, volume);
         }
     }
 
