@@ -9,6 +9,7 @@ public class CrumblingPlatform : MonoBehaviour
     [Header("Timers")]
     public float fCrumbleTimer;
     public float fRespawnTimer;
+    public float fRotateSpeed;
     public float fVolume = 1;
     private bool bIsCrumbling;
     private bool bHasFullyCrumbled;
@@ -48,7 +49,7 @@ public class CrumblingPlatform : MonoBehaviour
                 fShakeTimer += 50 * Time.deltaTime;
 
                 transform.eulerAngles = Vector3.Lerp(vOriginalRotation,
-                                                     vOriginalRotation + new Vector3(0f, 0f, 0.5f),
+                                                     vOriginalRotation + new Vector3(fRotateSpeed, 0f, fRotateSpeed),
                                                      fShakeTimer);
 
                 if (fShakeTimer >= 1f)
@@ -61,7 +62,7 @@ public class CrumblingPlatform : MonoBehaviour
                 fShakeTimer -= 50 * Time.deltaTime;
 
                 transform.eulerAngles = Vector3.Lerp(vOriginalRotation,
-                                                     vOriginalRotation + new Vector3(0f, 0f, -0.5f),
+                                                     vOriginalRotation + new Vector3(-fRotateSpeed, 0f, -fRotateSpeed),
                                                      fShakeTimer);
 
                 if (fShakeTimer <= 0f)
@@ -96,6 +97,8 @@ public class CrumblingPlatform : MonoBehaviour
                 bIsCrumbling = false;
                 bHasFullyCrumbled = true;
                 bIsShaking = false;
+                Transform playerChild = gameObject.transform.FindChild("Davina");
+                playerChild.parent = null;
             }
         }
 

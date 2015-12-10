@@ -8,6 +8,10 @@ public class Crate : MonoBehaviour {
 
     [Header("Interaction")]
     public bool bIsPickedUp = false;
+    private string sCurrentGround;
+    private float fGroundRayDetectionDistance = 3f;
+    private bool bIsGrounded;
+    private float fCratesZAxis;
 
     [Header("Materials")]
     public float fMaterialSpeed;
@@ -76,12 +80,19 @@ public class Crate : MonoBehaviour {
             mStartingMaterial = mStandard;
             mEndingMaterial = mStandard;
         }
+
+        fCratesZAxis = transform.position.z;
 	}
 
 	void Update () 
 	{
 		fScaleTimer = Mathf.Clamp (fScaleTimer, 0, 1);
         fMaterialTimer = Mathf.Clamp(fMaterialTimer, 0, 1);
+
+        if (bIsGrounded)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, fCratesZAxis);
+        }
 
         if (bIsPickedUp)
         {
@@ -158,6 +169,37 @@ public class Crate : MonoBehaviour {
                 fScaleTimer = 0f;
             }
         }
+
+        if (PlayerBehaviour.bIsGravityReversed == false)
+        {
+            RaycastHit hitPoint;
+
+            if (Physics.Raycast(transform.position, Vector3.down, out hitPoint, fGroundRayDetectionDistance))
+            {
+                bIsGrounded = true;
+                sCurrentGround = hitPoint.transform.tag;
+            }
+            else
+            {
+                bIsGrounded = false;
+                sCurrentGround = null;
+            }
+        }
+        else
+        {
+            RaycastHit hitPoint;
+            if (Physics.Raycast(transform.position, Vector3.up, out hitPoint, fGroundRayDetectionDistance))
+            {
+                bIsGrounded = true;
+                sCurrentGround = hitPoint.transform.tag;
+            }
+            else
+            {
+                bIsGrounded = false;
+                sCurrentGround = null;
+            }
+        }
+
 	}
 
 	public void ChangeMass ()
@@ -403,6 +445,38 @@ public class Crate : MonoBehaviour {
             vEndingSize = new Vector3(fScaleXYDownSize, fScaleXYDownSize, fScaleXYDownSize);
         }
         mEndingMaterial = mContracted;
+    }
+
+    public void Landing()
+    {
+        if (sCurrentGround == "DirtFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/dirtLanding", transform.position, 0.9f);
+        }
+        else if (sCurrentGround == "GravelFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/gravelLanding", transform.position, 0.9f);
+        }
+        else if (sCurrentGround == "StoneFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/stoneLanding", transform.position, 0.9f);
+        }
+        else if (sCurrentGround == "UnevenStoneFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/unevenStoneLanding", transform.position, 0.9f);
+        }
+        else if (sCurrentGround == "WoodFloor")
+        {
+            FMOD_StudioSystem.instance.PlayOneShot("event:/Movement/Jump/dirtLanding", transform.position, 0.9f);
+        }
+    }
+
+    void OnCollisionEnter (Collision col)
+    {
+        if (col.gameObject.tag.Contains("Floor"))
+        {
+            Landing();
+        }
     }
 
     void OnTriggerEnter (Collider col)
