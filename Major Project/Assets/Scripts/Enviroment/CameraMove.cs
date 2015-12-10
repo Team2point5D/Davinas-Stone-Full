@@ -24,11 +24,18 @@ public class CameraMove : MonoBehaviour
     public Transform[] cameraLocations;
     int camNum = 0;
 
+    [Space(10)]
+
+    public bool debugCamera;
+
+
     void Start()
     {
         // Sets maincam to be the main camera
         //mainCam = Camera.main;
         fDampTimeStarting = fDampTime;
+		bDampDecreasing = true;
+		bDampLimit = false;
         //target = cameraLocations[0].transform;
         MainCam = gameObject.GetComponent<Camera>();
     }
@@ -38,6 +45,7 @@ public class CameraMove : MonoBehaviour
         fDampTime = Mathf.Clamp(fDampTime, 0, fDampTimeStarting);
         MainCam.fieldOfView = Mathf.Clamp(MainCam.fieldOfView, fCameraZoomedIn, fCameraZoomedOut);
 
+      
         if (bDampDecreasing)
         {
             if (!bDampLimit)
@@ -121,9 +129,11 @@ public class CameraMove : MonoBehaviour
             {
                 case 1:
                     target = cameraLocations[0].transform;
+				   // target.position.z = cameraLocations[0].transform.position.z;
                     break;
                 case 2:
                     target = cameraLocations[1].transform;
+				    
                     break;
                 case 3:
                     target = cameraLocations[2].transform;
@@ -142,5 +152,84 @@ public class CameraMove : MonoBehaviour
                     break;
             }
         }
+
+		if(debugCamera)
+		{
+			if(Input.GetKey(KeyCode.Alpha1))
+			{
+				target = cameraLocations[0].transform;
+				bDampDecreasing = false;
+				bDampLimit = false;
+				fDampTime = 0.4f;
+			}
+			
+			if (Input.GetKey(KeyCode.Alpha2))
+			{
+				target = cameraLocations[1].transform;
+				bDampDecreasing = false;
+				bDampLimit = false;
+				fDampTime = 0.4f;
+				
+			}
+			
+			if (Input.GetKey(KeyCode.Alpha3))
+			{
+				target = cameraLocations[2].transform;
+				bDampDecreasing = false;
+				bDampLimit = false;
+				fDampTime = 0.4f;
+			} 
+			
+			if (Input.GetKey(KeyCode.Alpha4))
+			{
+				target = cameraLocations[3].transform;
+				bDampDecreasing = false;
+				bDampLimit = false;
+				fDampTime = 0.4f;
+			} 
+			
+			if (Input.GetKey(KeyCode.Alpha5))
+			{
+				target = cameraLocations[4].transform;
+				bDampDecreasing = false;
+				bDampLimit = false;
+				fDampTime = 0.4f;
+			}
+			
+			if (Input.GetKey(KeyCode.Alpha6))
+			{
+				target = cameraLocations[5].transform;
+				bDampDecreasing = false;
+				bDampLimit = false;
+				fDampTime = 0.4f;
+			}
+
+			if (Input.GetKey(KeyCode.Alpha7))
+			{
+				target = cameraLocations[6].transform;
+				bDampDecreasing = false;
+				bDampLimit = false;
+				fDampTime = 0.4f;
+			}
+
+			if (Input.GetKey(KeyCode.Alpha8))
+			{
+				target = cameraLocations[7].transform;
+				bDampDecreasing = false;
+				bDampLimit = false;
+				fDampTime = 0.4f;
+			}
+
+			if (Input.GetKey(KeyCode.Alpha9))
+			{
+				target = cameraLocations[8].transform;
+				bDampDecreasing = false;
+				bDampLimit = false;
+				fDampTime = 0.4f;
+			}
+			
+		}
+
+
     }
 }
