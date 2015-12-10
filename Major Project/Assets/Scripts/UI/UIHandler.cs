@@ -13,6 +13,7 @@ public class UIHandler : MonoBehaviour
     public Texture2D texCursor;
     private Vector2 hotSpot;
     public CursorMode cursorMode = CursorMode.Auto;
+    public Image imCursor;
 
     [Header("Abilities")]
     public Text teSelectedAbility;
