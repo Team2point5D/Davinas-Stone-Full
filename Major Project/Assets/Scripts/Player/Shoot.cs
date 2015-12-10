@@ -96,7 +96,7 @@ public class Shoot : MonoBehaviour
 
        // print(rightStickPos.ToString());
 
-        UIHandler.imCursor.GetComponent<RectTransform>().position = rightStickPos;
+//        UIHandler.imCursor.GetComponent<RectTransform>().position = rightStickPos;
 
        // Cursor.SetCursor(cursorTex, worldPosRightStick, cursMode);
 
@@ -179,8 +179,6 @@ public class Shoot : MonoBehaviour
                 nearbyCrate.GetComponent<Rigidbody>().AddForce(new Vector3(-30f, 30f, 0f), ForceMode.Impulse);
             }
             bHoldingCrate = false;
-            bJustShot = true;
-            bJustShotAnim = true;
         }
     }
 }
