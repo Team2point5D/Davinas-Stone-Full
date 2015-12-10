@@ -17,15 +17,15 @@ public class BreakableWall : MonoBehaviour {
 		if(col.gameObject.tag == "Crate")
 		{
 
-            if (col.rigidbody.mass >= 7)
+            if (col.gameObject.GetComponent<Crate>().bIsObjectHeavy)
             {
-                if ((col.relativeVelocity.y * col.rigidbody.mass >= 100f) ||
-               (col.relativeVelocity.x * col.rigidbody.mass >= 100f) ||
-               (col.relativeVelocity.z * col.rigidbody.mass >= 100f))
-                {
+               // if ((col.relativeVelocity.y * col.rigidbody.mass >= 100f) ||
+               //(col.relativeVelocity.x * col.rigidbody.mass >= 100f) ||
+               //(col.relativeVelocity.z * col.rigidbody.mass >= 100f))
+               // {
                     BreakWall();
                     Destroy(gameObject);
-                }
+                //}
             }
 		}
 	}
