@@ -24,6 +24,11 @@ public class CameraMove : MonoBehaviour
     public Transform[] cameraLocations;
     int camNum = 0;
 
+    [Space(10)]
+
+    public bool debugCamera;
+
+
     void Start()
     {
         // Sets maincam to be the main camera
@@ -37,6 +42,40 @@ public class CameraMove : MonoBehaviour
     {
         fDampTime = Mathf.Clamp(fDampTime, 0, fDampTimeStarting);
         MainCam.fieldOfView = Mathf.Clamp(MainCam.fieldOfView, fCameraZoomedIn, fCameraZoomedOut);
+
+        if(debugCamera)
+        {
+            if(Input.GetKey(KeyCode.Alpha1))
+            {
+                target = cameraLocations[0].transform;
+            }
+
+            if (Input.GetKey(KeyCode.Alpha2))
+            {
+                target = cameraLocations[1].transform;
+            }
+
+            if (Input.GetKey(KeyCode.Alpha3))
+            {
+                target = cameraLocations[2].transform;
+            } 
+            
+            if (Input.GetKey(KeyCode.Alpha4))
+            {
+                target = cameraLocations[3].transform;
+            } 
+            
+            if (Input.GetKey(KeyCode.Alpha5))
+            {
+                target = cameraLocations[4].transform;
+            }
+
+            if (Input.GetKey(KeyCode.Alpha6))
+            {
+                target = cameraLocations[5].transform;
+            }
+
+        }
 
         if (bDampDecreasing)
         {
@@ -142,5 +181,6 @@ public class CameraMove : MonoBehaviour
                     break;
             }
         }
+
     }
 }
