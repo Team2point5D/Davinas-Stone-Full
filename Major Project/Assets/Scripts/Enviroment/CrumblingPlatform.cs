@@ -81,6 +81,11 @@ public class CrumblingPlatform : MonoBehaviour
         // Starts the crumbling timer and process
         if (bIsCrumbling && !bHasFullyCrumbled)
         {
+            if (!bIsShaking)
+            {
+                Rumble();
+            }
+
             bIsShaking = true;
             fCrumbleTimer -= Time.deltaTime;
 
@@ -118,6 +123,11 @@ public class CrumblingPlatform : MonoBehaviour
             }
 
         }
+    }
+
+    void Rumble()
+    {
+        FMOD_StudioSystem.instance.PlayOneShot("event:/Contact/platformRumble", transform.position, 1);
     }
 
     void Crumble()
