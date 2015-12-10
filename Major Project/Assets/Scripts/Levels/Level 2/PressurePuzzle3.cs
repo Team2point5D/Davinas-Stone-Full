@@ -110,11 +110,14 @@ public class PressurePuzzle3 : MonoBehaviour
 
     void OnCollisionStay(Collision col)
     {
+
+        print("ON");
+
         //Changes state depending on the collided objects mass
         if (col.gameObject.tag == "Crate")
         {
             //Heavy
-            if (col.gameObject.GetComponent<Rigidbody>().mass >= 10)
+            if (col.gameObject.GetComponent<Crate>().bIsObjectHeavy)
             {
                 //print("HEAVY");
 
@@ -128,12 +131,25 @@ public class PressurePuzzle3 : MonoBehaviour
                 platform2MoveLight = false;
                 platform3MoveDefault = false;
                 platform3MoveLight = false;
-                    
+            }
+            else if (col.gameObject.GetComponent<Crate>().bIsObjectLight)
+            {
+                //Light
 
+                platform1MoveLight = true;
+                platform2MoveLight = true;
+                platform3MoveLight = true;
 
+                platform1MoveHeavy = false;
+                platform1MoveDefault = false;
+                platform2MoveHeavy = false;
+                platform2MoveDefault = false;
+                platform3MoveHeavy = false;
+                platform3MoveDefault = false;
 
             }
-            else if (col.gameObject.GetComponent<Rigidbody>().mass == 5)
+            else if (!col.gameObject.GetComponent<Crate>().bIsObjectHeavy ||
+                     !col.gameObject.GetComponent<Crate>().bIsObjectLight)
             {
                 //Normal
 
@@ -150,25 +166,6 @@ public class PressurePuzzle3 : MonoBehaviour
 
 
             }
-            else if (col.gameObject.GetComponent<Rigidbody>().mass <= 1)
-            {
-                //Light
-
-                platform1MoveLight = true;
-                platform2MoveLight = true;
-                platform3MoveLight = true;
-
-                platform1MoveHeavy = false;
-                platform1MoveDefault = false;
-                platform2MoveHeavy = false;
-                platform2MoveDefault = false;
-                platform3MoveHeavy = false;
-                platform3MoveDefault = false;
-
-            }
-
-
-
         }
     }
 }
