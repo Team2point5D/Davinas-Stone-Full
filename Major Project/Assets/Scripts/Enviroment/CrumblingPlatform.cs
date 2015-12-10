@@ -23,6 +23,8 @@ public class CrumblingPlatform : MonoBehaviour
     private Vector3 vOriginalPosition;
     private MeshRenderer[] platform;
     private MeshCollider[] platformCollider;
+    public ParticleSystem rockParticles;
+    public GameObject goParticleEffect;
 
     private FMOD_Listener FListener;
 
@@ -36,6 +38,7 @@ public class CrumblingPlatform : MonoBehaviour
         FListener = Camera.main.GetComponent<FMOD_Listener>();
         vOriginalRotation = transform.eulerAngles;
         vOriginalPosition = transform.position;
+        rockParticles = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -82,6 +85,10 @@ public class CrumblingPlatform : MonoBehaviour
         // Starts the crumbling timer and process
         if (bIsCrumbling && !bHasFullyCrumbled)
         {
+            if (!bIsShaking)
+            {
+                rockParticles.Play();
+            }
             bIsShaking = true;
             fCrumbleTimer -= Time.deltaTime;
 
@@ -153,6 +160,7 @@ public class CrumblingPlatform : MonoBehaviour
             col.transform.parent = null;
             bIsCrumbling = false;
             bIsShaking = false;
+            rockParticles.Stop();
         }
     }
 }
