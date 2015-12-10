@@ -96,7 +96,7 @@ public class Shoot : MonoBehaviour
 
        // print(rightStickPos.ToString());
 
-        UIHandler.imCursor.GetComponent<RectTransform>().position = rightStickPos;
+//        UIHandler.imCursor.GetComponent<RectTransform>().position = rightStickPos;
 
        // Cursor.SetCursor(cursorTex, worldPosRightStick, cursMode);
 
