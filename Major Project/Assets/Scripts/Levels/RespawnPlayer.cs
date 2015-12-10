@@ -14,6 +14,11 @@ public class RespawnPlayer : MonoBehaviour {
         {
             col.gameObject.transform.position = respawnArea.position;
         }
+
+        if (col.gameObject.tag == "Crate")
+        {
+            col.gameObject.transform.position = respawnArea.position;
+        }
     }
 
 

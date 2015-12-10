@@ -94,7 +94,7 @@ public class Shoot : MonoBehaviour
         Vector3 rightStickPos = new Vector3(axisX * (1f / 2f) * Screen.width, axisY * (1f / 2f) * Screen.height, 10);
         Vector3 worldPosRightStick = Camera.main.ScreenToWorldPoint(rightStickPos);
 
-        print(rightStickPos.ToString());
+       // print(rightStickPos.ToString());
 
         UIHandler.imCursor.GetComponent<RectTransform>().position = rightStickPos;
 
