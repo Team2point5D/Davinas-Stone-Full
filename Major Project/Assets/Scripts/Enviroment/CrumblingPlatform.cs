@@ -24,7 +24,6 @@ public class CrumblingPlatform : MonoBehaviour
     private MeshRenderer[] platform;
     private MeshCollider[] platformCollider;
     public ParticleSystem rockParticles;
-    public GameObject goParticleEffect;
 
     private FMOD_Listener FListener;
 
