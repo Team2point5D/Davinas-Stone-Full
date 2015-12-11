@@ -72,7 +72,7 @@ public class OriginalCameraMove : MonoBehaviour
             if (player.bDoorExited == true)
             {
                 // Lerp the camera to set player position 
-                mainCam.transform.position = Vector3.Lerp(camLocation, playerPos, speed * Time.fixedDeltaTime);
+                mainCam.transform.position = playerPos;
 
                 mainCam.transform.parent = player.transform;
 
