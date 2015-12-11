@@ -20,7 +20,7 @@ public class PlayerBehaviour : MonoBehaviour
     private float fJumpCheckTimer = 0.05f;
     private Animator playerAnimator;
 	private string sCurrentGround;
-    private float fGroundRayDetectionDistance = 3f;
+    public float fGroundRayDetectionDistance = 3f;
     private bool bIsFacingRight = true;
     public float fFlipMove;
     private bool bIsMoving;
