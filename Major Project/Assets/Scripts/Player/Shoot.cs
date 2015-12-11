@@ -105,6 +105,8 @@ public class Shoot : MonoBehaviour
 
     }
 
+    //Shoots a bullet which will alter the mass of a crate to help with puzzle solving.
+
     public void ShootMass()
     {
         if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
@@ -112,7 +114,6 @@ public class Shoot : MonoBehaviour
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 10;
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-            //print(worldPos);
 
             GameObject projectile = (GameObject)Instantiate(goBullet, transform.position, Quaternion.identity);
 
@@ -127,16 +128,21 @@ public class Shoot : MonoBehaviour
         }
     }
 
+    //Shoots a bullet which will alter the size of a crate to help with puzzle solving.
+
     public void ShootScale()
     {
         if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
         {
-            Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
-            Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-            Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-            GameObject projectile = (GameObject)Instantiate(goBullet, tShotSpot.position, rotation);
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10;
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-            projectile.GetComponent<Rigidbody>().velocity = direction * fShootSpeed;
+            GameObject projectile = (GameObject)Instantiate(goBullet, transform.position, Quaternion.identity);
+
+            projectile.transform.LookAt(worldPos);
+            projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);
+
             projectile.tag = "Scale Bullet";
             bJustShot = true;
             bJustShotAnim = true;
@@ -145,12 +151,15 @@ public class Shoot : MonoBehaviour
         }
     }
 
+    //Shoots a light which emits out of the player allowing you to see in levels where it is too dark otherwise.
+
     public void ShootSonar()
     {
         if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
         {
             GameObject projectile = (GameObject)Instantiate(goSonarBullet, transform.position, tShotSpot.rotation);
             Destroy(projectile, fSonarLifeSpan);
+
             projectile.tag = "Sonar Bullet";
             bJustShot = true;
             bJustShotAnim = true;
@@ -160,6 +169,7 @@ public class Shoot : MonoBehaviour
     }
 
     //Throws crate if currently holding one as oppose to shooting.
+
     public void ThrowObject()
     {
         if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
@@ -170,6 +180,7 @@ public class Shoot : MonoBehaviour
             nearbyCrateRigidbody.isKinematic = false;
 
             //Account for which direction the player is looking.
+
             if(playerBehaviour.fFlipMove < 0)
             {
                 iPlayerDirection = 1;
@@ -180,6 +191,7 @@ public class Shoot : MonoBehaviour
             }
 
             //Accounts for whether player is upside down or on ground.
+
             if(!playerBehaviour.bIsGravityReversed)
             {
                 iPlayerReversed = 1;
@@ -190,6 +202,7 @@ public class Shoot : MonoBehaviour
             }
 
             //Applies Force in impluse mode to simulate a throw using the above variables to account for different scenarios.
+
             if (nearbyCrate.bIsObjectHeavy)
             {
                 nearbyCrateRigidbody.AddForce(new Vector3(15f * iPlayerDirection, 15f * iPlayerReversed, 0f), ForceMode.Impulse);

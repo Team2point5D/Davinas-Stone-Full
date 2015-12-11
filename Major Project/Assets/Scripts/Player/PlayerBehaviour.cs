@@ -398,12 +398,13 @@ public class PlayerBehaviour : MonoBehaviour
                 }
             }
 
-            //Changing between abilities using the right mouse click
-            if (bCanUseMass)
+            //Changes to Mass automatically since it will be the first one accquired.
+            if (bCanUseMass && !bCanUseSonar && !bCanUseScale)
             {
                 ChangeStateToMass();
             }
 
+            //Changing between abilities using the right mouse click or the B button on controller.
             if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("B"))
             {
                 if (bCanUseMass && bCanUseSonar && !bCanUseScale)
