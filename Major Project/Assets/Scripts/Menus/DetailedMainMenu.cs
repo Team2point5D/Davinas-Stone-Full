@@ -13,6 +13,8 @@ public class DetailedMainMenu : MonoBehaviour
     public Canvas challengeModeCanvas;
     public Canvas levelSelectCanvas;
     public Canvas settingsCanvas;
+    public Canvas creditsCanvas;
+
 
     [Header("Level Butons")]
     public Button level1Button;
@@ -94,6 +96,13 @@ public class DetailedMainMenu : MonoBehaviour
         mainMenuCanvas.gameObject.SetActive(false);
     }
 
+    public void CreditsButtonClick()
+    {
+        creditsCanvas.gameObject.SetActive(true);
+
+        mainMenuCanvas.gameObject.SetActive(false);
+    }
+
     public void MainMenuBackClick()
     {
         mainMenuCanvas.gameObject.SetActive(true);
@@ -101,6 +110,10 @@ public class DetailedMainMenu : MonoBehaviour
         levelSelectCanvas.gameObject.SetActive(false);
 
         settingsCanvas.gameObject.SetActive(false);
+
+        creditsCanvas.gameObject.SetActive(false);
+
+
     }
 
     public void QuitButton()
