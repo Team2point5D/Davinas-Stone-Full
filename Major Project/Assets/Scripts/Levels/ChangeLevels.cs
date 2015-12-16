@@ -41,11 +41,11 @@ public class ChangeLevels : MonoBehaviour
                     hasCompletedLevelNum++;
                     break;
                 case 1:
-                    Application.LoadLevel(2);
+                    Application.LoadLevel(3);
                     hasCompletedLevelNum++;
                     break;
                 case 2:
-                    Application.LoadLevel(3);
+                    Application.LoadLevel(4);
                     hasCompletedLevelNum++;
                     break;
                 default:
