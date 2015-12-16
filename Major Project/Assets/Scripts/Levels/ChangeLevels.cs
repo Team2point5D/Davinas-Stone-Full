@@ -15,6 +15,11 @@ public class ChangeLevels : MonoBehaviour
     void Update()
     {
         //print(Application.loadedLevel.ToString());
+
+		if (Input.GetKeyDown (KeyCode.Escape)) 
+		{
+			Application.LoadLevel (0);
+		}
     }
 
     void OnTriggerEnter(Collider col)
