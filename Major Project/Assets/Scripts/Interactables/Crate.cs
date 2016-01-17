@@ -91,7 +91,7 @@ public class Crate : MonoBehaviour {
 
         if (bIsGrounded)
         {
-            print("Grounded");
+           // print("Grounded");
 
             transform.position = new Vector3(transform.position.x, transform.position.y, fCratesZAxis);
 

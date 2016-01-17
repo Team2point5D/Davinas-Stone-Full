@@ -6,34 +6,22 @@ public class FadeInOutMusic : MonoBehaviour
 {
     [Header("Songs")]
     public AudioClip song1;
-
     public AudioClip song2;
-
     [Space(5)]
-
+	
     [Header("Volume")]
     [Range(0, 1)]
     public float maxVolume;
-
     [Range(0, 1)]
     public float minVolume;
-
-
-
     [Space(5)]
-
     [Header("Time")]
     [Range(0, 1)]
     public float fadeTime;
-
     [Space(5)]
-
     [Header("Checks")]
-
     public bool fadeOut;
-
     public bool fadeIn;
-
     public bool startFade;
 
     AudioSource aSource;

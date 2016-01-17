@@ -18,26 +18,19 @@ public class FadeInOutOneTrack : MonoBehaviour
     public float minVolume;
 
     [Space(5)]
-
     [Header("Time")]
     [Range(0, 1)]
     public float fadeTime;
 
     [Space(5)]
     [Header("Checks")]
-
     public bool fadeOut;
-
     public bool fadeIn;
-
     public bool startFade;
-
     [Space(5)]
-
     public float waitTime;
-
+	
     float timer;
-
     AudioSource aSource;
 
 
