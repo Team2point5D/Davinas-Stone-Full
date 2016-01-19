@@ -111,7 +111,7 @@ public class PressurePuzzle3 : MonoBehaviour
     void OnCollisionStay(Collision col)
     {
 
-        print("ON");
+        //print("ON");
 
         //Changes state depending on the collided objects mass
         if (col.gameObject.tag == "Crate")

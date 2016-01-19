@@ -55,7 +55,7 @@ public class Lever : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                print("Press");
+                //print("Press");
 
                 isOpen = !isOpen;
 
