@@ -35,7 +35,10 @@ public class Lever : MonoBehaviour
             affectedDoor.SetActive(false);
 
             // To fix
-            leverOBJ.transform.rotation = new Quaternion(0, 5, 0, 0);
+
+            leverOBJ.transform.rotation = new Quaternion(0, 0.1f, 0, 0);
+
+            //leverOBJ.transform.position = new Vector3(transform.position.x + 1, 0, 0);
         }
         else
         {
