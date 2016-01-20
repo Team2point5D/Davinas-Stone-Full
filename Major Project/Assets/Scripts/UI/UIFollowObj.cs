@@ -2,20 +2,21 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class UIFollowObj : MonoBehaviour {
+public class UIFollowObj : MonoBehaviour
+{
 
     public RectTransform canvasRectT;
     public RectTransform UIObjectRectT;
-    public Transform tObjectToFollow;
+    Transform tObjectToFollow;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
+        tObjectToFollow = this.gameObject.transform;
+    }
 
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    // Update is called once per frame
+    void Update()
     {
         if (tObjectToFollow != null)
         {
