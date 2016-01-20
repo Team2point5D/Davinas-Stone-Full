@@ -12,6 +12,8 @@ public class Lever : MonoBehaviour
 
     public GameObject leverOBJ;
 
+    public float rotateRate;
+
     Quaternion leverRot;
 
     // Use this for initialization
@@ -21,7 +23,6 @@ public class Lever : MonoBehaviour
         affectedDoor.SetActive(true);
 
       //  leverOBJ = GameObject.Find("Lever");
-
         leverRot = leverOBJ.transform.rotation;
 
     }
@@ -35,8 +36,7 @@ public class Lever : MonoBehaviour
             affectedDoor.SetActive(false);
 
             // To fix
-
-            leverOBJ.transform.rotation = new Quaternion(0, 0.1f, 0, 0);
+            leverOBJ.transform.localRotation = new Quaternion(transform.localRotation.x, rotateRate, transform.localRotation.y, transform.localRotation.w);
 
             //leverOBJ.transform.position = new Vector3(transform.position.x + 1, 0, 0);
         }
