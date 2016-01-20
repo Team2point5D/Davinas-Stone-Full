@@ -13,6 +13,8 @@ public class CutSceneDialogue : MonoBehaviour
 
     public PlayerBehaviour playerBehave;
 
+    public UIFollowObj uiFollowObj;
+
     bool canPlayCutScene;
 
     int lineNumber;
@@ -23,6 +25,8 @@ public class CutSceneDialogue : MonoBehaviour
     void Start()
     {
         aSource = GetComponent<AudioSource>();
+
+       // uiFollowObj.enabled = false;
 
     }
 
