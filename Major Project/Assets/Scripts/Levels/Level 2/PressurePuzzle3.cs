@@ -111,11 +111,13 @@ public class PressurePuzzle3 : MonoBehaviour
     void OnCollisionStay(Collision col)
     {
 
-        //print("ON");
+       // print("ON");
 
         //Changes state depending on the collided objects mass
         if (col.gameObject.tag == "Crate")
         {
+           //print("Is Crate");
+
             //Heavy
             if (col.gameObject.GetComponent<Crate>().bIsObjectHeavy)
             {
@@ -136,6 +138,8 @@ public class PressurePuzzle3 : MonoBehaviour
             {
                 //Light
 
+                //print("Light");
+
                 platform1MoveLight = true;
                 platform2MoveLight = true;
                 platform3MoveLight = true;
@@ -152,6 +156,8 @@ public class PressurePuzzle3 : MonoBehaviour
                      !col.gameObject.GetComponent<Crate>().bIsObjectLight)
             {
                 //Normal
+
+                //print("Normal");
 
                 platform1MoveDefault = true;
                 platform2MoveDefault = true;
