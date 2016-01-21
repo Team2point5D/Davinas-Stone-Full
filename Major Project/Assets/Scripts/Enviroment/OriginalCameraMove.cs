@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Marcus
 public class OriginalCameraMove : MonoBehaviour
 {
 
@@ -11,14 +12,9 @@ public class OriginalCameraMove : MonoBehaviour
     [SerializeField]
     [Header("Distance")]
     public float distanceX;
-
     public float distanceY;
-
     public float distanceZ;
-
     public float speed;
-
-
 
     //The set locations of the camera where the puzzles are
     [Header("Camera Location")]
@@ -26,16 +22,12 @@ public class OriginalCameraMove : MonoBehaviour
 
     [Space(10)]
     public int startingCamLocation;
+    public bool starting;
 
     // The camera location
     Vector3 camLocation;
-
     int camNum;
-
-    public bool starting;
-
     Vector3 playerPos;
-
     Camera mainCam;
 
 
