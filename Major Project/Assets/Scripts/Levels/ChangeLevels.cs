@@ -37,7 +37,7 @@ public class ChangeLevels : MonoBehaviour
             switch (Application.loadedLevel)
             {
                 case 0:
-                    Application.LoadLevel(1);
+                    Application.LoadLevel(2);
                     hasCompletedLevelNum++;
                     break;
                 case 1:
