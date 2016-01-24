@@ -16,10 +16,10 @@ public class ChangeLevels : MonoBehaviour
     {
         //print(Application.loadedLevel.ToString());
 
-		if (Input.GetKeyDown (KeyCode.Escape)) 
-		{
-			Application.LoadLevel (0);
-		}
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.LoadLevel(0);
+        }
     }
 
     void OnTriggerEnter(Collider col)
@@ -36,15 +36,15 @@ public class ChangeLevels : MonoBehaviour
 
             switch (Application.loadedLevel)
             {
-                case 0:
+                case 1:
                     Application.LoadLevel(2);
                     hasCompletedLevelNum++;
                     break;
-                case 1:
+                case 2:
                     Application.LoadLevel(3);
                     hasCompletedLevelNum++;
                     break;
-                case 2:
+                case 3:
                     Application.LoadLevel(4);
                     hasCompletedLevelNum++;
                     break;
