@@ -9,7 +9,7 @@ public class UIFollowObj : MonoBehaviour
 
     public RectTransform canvasRectT;
     public RectTransform UIObjectRectT;
-    //public float positionX;
+    public float positionX;
     public float positionY;
     Transform tObjectToFollow;
 
@@ -24,7 +24,7 @@ public class UIFollowObj : MonoBehaviour
     {
         if (tObjectToFollow != null)
         {
-            Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, tObjectToFollow.position + new Vector3(0f, positionY, 0f));
+            Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, tObjectToFollow.position + new Vector3(positionX, positionY, 0f));
 
             UIObjectRectT.anchoredPosition = screenPoint - canvasRectT.sizeDelta / 2f;
         }
