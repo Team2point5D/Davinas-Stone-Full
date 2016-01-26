@@ -87,69 +87,12 @@ public class NewShoot : MonoBehaviour
                 bJustShotAnim = false;
                 fShotAnimTimer = 0.05f;
             }
+
+        }
+
         
-        }
+       
 
-        if ((Input.GetMouseButtonDown(0) && !bJustShot))
-        {
-            print("Shoot");
-
-
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = bulletZPos;
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-            GameObject projectile = (GameObject)Instantiate(goBullet, transform.position, Quaternion.identity);
-
-
-            projectile.transform.LookAt(worldPos);
-            projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);
-
-
-            projectile.tag = "Mass Bullet";
-            bJustShot = true;
-            bJustShotAnim = true;
-
-            playerBehaviour.Shooting();
-
-
-
-            //if (playerBehaviour.inPuzzle == true)
-            //{
-            //    print("Im IN puzzle");
-
-            //    worldPos = Camera.main.ScreenToWorldPoint(mousePos);    //The problem
-            //    Vector3 direction = worldPos - transform.position;
-
-            //    print("Direction: " + direction.ToString());
-
-
-            //    projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
-
-
-            //    projectile.transform.LookAt(worldPos);
-            //    projectile.GetComponent<Rigidbody>().AddForce(transform.forward * fShootSpeed);
-
-            //}
-            //else
-            //{
-            //    print("Im OUT puzzle");
-
-            //    worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-            //    projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
-
-
-            //    projectile.transform.LookAt(worldPos);
-            //    projectile.GetComponent<Rigidbody>().AddForce(transform.forward * fShootSpeed);
-
-            //    //projectile.transform.LookAt(worldPos);
-
-
-            //}
-
-
-        }
 
 
 
@@ -188,7 +131,7 @@ public class NewShoot : MonoBehaviour
 
             projectile.transform.LookAt(worldPos);
             projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);
-            
+
 
             projectile.tag = "Mass Bullet";
             bJustShot = true;
@@ -196,7 +139,6 @@ public class NewShoot : MonoBehaviour
 
             playerBehaviour.Shooting();
 
-          
 
             //if (playerBehaviour.inPuzzle == true)
             //{
@@ -208,11 +150,13 @@ public class NewShoot : MonoBehaviour
             //    print("Direction: " + direction.ToString());
 
 
-            //    projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
+            //    GameObject projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
 
 
             //    projectile.transform.LookAt(worldPos);
             //    projectile.GetComponent<Rigidbody>().AddForce(transform.forward * fShootSpeed);
+
+            //    projectile.tag = "Mass Bullet";
 
             //}
             //else
@@ -221,16 +165,23 @@ public class NewShoot : MonoBehaviour
 
             //    worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-            //    projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
+            //    GameObject projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
 
 
             //    projectile.transform.LookAt(worldPos);
             //    projectile.GetComponent<Rigidbody>().AddForce(transform.forward * fShootSpeed);
 
+            //    projectile.tag = "Mass Bullet";
+
             //    //projectile.transform.LookAt(worldPos);
 
 
             //}
+
+        
+
+
+
 
 
         }
