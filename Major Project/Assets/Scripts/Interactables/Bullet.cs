@@ -16,6 +16,6 @@ public class Bullet : MonoBehaviour {
     {
         tBulletTrail[1].LookAt(goPlayer.transform);
 
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, 5f);
 	}
 }

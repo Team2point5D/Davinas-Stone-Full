@@ -2,7 +2,8 @@
 using System.Collections;
 
 // Marcus
-public class NewShoot : MonoBehaviour {
+public class NewShoot : MonoBehaviour
+{
 
     [Header("Crate")]
     public Crate nearbyCrate;
@@ -86,7 +87,11 @@ public class NewShoot : MonoBehaviour {
             }
         }
 
+      
+
         // ShootMass();
+
+      
 
 
     }
@@ -114,9 +119,25 @@ public class NewShoot : MonoBehaviour {
 
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = bulletZPos; // Was 10
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            Vector3 worldPos;
 
-            GameObject projectile = (GameObject)Instantiate(goBullet, transform.position, Quaternion.identity);
+            if (playerBehaviour.inPuzzle == true)
+            {
+                print("Im in puzzle");
+
+                worldPos = Camera.main.ViewportToScreenPoint(mousePos);
+            }
+            else
+            {
+                worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            }
+
+         
+           // Vector3 worldPos = Camera.main.WorldToScreenPoint(mousePos);
+
+         
+
+            GameObject projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
 
             projectile.transform.LookAt(worldPos);
             projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);

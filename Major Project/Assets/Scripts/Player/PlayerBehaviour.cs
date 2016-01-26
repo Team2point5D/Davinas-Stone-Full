@@ -19,7 +19,7 @@ public class PlayerBehaviour : MonoBehaviour
     private bool bHasJustJumped = false;
     private float fJumpCheckTimer = 0.05f;
     private Animator playerAnimator;
-	private string sCurrentGround;
+    private string sCurrentGround;
     public float fGroundRayDetectionDistance = 3f;
     private bool bIsFacingRight = true;
     public float fFlipMove;
@@ -30,8 +30,8 @@ public class PlayerBehaviour : MonoBehaviour
     private bool bCanClimb;
     private Rigidbody myRigidBody;
     private Companion Companion;
-    private bool bNearCrystal;                                                                                                                  
-    private string sCrystalType;            
+    private bool bNearCrystal;
+    private string sCrystalType;
     private GameObject thingToPushPull;
     private GameObject shotParent;
 
@@ -57,6 +57,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool bIsScale;
     public bool bDoorExited = true;
     public bool bDoorEntered;
+    public bool inPuzzle;
     public GameObject goShadow;
     bool pressed;
 
@@ -135,6 +136,21 @@ public class PlayerBehaviour : MonoBehaviour
                 goShadow.SetActive(true);
             }
         }
+
+        // Marcus
+        if (bDoorEntered == true)
+        {
+            inPuzzle = true;
+
+           // print("In puzzle");
+        }
+        else if (bDoorExited == true)
+        {
+            inPuzzle = false;
+
+
+           // print("Out puzzle");
+        }
     }
 
     void FixedUpdate()
@@ -153,27 +169,27 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 bIsGrounded = true;
                 bHasGravSwitchedOnce = false;
-				sCurrentGround = hitPoint.transform.tag;
+                sCurrentGround = hitPoint.transform.tag;
             }
             else
             {
                 bIsGrounded = false;
-				sCurrentGround = null;
+                sCurrentGround = null;
             }
         }
         else
         {
-			RaycastHit hitPoint;
-			if (Physics.Raycast(transform.position, Vector3.up, out hitPoint, fGroundRayDetectionDistance))
+            RaycastHit hitPoint;
+            if (Physics.Raycast(transform.position, Vector3.up, out hitPoint, fGroundRayDetectionDistance))
             {
                 bIsGrounded = true;
                 bHasGravSwitchedOnce = false;
-				sCurrentGround = hitPoint.transform.tag;
+                sCurrentGround = hitPoint.transform.tag;
             }
             else
             {
                 bIsGrounded = false;
-				sCurrentGround = null;
+                sCurrentGround = null;
             }
         }
 
@@ -186,6 +202,11 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Flip();
         }
+
+
+  
+
+
     }
 
     void Controls()
@@ -274,7 +295,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (Input.GetButtonDown("X"))
             {
-                if(Companion != null)
+                if (Companion != null)
                 {
                     Companion.DestroySelf();
                 }
