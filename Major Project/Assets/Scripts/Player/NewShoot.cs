@@ -135,15 +135,16 @@ public class NewShoot : MonoBehaviour
 
                 worldPos = Camera.main.ScreenToWorldPoint(mousePos);    //The problem
                 Vector3 direction = worldPos - transform.position;
-                float angle = Mathf.Atan2(direction.x, direction.y);
+                float angle = Mathf.Atan2(direction.y, direction.x);
 
-                // projectile.transform.LookAt(worldPos);
+                print(direction.ToString());
+
 
                 projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
 
-                projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);
 
-                projectile.GetComponent<Rigidbody>().AddForce(transform.position.normalized * fShootSpeed);
+                projectile.transform.LookAt(direction);
 
 
             }
@@ -155,19 +156,14 @@ public class NewShoot : MonoBehaviour
 
                 projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
 
-                projectile.transform.LookAt(worldPos);
+                //projectile.transform.LookAt(worldPos);
 
 
             }
 
 
             // projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
-
-
             // Vector3 worldPos = Camera.main.WorldToScreenPoint(mousePos);
-
-
-
             //projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);
 
             projectile.tag = "Mass Bullet";
