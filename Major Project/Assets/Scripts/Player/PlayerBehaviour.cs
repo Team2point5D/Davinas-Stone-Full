@@ -60,7 +60,7 @@ public class PlayerBehaviour : MonoBehaviour
     public GameObject goShadow;
     bool pressed;
 
-    private Shoot PlayerShoot;
+    private NewShoot PlayerShoot;
     Vector3 playerPos;
 
 
@@ -71,7 +71,7 @@ public class PlayerBehaviour : MonoBehaviour
         shotParent = GameObject.Find("Magic Shots");
         aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
         playerAnimator = GetComponent<Animator>();
-        PlayerShoot = gameObject.GetComponent<Shoot>();
+        PlayerShoot = gameObject.GetComponent<NewShoot>();
         fPlayersZAxis = transform.position.z;
     }
 

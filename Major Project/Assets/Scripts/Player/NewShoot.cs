@@ -2,8 +2,7 @@
 using System.Collections;
 
 // Marcus
-public class Shoot : MonoBehaviour
-{
+public class NewShoot : MonoBehaviour {
 
     [Header("Crate")]
     public Crate nearbyCrate;
@@ -15,13 +14,19 @@ public class Shoot : MonoBehaviour
     public GameObject goBullet;
     public GameObject goSonarBullet;
     public float fShootCooldown = 1.5f;
+
+    public float bulletZPos;
+
     private float fShootCooldownReset;
     private bool canShoot;
     private bool bJustShot;
+
     public bool bJustShotAnim;
     private float fShotAnimTimer = 0.05f;
+
     public AudioClip acShootSound;
     public float fSonarLifeSpan;
+
     private int iPlayerDirection;
     private int iPlayerReversed;
 
@@ -96,12 +101,6 @@ public class Shoot : MonoBehaviour
         Vector3 rightStickPos = new Vector3(axisX * (1f / 2f) * Screen.width, axisY * (1f / 2f) * Screen.height, 10);
         Vector3 worldPosRightStick = Camera.main.ScreenToWorldPoint(rightStickPos);
 
-       // print(rightStickPos.ToString());
-
-//        UIHandler.imCursor.GetComponent<RectTransform>().position = rightStickPos;
-
-       // Cursor.SetCursor(cursorTex, worldPosRightStick, cursMode);
-
 
     }
 
@@ -109,10 +108,12 @@ public class Shoot : MonoBehaviour
 
     public void ShootMass()
     {
-        if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
+        if ((Input.GetMouseButtonDown(0) && !bJustShot))
         {
+            print("Shoot");
+
             Vector3 mousePos = Input.mousePosition;
-            mousePos.z = 10;
+            mousePos.z = bulletZPos; // Was 10
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
             GameObject projectile = (GameObject)Instantiate(goBullet, transform.position, Quaternion.identity);
@@ -181,7 +182,7 @@ public class Shoot : MonoBehaviour
 
             //Account for which direction the player is looking.
 
-            if(playerBehaviour.fFlipMove < 0)
+            if (playerBehaviour.fFlipMove < 0)
             {
                 iPlayerDirection = 1;
             }
@@ -192,7 +193,7 @@ public class Shoot : MonoBehaviour
 
             //Accounts for whether player is upside down or on ground.
 
-            if(!playerBehaviour.bIsGravityReversed)
+            if (!playerBehaviour.bIsGravityReversed)
             {
                 iPlayerReversed = 1;
             }
