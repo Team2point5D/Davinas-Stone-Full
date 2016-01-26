@@ -31,6 +31,8 @@ public class NewShoot : MonoBehaviour
     private int iPlayerDirection;
     private int iPlayerReversed;
 
+    Vector3 worldPos;
+
     [Space(10)]
 
     //public Texture2D cursorTex;
@@ -87,11 +89,13 @@ public class NewShoot : MonoBehaviour
             }
         }
 
-      
+
 
         // ShootMass();
 
-      
+
+
+
 
 
     }
@@ -117,30 +121,54 @@ public class NewShoot : MonoBehaviour
         {
             print("Shoot");
 
+
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = bulletZPos; // Was 10
-            Vector3 worldPos;
+            //Vector3 worldPos;
+            GameObject projectile;
+
+            //projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
 
             if (playerBehaviour.inPuzzle == true)
             {
-                print("Im in puzzle");
+                print("Im IN puzzle");
 
-                worldPos = Camera.main.ViewportToScreenPoint(mousePos);
+                worldPos = Camera.main.ScreenToWorldPoint(mousePos);    //The problem
+                Vector3 direction = worldPos - transform.position;
+                float angle = Mathf.Atan2(direction.x, direction.y);
+
+                // projectile.transform.LookAt(worldPos);
+
+                projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
+
+                projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+                projectile.GetComponent<Rigidbody>().AddForce(transform.position.normalized * fShootSpeed);
+
+
             }
             else
             {
+                print("Im OUT puzzle");
+
                 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+                projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
+
+                projectile.transform.LookAt(worldPos);
+
+
             }
 
-         
-           // Vector3 worldPos = Camera.main.WorldToScreenPoint(mousePos);
 
-         
+            // projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
 
-            GameObject projectile = (GameObject)Instantiate(goBullet, transform.position, transform.rotation);
 
-            projectile.transform.LookAt(worldPos);
-            projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);
+            // Vector3 worldPos = Camera.main.WorldToScreenPoint(mousePos);
+
+
+
+            //projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * fShootSpeed);
 
             projectile.tag = "Mass Bullet";
             bJustShot = true;
