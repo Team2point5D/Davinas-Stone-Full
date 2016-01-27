@@ -216,8 +216,10 @@ public class NewShoot : MonoBehaviour
     {
         if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
         {
+            Debug.Log("Sonar shot");
             GameObject projectile = (GameObject)Instantiate(goSonarBullet, transform.position, tShotSpot.rotation);
-            Destroy(projectile, fSonarLifeSpan);
+
+            Destroy (projectile, fSonarLifeSpan);
 
             projectile.tag = "Sonar Bullet";
             bJustShot = true;

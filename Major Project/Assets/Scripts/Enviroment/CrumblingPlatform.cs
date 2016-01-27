@@ -86,10 +86,16 @@ public class CrumblingPlatform : MonoBehaviour
         {
             if (!bIsShaking)
             {
+                if (!rockParticles.gameObject.activeInHierarchy)
+                {
+                    rockParticles.gameObject.SetActive(true);
+                }
                 rockParticles.Play();
             }
             bIsShaking = true;
             fCrumbleTimer -= Time.deltaTime;
+
+            
 
             if (fCrumbleTimer <= 0f)
             {
@@ -159,7 +165,8 @@ public class CrumblingPlatform : MonoBehaviour
             col.transform.parent = null;
             bIsCrumbling = false;
             bIsShaking = false;
-            rockParticles.Stop();
+            rockParticles.Pause();
+            rockParticles.gameObject.SetActive(false);
         }
     }
 }
