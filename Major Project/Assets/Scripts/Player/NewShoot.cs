@@ -119,7 +119,7 @@ public class NewShoot : MonoBehaviour
     {
         if ((Input.GetMouseButtonDown(0) && !bJustShot))
         {
-            print("Shoot");
+            //print("Shoot");
 
 
             Vector3 mousePos = Input.mousePosition;
@@ -216,7 +216,7 @@ public class NewShoot : MonoBehaviour
     {
         if ((Input.GetMouseButtonDown(0) || Input.GetAxis("RT") == 1) && !bJustShot)
         {
-            Debug.Log("Sonar shot");
+            //Debug.Log("Sonar shot");
             GameObject projectile = (GameObject)Instantiate(goSonarBullet, transform.position, tShotSpot.rotation);
 
             Destroy (projectile, fSonarLifeSpan);
