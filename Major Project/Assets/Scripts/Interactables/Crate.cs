@@ -8,6 +8,7 @@ public class Crate : MonoBehaviour {
 
     [Header("Interaction")]
     public bool bIsPickedUp = false;
+    public bool bIsClickable = true;
     private string sCurrentGround;
     private float fGroundRayDetectionDistance = 1f;
     private bool bIsGrounded;
@@ -499,6 +500,24 @@ public class Crate : MonoBehaviour {
         {
             ChangeScale();
             Destroy(col.gameObject);
+        }
+    }
+
+    void OnMouseDown ()
+    {
+        if (bIsClickable)
+        {
+            Debug.Log("Clicked");
+            if (PlayerBehaviour.bIsMass)
+            {
+                ChangeMass();
+                Debug.Log("Mass");
+            }
+            else if (PlayerBehaviour.bIsScale)
+            {
+                ChangeScale();
+                Debug.Log("Scale");
+            }
         }
     }
 

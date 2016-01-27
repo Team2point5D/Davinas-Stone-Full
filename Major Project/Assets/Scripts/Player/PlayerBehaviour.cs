@@ -323,7 +323,7 @@ public class PlayerBehaviour : MonoBehaviour
         //Allows player to use shoot mass, sonar and scale magic
         if (bCanUseMagic && bIsMass && !PlayerShoot.bHoldingCrate)
         {
-            PlayerShoot.ShootMass();
+            //PlayerShoot.ShootMass();
         }
         else if (bCanUseMagic && bIsSonar && !PlayerShoot.bHoldingCrate)
         {
@@ -331,7 +331,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else if (bCanUseMagic && bIsScale && !PlayerShoot.bHoldingCrate)
         {
-            PlayerShoot.ShootScale();
+            //PlayerShoot.ShootScale();
         }
         else if (PlayerShoot.bHoldingCrate)
         {
