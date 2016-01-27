@@ -4,14 +4,15 @@ using System.Collections;
 public class PressurePuzzle4 : MonoBehaviour
 {
     public GameObject movingPlatform;
-
     public float speed;
-
     public float changeTime;
 
     float timer;
 
-    bool canMove;
+
+    public bool canMove;
+    public bool moveRight;
+    public bool moveLeft;
 
     Vector3 startPos;
 
@@ -20,33 +21,52 @@ public class PressurePuzzle4 : MonoBehaviour
         startPos = movingPlatform.transform.position;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (canMove == true)
         {
-            movingPlatform.GetComponent<Rigidbody>().velocity = Vector3.left * Time.fixedDeltaTime * speed;
-
             timer += Time.deltaTime;
 
             if (timer >= changeTime)
             {
-                timer = 0;
+                moveLeft = false;
+                moveRight = true;
 
-                canMove = false;
+                if (timer >= changeTime + changeTime)
+                {
+                    moveLeft = true;
+                    moveRight = false;
 
-                movingPlatform.GetComponent<Rigidbody>().velocity = Vector3.right * Time.fixedDeltaTime * speed;
-
-
+                    timer = 0;
+                }
             }
-
+ 
             if (movingPlatform.transform.position == startPos)
             {
-                canMove = true;
+                moveRight = false;
+                moveLeft = true;
+
+               // print("Start");
 
                 timer = 0;
             }
         }
 
+        if(moveLeft)
+        {
+            movingPlatform.GetComponent<Rigidbody>().velocity = Vector3.left * Time.fixedDeltaTime * speed;
+
+            //print("Left");
+        }
+        else if (moveRight)
+        {
+            movingPlatform.GetComponent<Rigidbody>().velocity = Vector3.right * Time.fixedDeltaTime * speed;
+
+           // print("Right");
+        }
+
+
+        //print(timer.ToString());
        
 
     }
@@ -56,6 +76,8 @@ public class PressurePuzzle4 : MonoBehaviour
         if (col.gameObject.tag == "Crate")
         {
             canMove = true;
+
+            moveLeft = true;
         }
         else
         {
