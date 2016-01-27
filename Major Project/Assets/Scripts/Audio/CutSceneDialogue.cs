@@ -17,6 +17,8 @@ public class CutSceneDialogue : MonoBehaviour
 
     bool canPlayCutScene;
 
+    public bool isEnd;
+
     int lineNumber;
 
     AudioSource aSource;
@@ -71,6 +73,11 @@ public class CutSceneDialogue : MonoBehaviour
             canPlayCutScene = false;
 
             playerBehave.bCanDoAnything = true;
+
+            if (isEnd == true)
+            {
+                Application.LoadLevel(0);
+            }
         }
 
        // canPlayCutScene = false;
